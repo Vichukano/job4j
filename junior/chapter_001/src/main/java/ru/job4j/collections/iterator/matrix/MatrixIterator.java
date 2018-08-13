@@ -1,4 +1,4 @@
-package ru.job4j.collections;
+package ru.job4j.collections.iterator.matrix;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
