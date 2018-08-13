@@ -12,6 +12,8 @@ public class Main {
         };
         MatrixIterator matrixIterator = new MatrixIterator(arr);
 
+        System.out.println("Размер массива = " + matrixIterator.size());
+
         while (matrixIterator.hasNext()) {
             System.out.println(matrixIterator.next());
         }
