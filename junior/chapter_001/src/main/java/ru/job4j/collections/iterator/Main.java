@@ -1,28 +1,39 @@
 package ru.job4j.collections.iterator;
 
 
-import ru.job4j.collections.iterator.convert.IteratorOfIterators;
+import ru.job4j.collections.generic.simplearray.SimpleArray;
 
-import java.util.Arrays;
 import java.util.Iterator;
 
 /**
  * Main class.
  */
 public class Main {
-    public static IteratorOfIterators<Integer> it;
-
+    private static String[] arr;
+    private static Integer[] arr2;
     public static void main(String[] args) {
 
-        Iterator<Integer> it1 = Arrays.asList(1, 2, 3, 10).iterator();
-        Iterator<Integer> it2 = Arrays.asList(4, 5, 89, 6).iterator();
-        Iterator<Integer> it3 = Arrays.asList(7, 8, 9, 0).iterator();
-        Iterator<Iterator<Integer>> its = Arrays.asList(it1, it2, it3).iterator();
-        IteratorOfIterators iteratorOfIterators = new IteratorOfIterators(it);
-        it = iteratorOfIterators.convert(its);
+        SimpleArray<String> sa = new SimpleArray<>(arr, 5);
+        SimpleArray<Integer> sa2 = new SimpleArray<Integer>(arr2, 3);
 
-        while (it.hasNext()) {
+
+        sa.add("Кот");
+        sa.add("Обор");
+        sa.add("Мот");
+        sa.add("Жот");
+        sa.add("чот");
+
+        Iterator<String> it = sa.iterator();
+
+        while (it.hasNext()){
             System.out.println(it.next());
         }
+
+
+
+
+
+
+
     }
 }

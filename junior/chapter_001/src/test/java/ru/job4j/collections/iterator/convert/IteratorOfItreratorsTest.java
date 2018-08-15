@@ -15,7 +15,7 @@ public class IteratorOfItreratorsTest {
     IteratorOfIterators<Integer> it;
 
     @Before
-    public void setUp () {
+    public void setUp() {
         Iterator<Integer> it1 = Arrays.asList(1, 2, 3).iterator();
         Iterator<Integer> it2 = Arrays.asList(4, 5, 6).iterator();
         Iterator<Integer> it3 = Arrays.asList(7, 8, 9).iterator();
@@ -25,7 +25,7 @@ public class IteratorOfItreratorsTest {
     }
 
     @Test
-    public void hasNextNextSequentialInvocation () {
+    public void hasNextNextSequentialInvocation() {
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(1));
         assertThat(it.hasNext(), is(true));
@@ -48,7 +48,7 @@ public class IteratorOfItreratorsTest {
     }
 
     @Test
-    public void testsThatNextMethodDoesntDependsOnPriorHasNextInvocation () {
+    public void testsThatNextMethodDoesntDependsOnPriorHasNextInvocation() {
         assertThat(it.next(), is(1));
         assertThat(it.next(), is(2));
         assertThat(it.next(), is(3));
@@ -61,7 +61,7 @@ public class IteratorOfItreratorsTest {
     }
 
     @Test
-    public void sequentialHasNextInvocationDoesntAffectRetrievalOrder () {
+    public void sequentialHasNextInvocationDoesntAffectRetrievalOrder() {
         assertThat(it.hasNext(), is(true));
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(1));
@@ -76,22 +76,22 @@ public class IteratorOfItreratorsTest {
     }
 
     @Test
-    public void hasNextShouldReturnFalseInCaseOfEmptyIterators(){
+    public void hasNextShouldReturnFalseInCaseOfEmptyIterators() {
         Iterator<Integer> it1 = (new ArrayList<Integer>()).iterator();
         Iterator<Integer> it2 = (new ArrayList<Integer>()).iterator();
         Iterator<Integer> it3 = (new ArrayList<Integer>()).iterator();
         Iterator<Iterator<Integer>> its = Arrays.asList(it1, it2, it3).iterator();
-        IteratorOfIterators IteratorOfIterators = new IteratorOfIterators(its);
-        it = IteratorOfIterators.convert(its);
+        IteratorOfIterators iteratorOfIterators = new IteratorOfIterators(its);
+        it = iteratorOfIterators.convert(its);
         assertThat(it.hasNext(), is(false));
     }
 
     @Test(expected = NoSuchElementException.class)
-    public void invocationOfNextMethodShouldThrowNoSuchElementException(){
-        Iterator<Integer> it1 = Arrays.asList(1,2,3).iterator();
+    public void invocationOfNextMethodShouldThrowNoSuchElementException() {
+        Iterator<Integer> it1 = Arrays.asList(1, 2, 3).iterator();
         Iterator<Iterator<Integer>> its = Arrays.asList(it1).iterator();
-        IteratorOfIterators IteratorOfIterators = new IteratorOfIterators(its);
-        it = IteratorOfIterators.convert(its);
+        IteratorOfIterators iteratorOfIterators = new IteratorOfIterators(its);
+        it = iteratorOfIterators.convert(its);
         assertThat(it.next(), is(1));
         assertThat(it.next(), is(2));
         assertThat(it.next(), is(3));
