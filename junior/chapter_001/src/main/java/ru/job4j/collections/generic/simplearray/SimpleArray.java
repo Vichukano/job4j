@@ -1,6 +1,7 @@
 package ru.job4j.collections.generic.simplearray;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Универсальная обертка над массивом.
@@ -9,8 +10,6 @@ import java.util.Iterator;
  */
 public class SimpleArray<T> implements Iterable<T> {
     private int index;
-    private int size;
-    private T model;
     private T[] array;
 
     /**
@@ -20,7 +19,6 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param size  - размер массива.
      */
     public SimpleArray(T[] array, int size) {
-        this.size = size;
         this.array = (T[]) (new Object[size]);
     }
 
@@ -31,7 +29,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @throws ArrayIndexOutOfBoundsException - бросает при выходе за пределы массива.
      */
     public void add(T model) {
-        if (index < size) {
+        if (index < array.length) {
             array[index++] = model;
         } else {
             throw new ArrayIndexOutOfBoundsException();
@@ -46,7 +44,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @throws ArrayIndexOutOfBoundsException - бросает при выходе за пределы массива.
      */
     public void set(int index, T model) {
-        if (index < size) {
+        if (index < array.length) {
             array[index] = model;
         } else {
             throw new ArrayIndexOutOfBoundsException();
@@ -60,31 +58,12 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index - индекс.
      */
     public void delete(int index) {
-        if (index == 0) {
-            T[] array2 = (T[]) (new Object[array.length - 1]);
-            System.arraycopy(array, 1, array2, 0, array2.length);
-            array = array2;
-        } else if (index == array.length - 1) {
-            T[] array2 = (T[]) (new Object[array.length - 1]);
-            for (int i = 0; i < array.length - 1; i++) {
-                array2[i] = array[i];
-            }
-            array = array2;
-        } else {
-            T[] array2 = (T[]) (new Object[array.length - 1]);
-            for (int i = 0; i < array.length; i++) {
-                if (i > index) {
-                    array2[i - 1] = array[i];
-                }
-                if (i == index) {
-                    continue;
-                }
-                if (i < index) {
-                    array2[i] = array[i];
-                }
-            }
-            array = array2;
+        int currentSize = array.length;
+        for (int i = index; i < currentSize - 1; i++) {
+            array[i] = array[i + 1];
         }
+        array[currentSize - 1] = null;
+        currentSize--;
     }
 
     /**
@@ -95,7 +74,7 @@ public class SimpleArray<T> implements Iterable<T> {
      * @throws ArrayIndexOutOfBoundsException - бросает при выходе за пределы массива.
      */
     public T get(int index) {
-        if (index < size) {
+        if (index < array.length) {
             return array[index];
         } else {
             throw new ArrayIndexOutOfBoundsException();
@@ -117,16 +96,25 @@ public class SimpleArray<T> implements Iterable<T> {
 
         @Override
         public boolean hasNext() {
-            if (cursor < size) {
-                return true;
-            } else {
-                return false;
-            }
+            return cursor < array.length;
         }
 
+        /**
+         * Метод возвращает следующее значение массива.
+         *
+         * @return - значение массива по порядку.
+         * @throws - NullPointerException, если значение массива null
+         * @throws - NoSuchElementException, если вышли за пределы массива.
+         */
         @Override
         public T next() {
-            return (T) array[cursor++];
+            if (cursor < array.length && array[cursor] != null) {
+                return (T) array[cursor++];
+            } else if (cursor < array.length && array[cursor] == null) {
+                throw new NullPointerException();
+            } else {
+                throw new NoSuchElementException();
+            }
         }
     }
 }

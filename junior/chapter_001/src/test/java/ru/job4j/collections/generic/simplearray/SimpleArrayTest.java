@@ -1,5 +1,6 @@
 package ru.job4j.collections.generic.simplearray;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,6 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class SimpleArrayTest {
     private Integer[] arr1;
@@ -51,15 +53,6 @@ public class SimpleArrayTest {
         assertThat(it3.next(), is(3.3));
     }
 
-    @Test(expected = ArrayIndexOutOfBoundsException.class)
-    public void whenLengthOfArrayIsReachedShouldReturnException() {
-        assertThat(it1.next(), is(1));
-        assertThat(it1.next(), is(2));
-        assertThat(it1.next(), is(3));
-        it1.next();
-
-    }
-
     @Test
     public void dataTypesMustMuch() {
         assertThat(sa1.get(0).getClass().getName(), is("java.lang.Integer"));
@@ -95,19 +88,36 @@ public class SimpleArrayTest {
         assertThat(sa1.get(0), is(1));
         sa1.delete(0);
         assertThat(sa1.get(0), is(2));
+        assertThat(sa1.get(1), is(3));
     }
 
     @Test
     public void whenSetValueItMustChanged() {
         assertThat(sa1.get(0), is(1));
-        sa1.set(0,5);
+        sa1.set(0, 5);
         assertThat(sa1.get(0), is(5));
         assertThat(sa2.get(0), is("1"));
-        sa2.set(0,"5");
+        sa2.set(0, "5");
         assertThat(sa2.get(0), is("5"));
         assertThat(sa3.get(0), is(1.1));
-        sa3.set(0,5.5);
+        sa3.set(0, 5.5);
         assertThat(sa3.get(0), is(5.5));
+    }
 
+    @Test(expected = NoSuchElementException.class)
+    public void whenArrayLengthReachedTrowsException() {
+        assertThat(it1.next(), is(1));
+        assertThat(it1.next(), is(2));
+        assertThat(it1.next(), is(3));
+        it1.next();
+    }
+
+
+    @Test(expected = NullPointerException.class)
+    public void whenArrayHasNullValueTrowsException() {
+        sa1.set(0, null);
+        sa2.set(0, null);
+        it1.next();
+        it2.next();
     }
 }
