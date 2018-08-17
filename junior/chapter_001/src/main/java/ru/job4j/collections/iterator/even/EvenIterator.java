@@ -5,15 +5,18 @@ import java.util.NoSuchElementException;
 
 /**
  * Класс перебирает все четные значения массива.
+ *
  * @author Vichukano.
+ * @version $Id$
+ * @since 0.1
  */
 public class EvenIterator implements Iterator {
     private int[] numbers;
     private int index = 0;
-    private int count = 0;
 
     /**
      * Стандартный конструктор.
+     *
      * @param numbers массив.
      */
     public EvenIterator(int[] numbers) {
@@ -22,6 +25,7 @@ public class EvenIterator implements Iterator {
 
     /**
      * Метод проверяет является ли число четным.
+     *
      * @return true или false.
      */
     public boolean evenCheck() {
@@ -30,6 +34,7 @@ public class EvenIterator implements Iterator {
 
     /**
      * Метод считает и возвращает количество четных элементов массива.
+     *
      * @return количество четных элементов массива.
      */
     public int getSize() {
@@ -44,29 +49,26 @@ public class EvenIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-        return count < getSize();
+        boolean cursor = false;
+        while (index < numbers.length) {
+            if (this.evenCheck()) {
+                cursor = true;
+                break;
+            }
+            else {
+                index++;
+            }
+        }
+        return cursor;
     }
 
     @Override
     public Object next() {
-        if (numbers.length != 0) {
-            if (this.evenCheck()) {
-                count++;
-                return numbers[index++];
-            } else {
-                while (index < numbers.length) {
-                    if (this.evenCheck()) {
-                        count++;
-                        return numbers[index++];
-                    } else {
-                        index++;
-                    }
-                }
-            }
+        if (this.hasNext()) {
+            return numbers[index++];
         } else {
             throw new NoSuchElementException();
         }
-        throw new NoSuchElementException();
     }
 }
 
