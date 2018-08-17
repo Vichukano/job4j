@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
  * @version $Id$
  * @since 0.1
  */
-public class EvenIterator implements Iterator {
+public class EvenIterator implements Iterator<Integer> {
     private int[] numbers;
     private int index = 0;
 
@@ -54,8 +54,7 @@ public class EvenIterator implements Iterator {
             if (this.evenCheck()) {
                 cursor = true;
                 break;
-            }
-            else {
+            } else {
                 index++;
             }
         }
@@ -63,11 +62,11 @@ public class EvenIterator implements Iterator {
     }
 
     @Override
-    public Object next() {
-        if (this.hasNext()) {
-            return numbers[index++];
-        } else {
+    public Integer next() {
+        if (!this.hasNext()) {
             throw new NoSuchElementException();
+        } else {
+            return numbers[index++];
         }
     }
 }
