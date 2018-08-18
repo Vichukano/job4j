@@ -18,9 +18,9 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
      * @param model - объект.
      * @param size  - размер массива.
      */
-    public AbstractStore(T[] model, int size) {
+    public AbstractStore(int size) {
         this.size = size;
-        simpleArray = new SimpleArray<>(model, size);
+        simpleArray = new SimpleArray<>(size);
     }
 
     @Override

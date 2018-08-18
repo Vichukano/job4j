@@ -15,10 +15,9 @@ public class SimpleArray<T> implements Iterable<T> {
     /**
      * Стандартный конструктор.
      *
-     * @param array - массив.
-     * @param size  - размер массива.
+     * @param size - размер массива.
      */
-    public SimpleArray(T[] array, int size) {
+    public SimpleArray(int size) {
         this.array = (T[]) (new Object[size]);
     }
 
@@ -58,12 +57,10 @@ public class SimpleArray<T> implements Iterable<T> {
      * @param index - индекс.
      */
     public void delete(int index) {
-        int currentSize = array.length;
-        for (int i = index; i < currentSize - 1; i++) {
-            array[i] = array[i + 1];
+        if (index < array.length && index >= 0) {
+            System.arraycopy(array, index + 1, array, index, array.length - 1 - index);
+            array[array.length - 1] = null;
         }
-        array[currentSize - 1] = null;
-        currentSize--;
     }
 
     /**
@@ -96,6 +93,11 @@ public class SimpleArray<T> implements Iterable<T> {
 
         @Override
         public boolean hasNext() {
+            if (cursor < array.length) {
+                while (array[cursor] == null && cursor < array.length) {
+                    cursor++;
+                }
+            }
             return cursor < array.length;
         }
 
@@ -108,13 +110,10 @@ public class SimpleArray<T> implements Iterable<T> {
          */
         @Override
         public T next() {
-            if (cursor < array.length && array[cursor] != null) {
-                return (T) array[cursor++];
-            } else if (cursor < array.length && array[cursor] == null) {
-                throw new NullPointerException();
-            } else {
+            if (!hasNext()) {
                 throw new NoSuchElementException();
             }
+            return (T) array[cursor++];
         }
     }
 }

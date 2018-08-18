@@ -39,8 +39,7 @@ public class IteratorOfIterators<Integer> implements Iterator {
 
     @Override
     public Integer next() {
-        selectCurrentIterator();
-        if (currentIterator == null) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
         return currentIterator.next();

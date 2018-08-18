@@ -27,12 +27,12 @@ public class StoreTest {
         role2 = new Role("2");
         role3 = new Role("3");
 
-        userStore = new UserStore(users, 3);
+        userStore = new UserStore(3);
         userStore.add(user1);
         userStore.add(user2);
         userStore.add(user3);
 
-        roleStore = new RoleStore(roles, 3);
+        roleStore = new RoleStore(3);
         roleStore.add(role1);
         roleStore.add(role2);
         roleStore.add(role3);

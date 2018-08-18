@@ -17,15 +17,15 @@ public class SimpleArrayTest {
     private Iterator<Integer> it1;
     private Iterator<String> it2;
     private Iterator<Double> it3;
-    SimpleArray<Integer> sa1;
-    SimpleArray<String> sa2;
-    SimpleArray<Double> sa3;
+    private SimpleArray<Integer> sa1;
+    private SimpleArray<String> sa2;
+    private SimpleArray<Double> sa3;
 
     @Before
     public void setUp() {
-        sa1 = new SimpleArray<>(arr1, 3);
-        sa2 = new SimpleArray<>(arr2, 3);
-        sa3 = new SimpleArray<>(arr3, 3);
+        sa1 = new SimpleArray<>(3);
+        sa2 = new SimpleArray<>(3);
+        sa3 = new SimpleArray<>(3);
         sa1.add(1);
         sa1.add(2);
         sa1.add(3);
@@ -110,14 +110,5 @@ public class SimpleArrayTest {
         assertThat(it1.next(), is(2));
         assertThat(it1.next(), is(3));
         it1.next();
-    }
-
-
-    @Test(expected = NullPointerException.class)
-    public void whenArrayHasNullValueTrowsException() {
-        sa1.set(0, null);
-        sa2.set(0, null);
-        it1.next();
-        it2.next();
     }
 }
