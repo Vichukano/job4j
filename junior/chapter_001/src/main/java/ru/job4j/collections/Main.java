@@ -3,6 +3,7 @@ package ru.job4j.collections;
 
 import ru.job4j.collections.generic.simplearray.SimpleArray;
 import ru.job4j.collections.iterator.even.EvenIterator;
+import ru.job4j.collections.list.DinamicContainer;
 
 import java.util.Iterator;
 
@@ -13,12 +14,25 @@ public class Main {
 
     public static void main(String[] args) {
 
-        int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        Object o1 = new Object();
+        Object o2 = new Object();
+        Object o3 = new Object();
 
-        EvenIterator evenIterator = new EvenIterator(nums);
+        DinamicContainer<Object> dc = new DinamicContainer<>(3);
+        dc.add(o1);
+        dc.add(o2);
+        dc.add(o3);
 
-        System.out.println(evenIterator.next());
-        System.out.println(evenIterator.next());
+        Iterator<Object> it = dc.iterator();
+
+        System.out.println(it.next());
+        System.out.println(it.next());
+
+        dc.add(o1);
+        System.out.println(it.next());
+
+
+
 
 
     }

@@ -85,7 +85,7 @@ public class SimpleArray<T> implements Iterable<T> {
      */
     @Override
     public Iterator<T> iterator() {
-        return new SimpleArrayIterator<T>();
+        return new SimpleArrayIterator<>();
     }
 
     private class SimpleArrayIterator<T> implements Iterator<T> {
