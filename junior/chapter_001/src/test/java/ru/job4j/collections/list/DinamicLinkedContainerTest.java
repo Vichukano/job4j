@@ -53,7 +53,7 @@ public class DinamicLinkedContainerTest {
         assertThat(it.next(), is(1));
         assertThat(it.next(), is(2));
         dlc.add(4);
-        while (it.hasNext()){
+        while (it.hasNext()) {
             it.next();
         }
     }

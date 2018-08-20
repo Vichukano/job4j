@@ -22,24 +22,24 @@ public class Main {
         Object o4 = new Object();
         Object o6 = new Object();
 
-        DinamicLinkedContainer<Object> dlc = new DinamicLinkedContainer<>();
-        dlc.add(o2);
-        dlc.add(null);
-        dlc.add(o6);
-        dlc.add(null);
-        dlc.add(null);
-        dlc.add(null);
-        dlc.add(o1);
-        dlc.add(o3);
-        dlc.add(o4);
+        DinamicContainer<Object> dq = new DinamicContainer<>(4);
+        dq.add(o1);
+        dq.add(o2);
+        dq.add(o3);
+        dq.add(o4);
 
 
 
-        Iterator<Object> it = dlc.iterator();
+        Iterator<Object> it = dq.iterator();
 
-        while (it.hasNext()){
+        while (it.hasNext()) {
             System.out.println(it.next());
         }
+
+
+
+
+
 
 
 

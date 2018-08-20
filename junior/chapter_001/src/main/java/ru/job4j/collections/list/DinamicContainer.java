@@ -45,7 +45,26 @@ public class DinamicContainer<E> implements Iterable<E> {
         }
     }
 
-    public void enlargeSize(){
+    /**
+     * Метод удаляет элемент с конца коллекции.
+     */
+    public void delete() {
+        E[] newContainer = (E[]) new Object[container.length - 1];
+        System.arraycopy(container, 0, newContainer, 0, container.length - 1);
+        container = newContainer;
+    }
+
+    public void deleteFirst() {
+        E[] newContainer = (E[]) new Object[container.length - 1];
+        System.arraycopy(container, 1, newContainer, 0, container.length - 1);
+        container = newContainer;
+    }
+
+    /**
+     * Метод увеличивает размер контейнера по формуле size = oldSize*3/2 + 1.
+     * Метод имеет доступ private, так как вызывается только внутри класса DinamicContainer.
+     */
+    private void enlargeSize() {
         int newLength = (container.length * 3) / 2 + 1;
         E[] newContainer = (E[]) new Object[newLength];
         System.arraycopy(container, 0, newContainer, 0, container.length);
@@ -62,7 +81,9 @@ public class DinamicContainer<E> implements Iterable<E> {
     public E get(int index) {
         if (index >= 0 && index < container.length) {
             return container[index];
-        } else throw new ArrayIndexOutOfBoundsException();
+        } else {
+            throw new ArrayIndexOutOfBoundsException();
+        }
     }
 
     /**
@@ -92,16 +113,17 @@ public class DinamicContainer<E> implements Iterable<E> {
         private int cursor;
 
         /**
-         * @throws ConcurrentModificationException, если после вызова итератора контейнер изменял размер
-         * или были добавлены значения.
          * @return -true or false.
+         * @throws ConcurrentModificationException, если после вызова итератора контейнер изменял размер
+         *                                          или были добавлены значения.
          */
         @Override
         public boolean hasNext() {
-            if(expectedModCount != modCount)
+            if (expectedModCount != modCount) {
                 throw new ConcurrentModificationException();
+            }
             if (cursor < container.length) {
-                while (container[cursor] == null && cursor < container.length) {//Реализован пропуск пустых элементов.
+                while (container[cursor] == null && cursor < container.length) {
                     cursor++;
                 }
             }
@@ -112,7 +134,7 @@ public class DinamicContainer<E> implements Iterable<E> {
          * Метод возвращает значение объекта коллекции и переходит на слеждующую позицию.
          *
          * @return - значение объекта.
-         * @throws NoSuchElementException,          если в контейнере больше нет элементов.
+         * @throws NoSuchElementException, если в контейнере больше нет элементов.
          */
         @Override
         public E next() {

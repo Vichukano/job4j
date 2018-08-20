@@ -18,30 +18,38 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
 
     /**
      * Метод вставляет в конец списка данные.
+     * newLink ссылка на первый элемент контейнера.
+     * Если контейнер не пустой идет итерация до последнего Node в контейнере.
+     * Создается следующий Node со значением date.
+     * Увеличивается размер контейнера.
+     * Если контейнер пустой, то создается первый Node со значением date.
+     *
+     * @param date - объект контейнера.
      */
     public void add(E date) {
-        Node<E> newLink = this.first;//Установка на первый элемент контейнера.
-        if (newLink != null) {//Если контейнер не пустой.
-            while (newLink.next != null) {//Доходим до последнего Node в контейнере.
+        Node<E> newLink = this.first;
+        if (newLink != null) {
+            while (newLink.next != null) {
                 newLink = newLink.next;
             }
-            newLink.next = new Node<>(date);//Создаем следующий Node со значением date.
-            size++;//Увеличиваем размер контейнера.
+            newLink.next = new Node<>(date);
+            size++;
             modeCount++;
         } else {
-            this.first = new Node<>(date);//Если контейнер пустой, то создаем заглавный Node со значением date.
+            this.first = new Node<>(date);
         }
     }
 
     /**
      * Метод получения элемента по индексу.
      *
+     * @param index - индекс элемента.
      * @return - значение Node, соответствующее заданному индексу.
      */
     public E get(int index) {
-        Node<E> result = this.first;// Установка положения на первый элемент контейнера.
+        Node<E> result = this.first;
         for (int i = 0; i < index; i++) {
-            result = result.next;// Переходим к следующему Node, пока не дойдем до заданного индекс.
+            result = result.next;
         }
         return result.date;
     }

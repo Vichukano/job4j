@@ -1,5 +1,6 @@
 package ru.job4j.collections.list;
 
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,5 +48,11 @@ public class DinamicContainerTest {
         Iterator<Integer> it = dc.iterator();
         dc.add(5);
         it.next();
+    }
+
+    @Test
+    public void whenDeleteValueItMustBeNull() {
+        dc.delete();
+        assertThat(dc.get(2), is((Class<Integer>) null));
     }
 }
