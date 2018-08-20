@@ -4,8 +4,10 @@ package ru.job4j.collections;
 import ru.job4j.collections.generic.simplearray.SimpleArray;
 import ru.job4j.collections.iterator.even.EvenIterator;
 import ru.job4j.collections.list.DinamicContainer;
+import ru.job4j.collections.list.DinamicLinkedContainer;
 
 import java.util.Iterator;
+
 
 /**
  * Main class.
@@ -17,19 +19,31 @@ public class Main {
         Object o1 = new Object();
         Object o2 = new Object();
         Object o3 = new Object();
+        Object o4 = new Object();
+        Object o6 = new Object();
 
-        DinamicContainer<Object> dc = new DinamicContainer<>(3);
-        dc.add(o1);
-        dc.add(o2);
-        dc.add(o3);
+        DinamicLinkedContainer<Object> dlc = new DinamicLinkedContainer<>();
+        dlc.add(o2);
+        dlc.add(null);
+        dlc.add(o6);
+        dlc.add(null);
+        dlc.add(null);
+        dlc.add(null);
+        dlc.add(o1);
+        dlc.add(o3);
+        dlc.add(o4);
 
-        Iterator<Object> it = dc.iterator();
 
-        System.out.println(it.next());
-        System.out.println(it.next());
 
-        dc.add(o1);
-        System.out.println(it.next());
+        Iterator<Object> it = dlc.iterator();
+
+        while (it.hasNext()){
+            System.out.println(it.next());
+        }
+
+
+
+
 
 
 

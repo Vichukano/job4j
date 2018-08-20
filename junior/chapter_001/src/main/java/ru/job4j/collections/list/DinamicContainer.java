@@ -37,14 +37,19 @@ public class DinamicContainer<E> implements Iterable<E> {
     public void add(E value) {
         if (index < container.length) {
             container[index++] = value;
-        } else {
-            int newLength = (container.length * 3) / 2 + 1;
             modCount++;
-            E[] newContainer = (E[]) new Object[newLength];
-            System.arraycopy(container, 0, newContainer, 0, container.length);
-            container = newContainer;
+        } else {
+            enlargeSize();
             container[index++] = value;
+            modCount++;
         }
+    }
+
+    public void enlargeSize(){
+        int newLength = (container.length * 3) / 2 + 1;
+        E[] newContainer = (E[]) new Object[newLength];
+        System.arraycopy(container, 0, newContainer, 0, container.length);
+        container = newContainer;
     }
 
     /**
@@ -86,9 +91,15 @@ public class DinamicContainer<E> implements Iterable<E> {
     private class DinamicContainerIterator<E> implements Iterator<E> {
         private int cursor;
 
-
+        /**
+         * @throws ConcurrentModificationException, если после вызова итератора контейнер изменял размер
+         * или были добавлены значения.
+         * @return -true or false.
+         */
         @Override
         public boolean hasNext() {
+            if(expectedModCount != modCount)
+                throw new ConcurrentModificationException();
             if (cursor < container.length) {
                 while (container[cursor] == null && cursor < container.length) {//Реализован пропуск пустых элементов.
                     cursor++;
@@ -102,16 +113,13 @@ public class DinamicContainer<E> implements Iterable<E> {
          *
          * @return - значение объекта.
          * @throws NoSuchElementException,          если в контейнере больше нет элементов.
-         * @throws ConcurrentModificationException, если после вызова итератора контейнер изменял размер.
          */
         @Override
         public E next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
-            } else if (expectedModCount == modCount) {
-                return (E) container[cursor++];
             } else {
-                throw new ConcurrentModificationException();
+                return (E) container[cursor++];
             }
         }
     }
