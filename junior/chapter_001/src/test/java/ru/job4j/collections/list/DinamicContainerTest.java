@@ -49,10 +49,4 @@ public class DinamicContainerTest {
         dc.add(5);
         it.next();
     }
-
-    @Test
-    public void whenDeleteValueItMustBeNull() {
-        dc.delete();
-        assertThat(dc.get(2), is((Class<Integer>) null));
-    }
 }

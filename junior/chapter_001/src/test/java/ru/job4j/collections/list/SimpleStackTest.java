@@ -14,7 +14,7 @@ public class SimpleStackTest {
 
     @Before
     public void setUp() {
-        ss = new SimpleStack<>(3);
+        ss = new SimpleStack<>();
         ss.push(1);
         ss.push(2);
         ss.push(3);

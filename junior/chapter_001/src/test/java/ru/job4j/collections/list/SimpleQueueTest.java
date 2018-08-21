@@ -14,7 +14,7 @@ public class SimpleQueueTest {
 
     @Before
     public void setUp() {
-        sq = new SimpleQueue<>(3);
+        sq = new SimpleQueue<>();
         sq.push(1);
         sq.push(2);
         sq.push(3);

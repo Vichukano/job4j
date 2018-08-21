@@ -41,17 +41,66 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
     }
 
     /**
+     * Метод удалаляет последнее значение контейнера.
+     * newLink ссылка на первый элемент контейнера.
+     * Если контейнер не пустой идет итерация до последнего Node в контейнере.
+     * После установки newLink на последний Node контейнера удаляет значение date этого Node.
+     * Далее уменьщает размер контейнера.
+     *
+     * @throws NoSuchElementException, если контейнер пустой.
+     */
+    public void remove() {
+        Node<E> newLink = this.first;
+        if (newLink != null) {
+            while (newLink.next != null) {
+                newLink = newLink.next;
+            }
+            newLink.date = null;
+            size--;
+            modeCount++;
+        } else {
+            throw new NoSuchElementException();
+        }
+    }
+
+    /**
+     * Метод удаляет первое значение из колекции.
+     * newLink ссылка на первый элемент контейнера.
+     * Если контейнер не пустой, удаляется значение - date первого Node.
+     * Первый Node смещается на один вправо.
+     * Уменьщается размер контейнера.
+     *
+     * @throws NoSuchElementException, если контейнер пустой.
+     */
+    public void removeFirst() {
+        Node<E> newLink = this.first;
+        if (newLink != null) {
+            newLink.date = null;
+            this.first = newLink.next;
+            size--;
+            modeCount++;
+        } else {
+            throw new NoSuchElementException();
+        }
+
+    }
+
+    /**
      * Метод получения элемента по индексу.
      *
      * @param index - индекс элемента.
      * @return - значение Node, соответствующее заданному индексу.
      */
     public E get(int index) {
-        Node<E> result = this.first;
-        for (int i = 0; i < index; i++) {
-            result = result.next;
+        if (index >= 0 && index < getSize()) {
+            Node<E> result = this.first;
+            for (int i = 0; i < index; i++) {
+                result = result.next;
+            }
+            return result.date;
+        } else {
+            throw new ArrayIndexOutOfBoundsException();
         }
-        return result.date;
     }
 
     /**

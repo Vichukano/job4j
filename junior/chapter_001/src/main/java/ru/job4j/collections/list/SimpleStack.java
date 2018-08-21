@@ -8,40 +8,62 @@ public class SimpleStack<T> implements Iterable<T> {
 
     private int top;
     private int modCount;
-    private int expectedModCount;
-    private DinamicContainer<T> dc;
+    private DinamicLinkedContainer<T> dlc;
 
-    public SimpleStack(int size) {
-        this.dc = new DinamicContainer<>(size);
+    public SimpleStack() {
+        this.dlc = new DinamicLinkedContainer<>();
     }
 
-
+    /**
+     * Метод удаляет последнее значение из контейнера.
+     *
+     * @return value - значение удаленного элемента.
+     */
     public T poll() {
-        T value = dc.get(--top);
-        dc.delete();
+        T value = dlc.get(--top);
+        dlc.remove();
         modCount++;
         return value;
     }
 
-
+    /**
+     * Медол добавляет значение в конец контейнера.
+     *
+     * @param value - добавляемое в контейнер значение.
+     */
     public void push(T value) {
-        dc.add(value);
+        dlc.add(value);
         top++;
         modCount++;
     }
 
+    /**
+     * Метод возвращает значение с заданным индексом.
+     * @param index - индекс элемента контейнера.
+     * @return - значение с заданным индексом.
+     */
     public T get(int index) {
-        return dc.get(index);
+        return dlc.get(index);
     }
 
+    /**
+     * Реализация итератора.
+     *
+     * @return - класс - итератор коллекции.
+     */
     @Override
     public Iterator<T> iterator() {
-        expectedModCount = modCount;
         return new SimpleStackIterator<>();
     }
 
     private class SimpleStackIterator<T> implements Iterator<T> {
         private int cursor;
+        private int expectedModCount;
+
+        public SimpleStackIterator() {
+            this.expectedModCount = modCount;
+        }
+
 
 
         @Override
@@ -49,12 +71,12 @@ public class SimpleStack<T> implements Iterable<T> {
             if (expectedModCount != modCount) {
                 throw new ConcurrentModificationException();
             }
-            if (cursor < dc.getSize()) {
-                while (dc.get(cursor) == null && cursor < dc.getSize()) {
+            if (cursor < dlc.getSize()) {
+                while (dlc.get(cursor) == null && cursor < dlc.getSize()) {
                     cursor++;
                 }
             }
-            return cursor < dc.getSize();
+            return cursor < dlc.getSize();
         }
 
         @Override
@@ -62,7 +84,7 @@ public class SimpleStack<T> implements Iterable<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             } else {
-                return (T) dc.get(cursor++);
+                return (T) dlc.get(cursor++);
             }
         }
     }

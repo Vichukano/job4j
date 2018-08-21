@@ -6,11 +6,10 @@ import java.util.NoSuchElementException;
 
 public class SimpleQueue<T> implements Iterable<T> {
     private int modCount;
-    private int expectedModCount;
-    private DinamicContainer<T> dc;
+    private DinamicLinkedContainer<T> dlc;
 
-    public SimpleQueue(int size) {
-        this.dc = new DinamicContainer<>(size);
+    public SimpleQueue() {
+        this.dlc = new DinamicLinkedContainer<>();
     }
 
     /**
@@ -19,8 +18,8 @@ public class SimpleQueue<T> implements Iterable<T> {
      * @return - объект контейнера.
      */
     public T poll() {
-        T value = dc.get(0);
-        dc.deleteFirst();
+        T value = dlc.get(0);
+        dlc.removeFirst();
         modCount++;
         return value;
     }
@@ -31,7 +30,7 @@ public class SimpleQueue<T> implements Iterable<T> {
      * @param value - значение объекта, добавляемого в контейнер.
      */
     public void push(T value) {
-        dc.add(value);
+        dlc.add(value);
         modCount++;
     }
 
@@ -42,29 +41,38 @@ public class SimpleQueue<T> implements Iterable<T> {
      * @return - значение объекта с заданным индексом.
      */
     public T get(int index) {
-        return dc.get(index);
+        return dlc.get(index);
     }
 
+    /**
+     * Реализация итератора.
+     *
+     * @return класс - итератор коллекции.
+     */
     @Override
     public Iterator<T> iterator() {
-        expectedModCount = modCount;
         return new SimpleQueueIterator<T>();
     }
 
     private class SimpleQueueIterator<T> implements Iterator<T> {
         private int cursor;
+        private int expectedModCount;
+
+        public SimpleQueueIterator() {
+            this.expectedModCount = modCount;
+        }
 
         @Override
         public boolean hasNext() {
             if (expectedModCount != modCount) {
                 throw new ConcurrentModificationException();
             }
-            if (cursor < dc.getSize()) {
-                while (dc.get(cursor) == null && cursor < dc.getSize()) {
+            if (cursor < dlc.getSize()) {
+                while (dlc.get(cursor) == null && cursor < dlc.getSize()) {
                     cursor++;
                 }
             }
-            return cursor < dc.getSize();
+            return cursor < dlc.getSize();
         }
 
         @Override
@@ -72,7 +80,7 @@ public class SimpleQueue<T> implements Iterable<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             } else {
-                return (T) dc.get(cursor++);
+                return (T) dlc.get(cursor++);
             }
         }
     }

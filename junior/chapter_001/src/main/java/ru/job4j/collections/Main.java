@@ -16,25 +16,27 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Object o1 = new Object();
-        Object o2 = new Object();
-        Object o3 = new Object();
-        Object o4 = new Object();
-        Object o6 = new Object();
 
-        DinamicContainer<Object> dq = new DinamicContainer<>(4);
-        dq.add(o1);
-        dq.add(o2);
-        dq.add(o3);
-        dq.add(o4);
+
+        DinamicContainer<Integer> dq = new DinamicContainer<>(4);
+        dq.add(1);
+        dq.add(2);
+        dq.add(3);
+        dq.add(4);
+        dq.deleteFirst();
 
 
 
-        Iterator<Object> it = dq.iterator();
 
-        while (it.hasNext()) {
-            System.out.println(it.next());
-        }
+        System.out.println(dq.get(0));
+        System.out.println(dq.get(1));
+        System.out.println(dq.get(2));
+
+
+
+
+
+
 
 
 
