@@ -69,5 +69,19 @@ public class SimpleQueueTest {
         sq.push(4);
         it.next();
     }
+
+    @Test
+    public void whenIterateNullValuesThenSkipIt() {
+        sq.push(null);
+        sq.push(null);
+        sq.push(4);
+        sq.push(5);
+        Iterator<Integer> it = sq.iterator();
+        assertThat(it.next(), is(1));
+        assertThat(it.next(), is(2));
+        assertThat(it.next(), is(3));
+        assertThat(it.next(), is(4));
+        assertThat(it.next(), is(5));
+    }
 }
 
