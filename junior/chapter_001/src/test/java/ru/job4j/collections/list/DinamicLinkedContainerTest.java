@@ -59,28 +59,16 @@ public class DinamicLinkedContainerTest {
     }
 
     @Test
-    public void whenIterateNullMustReturnNextValue() {
-        dlc.add(null);
-        dlc.add(5);
-        dlc.add(null);
-        dlc.add(null);
-        dlc.add(6);
-        it = dlc.iterator();
-        it.hasNext();
-        assertThat(it.next(), is(1));
-        it.hasNext();
-        assertThat(it.next(), is(2));
-        it.hasNext();
-        assertThat(it.next(), is(3));
-        it.hasNext();
-        assertThat(it.next(), is(5));
-        it.hasNext();
-        assertThat(it.next(), is(6));
+    public void whenRemoveFirstThenReturnRemovedValue() {
+        assertThat(dlc.removeFirst(), is(1));
+        assertThat(dlc.removeFirst(), is(2));
+        assertThat(dlc.removeFirst(), is(3));
     }
 
     @Test
     public void whenRemoveThenReturnRemovedValue() {
-        assertThat(dlc.removeFirst(), is(1));
         assertThat(dlc.remove(), is(3));
+        assertThat(dlc.remove(), is(2));
+        assertThat(dlc.remove(), is(1));
     }
 }

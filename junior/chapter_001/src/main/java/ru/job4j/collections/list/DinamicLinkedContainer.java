@@ -9,10 +9,8 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
     private int size;
     private Node<E> first;
     private int modeCount;
-    private int expectedModCount;
 
     public DinamicLinkedContainer() {
-        this.size = 1;
         this.first = null;
     }
 
@@ -37,30 +35,47 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
             modeCount++;
         } else {
             this.first = new Node<>(date);
+            size++;
         }
     }
 
     /**
      * Метод удалаляет последнее значение контейнера.
      * newLink ссылка на первый элемент контейнера.
-     * Если контейнер не пустой идет итерация до последнего Node в контейнере.
-     * После установки newLink на последний Node контейнера удаляет значение date этого Node.
+     * Если контейнер не пустой идет итерация до предпоследнего Node в контейнере.
+     * После установки newLink на предпоследний Node контейнера копирует значение date из следующего Node(последний).
+     * Ставит следующий(последний) Node null.
      * Далее уменьщает размер контейнера.
+     * Реализованы два условия, если контейнер имеет длинну 1 и 2. В этих случаях не работает newLink.next.next.
      *
-     * @throws NoSuchElementException, если контейнер пустой.
      * @return date - удаленный элемент.
+     * @throws NoSuchElementException, если контейнер пустой.
      */
     public E remove() {
         Node<E> newLink = this.first;
         if (newLink != null) {
-            while (newLink.next != null) {
-                newLink = newLink.next;
+            if (size == 1) {
+                E date = first.date;
+                first.next = null;
+                size--;
+                modeCount++;
+                return date;
+            } else if (size == 2) {
+                E date = newLink.next.date;
+                newLink.next = null;
+                size--;
+                modeCount++;
+                return date;
+            } else {
+                while (newLink.next.next != null) {
+                    newLink = newLink.next;
+                }
+                E date = newLink.next.date;
+                newLink.next = null;
+                size--;
+                modeCount++;
+                return date;
             }
-            E date = newLink.date;
-            newLink.date = null;
-            size--;
-            modeCount++;
-            return date;
         } else {
             throw new NoSuchElementException();
         }
@@ -73,8 +88,8 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
      * Первый Node смещается на один вправо.
      * Уменьщается размер контейнера.
      *
-     * @throws NoSuchElementException, если контейнер пустой.
      * @return date - удаленный элемент.
+     * @throws NoSuchElementException, если контейнер пустой.
      */
     public E removeFirst() {
         Node<E> newLink = this.first;
@@ -118,7 +133,6 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
 
     @Override
     public Iterator<E> iterator() {
-        expectedModCount = modeCount;
         return new DinamicLinkedContainerIterator<>();
     }
 
@@ -129,22 +143,20 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
      */
     private class DinamicLinkedContainerIterator<E> implements Iterator<E> {
         private int cursor;
+        private int expectedModCount;
         Node<E> current = (Node<E>) first;
+
+        public DinamicLinkedContainerIterator() {
+            this.expectedModCount = modeCount;
+        }
 
         @Override
         public boolean hasNext() {
             if (expectedModCount != modeCount) {
                 throw new ConcurrentModificationException();
+            } else {
+                return cursor < size;
             }
-            if (cursor < size) {
-                E date = current.date;
-                while (date == null && cursor < size) {
-                    current = current.next;
-                    date = current.date;
-                    cursor++;
-                }
-            }
-            return cursor < size;
         }
 
         @Override
