@@ -48,16 +48,19 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
      * Далее уменьщает размер контейнера.
      *
      * @throws NoSuchElementException, если контейнер пустой.
+     * @return date - удаленный элемент.
      */
-    public void remove() {
+    public E remove() {
         Node<E> newLink = this.first;
         if (newLink != null) {
             while (newLink.next != null) {
                 newLink = newLink.next;
             }
+            E date = newLink.date;
             newLink.date = null;
             size--;
             modeCount++;
+            return date;
         } else {
             throw new NoSuchElementException();
         }
@@ -71,14 +74,17 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
      * Уменьщается размер контейнера.
      *
      * @throws NoSuchElementException, если контейнер пустой.
+     * @return date - удаленный элемент.
      */
-    public void removeFirst() {
+    public E removeFirst() {
         Node<E> newLink = this.first;
+        E date = this.first.date;
         if (newLink != null) {
             newLink.date = null;
             this.first = newLink.next;
             size--;
             modeCount++;
+            return date;
         } else {
             throw new NoSuchElementException();
         }

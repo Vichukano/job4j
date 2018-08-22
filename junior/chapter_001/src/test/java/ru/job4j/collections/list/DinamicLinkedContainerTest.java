@@ -77,4 +77,10 @@ public class DinamicLinkedContainerTest {
         it.hasNext();
         assertThat(it.next(), is(6));
     }
+
+    @Test
+    public void whenRemoveThenReturnRemovedValue() {
+        assertThat(dlc.removeFirst(), is(1));
+        assertThat(dlc.remove(), is(3));
+    }
 }
