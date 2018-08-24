@@ -32,6 +32,7 @@ public class Node<T> {
      * @return - true если замкнутый, иначе false.
      */
     public boolean hasCycle(Node first) {
+        Boolean result = false;
         Node slow = first;
         Node fast = first;
         while (true) {
@@ -39,14 +40,16 @@ public class Node<T> {
             if (fast.next != null) {
                 fast = fast.next.next;
             } else {
-                return false;
+                break;
             }
             if (slow == null || fast == null) {
-                return false;
+                break;
             }
             if (slow == fast) {
-                return true;
+                result = true;
+                break;
             }
         }
+        return result;
     }
 }
