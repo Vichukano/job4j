@@ -11,6 +11,7 @@ import static org.junit.Assert.assertThat;
 public class SimpleSetTest {
     private SimpleSet<Integer> ss;
     private SimpleSet<String> strings;
+    private SimpleSet<Object> objects;
 
     @Before
     public void setUp() {
@@ -62,5 +63,24 @@ public class SimpleSetTest {
         assertThat(it.next(), is("ddd"));
 
 
+    }
+
+    @Test
+    public void whenAddDuplicateObjectThenNotAddIt() {
+        Object o1 = new Object();
+        Object o2 = new Object();
+        Object o3 = new Object();
+        Object o4 = new Object();
+        objects = new SimpleSet<>();
+        objects.add(o1);
+        objects.add(o2);
+        objects.add(o3);
+        objects.add(o2);
+        objects.add(o4);
+        Iterator<Object> it = objects.iterator();
+        assertThat(it.next(), is(o1));
+        assertThat(it.next(), is(o2));
+        assertThat(it.next(), is(o3));
+        assertThat(it.next(), is(o4));
     }
 }

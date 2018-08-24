@@ -15,7 +15,7 @@ public class DinamicContainerTest {
 
     @Before
     public void setUp() {
-        dc = new DinamicContainer<>(3);
+        dc = new DinamicContainer<>();
         dc.add(1);
         dc.add(2);
         dc.add(3);
@@ -31,7 +31,7 @@ public class DinamicContainerTest {
     @Test
     public void whenAddValueAtFullArraySizeMustGrowUp() {
         dc.add(4);
-        assertThat(dc.getSize(), is(5));
+        assertThat(dc.getSize(), is(4));
     }
 
     @Test

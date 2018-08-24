@@ -13,6 +13,7 @@ import java.util.NoSuchElementException;
 public class DinamicContainer<E> implements Iterable<E> {
     private E[] container;
     private int index;
+    private int countElements;
     /**
      * Счетчик количества изменений размера контейнера.
      */
@@ -21,10 +22,10 @@ public class DinamicContainer<E> implements Iterable<E> {
 
     /**
      * Стандартный конструктор.
-     *
-     * @param size - размер контейнера.
+     * При инициализации создает массив вместимостью 10 элементов.
      */
-    public DinamicContainer(int size) {
+    public DinamicContainer() {
+        int size = 10;
         this.container = (E[]) new Object[size];
     }
 
@@ -37,10 +38,12 @@ public class DinamicContainer<E> implements Iterable<E> {
     public void add(E value) {
         if (index < container.length) {
             container[index++] = value;
+            countElements++;
             modCount++;
         } else {
             enlargeSize();
             container[index++] = value;
+            countElements++;
             modCount++;
         }
     }
@@ -92,7 +95,7 @@ public class DinamicContainer<E> implements Iterable<E> {
      * @return - размер контейнера.
      */
     public int getSize() {
-        return container.length;
+        return countElements;
     }
 
     /**

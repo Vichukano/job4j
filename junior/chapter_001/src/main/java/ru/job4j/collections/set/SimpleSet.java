@@ -13,7 +13,7 @@ public class SimpleSet<E> implements Iterable<E> {
     private DinamicContainer<E> dc;
 
     public SimpleSet() {
-        this.dc = new DinamicContainer<>(3);
+        this.dc = new DinamicContainer<>();
     }
 
     /**
@@ -36,12 +36,10 @@ public class SimpleSet<E> implements Iterable<E> {
      */
     public boolean checkDuplicate(E value) {
         boolean result = false;
-        if (dc.get(0) != null) {
-            for (int i = 0; i < dc.getSize(); i++) {
-                if (dc.get(i) == value) {
-                    result = true;
-                    break;
-                }
+        for (int i = 0; i < dc.getSize(); i++) {
+            if (dc.get(i).equals(value)) {
+                result = true;
+                break;
             }
         }
         return result;
