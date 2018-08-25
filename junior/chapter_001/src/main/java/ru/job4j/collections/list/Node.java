@@ -52,4 +52,29 @@ public class Node<T> {
         }
         return result;
     }
+
+    /**
+     * Метод определяет является ли список замкнутым.
+     *
+     * @param first - первый Node списка.
+     * @return - true если замкнутый, иначе false.
+     */
+    public boolean hasCycleToo(Node first) {
+        Node slow = first;
+        Node fast = first;
+        while (true) {
+            slow = slow.next;
+            if (fast.next != null) {
+                fast = fast.next.next;
+            } else {
+                return false;
+            }
+            if (slow == null || fast == null) {
+                return false;
+            }
+            if (slow == fast) {
+                return true;
+            }
+        }
+    }
 }
