@@ -18,11 +18,14 @@ public class Main {
         User user2 = new User("One", 2, new GregorianCalendar(1991, 2, 13));
 
         /**
-         * Методы equals и hashCode не переопределены.
+         * Метод hashCode переопределен.
          */
         Map<User, Object> map = new HashMap<>();
         map.put(user1, "first");
         map.put(user2, "second");
         System.out.println(map);
+
+        System.out.println(user1.hashCode());
+        System.out.println(user2.hashCode());
     }
 }
