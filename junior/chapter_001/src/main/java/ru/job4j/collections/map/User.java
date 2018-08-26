@@ -38,9 +38,9 @@ public class User {
 
     /**
      * Переопределяем метод hashCode. Объеты с равными свойствами будут иметь одинаковый хэшкод.
+     *
      * @return число типа int.
      */
-    /**
      @Override public int hashCode() {
      final int prime = 31;
      int result = 0;
@@ -49,5 +49,4 @@ public class User {
      result = prime * result + birthday.hashCode();
      return result;
      }
-     */
 }
