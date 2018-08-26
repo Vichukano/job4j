@@ -27,5 +27,6 @@ public class Main {
 
         System.out.println(user1.hashCode());
         System.out.println(user2.hashCode());
+        System.out.println(user1.equals(user2));
     }
 }

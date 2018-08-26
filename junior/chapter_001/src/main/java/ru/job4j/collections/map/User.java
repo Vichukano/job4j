@@ -14,16 +14,40 @@ public class User {
     }
 
     /**
+     * Метод equals переопределен.
+     *
+     * @param o объект для сравнения
+     * @return true, если объекты равны, иначе false.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (this == o) {
+            return true;
+        }
+        User current = (User) o;
+        if (name != current.name && children != current.children && birthday != current.birthday) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    /**
      * Переопределяем метод hashCode. Объеты с равными свойствами будут иметь одинаковый хэшкод.
      * @return число типа int.
      */
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 0;
-        result = prime * result + name.hashCode();
-        result = prime * result + children;
-        result = prime * result + birthday.hashCode();
-        return result;
-    }
+    /**
+     @Override public int hashCode() {
+     final int prime = 31;
+     int result = 0;
+     result = prime * result + name.hashCode();
+     result = prime * result + children;
+     result = prime * result + birthday.hashCode();
+     return result;
+     }
+     */
 }
