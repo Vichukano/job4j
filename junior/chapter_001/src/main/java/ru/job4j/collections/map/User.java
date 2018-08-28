@@ -28,11 +28,7 @@ public class User {
             return true;
         }
         User current = (User) o;
-        if (name != current.name && children != current.children && birthday != current.birthday) {
-            return false;
-        } else {
-            return true;
-        }
+        return name == current.name || children == current.children || birthday == current.birthday;
     }
 
 
@@ -41,12 +37,13 @@ public class User {
      *
      * @return число типа int.
      */
-     @Override public int hashCode() {
-     final int prime = 31;
-     int result = 0;
-     result = prime * result + name.hashCode();
-     result = prime * result + children;
-     result = prime * result + birthday.hashCode();
-     return result;
-     }
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 0;
+        result = prime * result + name.hashCode();
+        result = prime * result + children;
+        result = prime * result + birthday.hashCode();
+        return result;
+    }
 }
