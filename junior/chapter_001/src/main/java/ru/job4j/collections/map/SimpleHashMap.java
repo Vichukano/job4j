@@ -11,17 +11,14 @@ import java.util.NoSuchElementException;
  * @param <V> значение.
  */
 public class SimpleHashMap<K, V> implements Iterable<V> {
-    private Object[] table;
-    private K key;
-    private V value;
-    private int keyHashCode;
+    private Entry<K, V>[] table;
     private int modCount;
 
     /**
      * Конструктор. При инициализации экземпляра класса создается массив типа Object размером 16.
      */
     public SimpleHashMap() {
-        this.table = new Object[16];
+        this.table = new Entry[16];
     }
 
     /**
@@ -64,8 +61,8 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         int hash = hash(key);
         int index = indexFor(hash, table.length);
         if (table[index] != null) {
-            Entry<K, V> e = (Entry<K, V>) table[index];
-            value = e.value;
+            Entry<K, V> e = table[index];
+            V value = e.value;
             return value;
         } else {
             throw new NoSuchElementException();
@@ -83,14 +80,15 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
      * @throws NoSuchElementException если передаваемого значения нет в контейнере.
      */
     public K getByKey(V value) {
+        K key = null;
         for (int i = 0; i < table.length; i++) {
             while (i < table.length && table[i] == null) {
                 i++;
             }
             if (i < table.length) {
-                Entry<K, V> e = (Entry<K, V>) table[i];
+                Entry<K, V> e = table[i];
                 if (e.value.equals(value)) {
-                    this.key = e.key;
+                    key = e.key;
                     break;
                 }
             } else {
@@ -127,7 +125,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
      * @return хэш ключа.
      */
     private int hash(K key) {
-        this.keyHashCode = key.hashCode();
+        int keyHashCode = key.hashCode();
         keyHashCode ^= (keyHashCode >>> 20) ^ (keyHashCode >>> 12);
         return keyHashCode ^ (keyHashCode >>> 7) ^ (keyHashCode >>> 4);
     }
@@ -148,9 +146,25 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
      */
     private void enlargeSize() {
         int newLength = table.length * 2;
-        Object newContainer = new Object[newLength];
+        Entry<K, V>[] newContainer = new Entry[newLength];
         System.arraycopy(table, 0, newContainer, 0, table.length);
-        table = (Object[]) newContainer;
+        table = newContainer;
+        transfer(table);
+    }
+
+    /**
+     * Метод перераспределяет объекты Entry по ячейкам массива новой длинны.
+     *
+     * @param table массив новой длинны.
+     */
+    private void transfer(Entry<K, V>[] table) {
+        for (int i = 0; i < table.length; i++) {
+            if (table[i] != null) {
+                Entry<K, V> e = table[i];
+                delete(e.key);
+                insert(e.key, e.value);
+            }
+        }
     }
 
     /**
@@ -213,7 +227,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
      * @param <K> ключ.
      * @param <V> значение.
      */
-    private class Entry<K, V> {
+    private static class Entry<K, V> {
         private K key;
         private V value;
 

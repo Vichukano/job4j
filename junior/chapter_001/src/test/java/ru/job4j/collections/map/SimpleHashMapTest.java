@@ -1,4 +1,4 @@
-package ru.job4j.collections;
+package ru.job4j.collections.map;
 
 import org.junit.Before;
 import org.junit.Test;
