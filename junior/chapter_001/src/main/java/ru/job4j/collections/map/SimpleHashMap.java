@@ -161,8 +161,10 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         for (int i = 0; i < table.length; i++) {
             if (table[i] != null) {
                 Entry<K, V> e = table[i];
-                delete(e.key);
-                insert(e.key, e.value);
+                int hash = hash(e.key);
+                int index = indexFor(hash, table.length);
+                table[index] = e;
+                table[i] = null;
             }
         }
     }
