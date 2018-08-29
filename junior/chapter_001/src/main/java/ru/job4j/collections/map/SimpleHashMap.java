@@ -36,7 +36,7 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
         boolean result = false;
         int hash = hash(key);
         int index = indexFor(hash, table.length);
-        while (index >= table.length) {
+        if (index >= table.length) {
             enlargeSize();
         }
         if (table[index] == null) {
@@ -147,9 +147,15 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
     private void enlargeSize() {
         int newLength = table.length * 2;
         Entry<K, V>[] newContainer = new Entry[newLength];
-        System.arraycopy(table, 0, newContainer, 0, table.length);
+        for(int i = 0; i < table.length; i++) {
+            if(table[i] != null) {
+                Entry<K, V> e = table[i];
+                int hash = hash(e.key);
+                int index = indexFor(hash, newContainer.length);
+                newContainer[index] = new Entry<>(e.key, e.value);
+            }
+        }
         table = newContainer;
-        transfer(table);
     }
 
     /**
