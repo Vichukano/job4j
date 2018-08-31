@@ -147,8 +147,8 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
     private void enlargeSize() {
         int newLength = table.length * 2;
         Entry<K, V>[] newContainer = new Entry[newLength];
-        for(int i = 0; i < table.length; i++) {
-            if(table[i] != null) {
+        for (int i = 0; i < table.length; i++) {
+            if (table[i] != null) {
                 Entry<K, V> e = table[i];
                 int hash = hash(e.key);
                 int index = indexFor(hash, newContainer.length);
@@ -156,23 +156,6 @@ public class SimpleHashMap<K, V> implements Iterable<V> {
             }
         }
         table = newContainer;
-    }
-
-    /**
-     * Метод перераспределяет объекты Entry по ячейкам массива новой длинны.
-     *
-     * @param table массив новой длинны.
-     */
-    private void transfer(Entry<K, V>[] table) {
-        for (int i = 0; i < table.length; i++) {
-            if (table[i] != null) {
-                Entry<K, V> e = table[i];
-                int hash = hash(e.key);
-                int index = indexFor(hash, table.length);
-                table[index] = e;
-                table[i] = null;
-            }
-        }
     }
 
     /**
