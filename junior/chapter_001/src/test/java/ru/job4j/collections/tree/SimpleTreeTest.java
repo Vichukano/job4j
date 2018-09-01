@@ -19,7 +19,6 @@ public class SimpleTreeTest {
         simpleTree.add(2, 4);
         simpleTree.add(3, 5);
         simpleTree.add(3, 6);
-        simpleTree.add(3, 7);
     }
 
     /**
@@ -27,9 +26,9 @@ public class SimpleTreeTest {
      */
     @Test
     public void whenAddValueShouldReturnTrue() {
-        assertThat(simpleTree.add(7, 2), is(true));
-        assertThat(simpleTree.add(7, 3), is(true));
-        assertThat(simpleTree.add(7, 5), is(true));
+        assertThat(simpleTree.add(6, 7), is(true));
+        assertThat(simpleTree.add(6, 8), is(true));
+        assertThat(simpleTree.add(6, 9), is(true));
     }
 
     /**
@@ -51,6 +50,8 @@ public class SimpleTreeTest {
         assertThat(simpleTree.add(2, 4), is(false));
         assertThat(simpleTree.add(3, 5), is(false));
         assertThat(simpleTree.add(3, 6), is(false));
+        assertThat(simpleTree.add(1, 6), is(false));
+        assertThat(simpleTree.add(2, 3), is(false));
     }
 
     /**
@@ -63,7 +64,6 @@ public class SimpleTreeTest {
         assertThat(simpleTree.findBy(3).isPresent(), is(true));
         assertThat(simpleTree.findBy(2).isPresent(), is(true));
         assertThat(simpleTree.findBy(6).isPresent(), is(true));
-        assertThat(simpleTree.findBy(7).isPresent(), is(true));
     }
 
     /**
@@ -90,6 +90,16 @@ public class SimpleTreeTest {
         assertThat(it.next(), is(4));
         assertThat(it.next(), is(5));
         assertThat(it.next(), is(6));
-        assertThat(it.next(), is(7));
+    }
+
+    @Test
+    public void whenTreeIsBinaryThenReturnTrue() {
+        assertThat(simpleTree.isBinary(), is(true));
+    }
+
+    @Test
+    public void whenTreeIsNotBinaryThenReturnFalse() {
+        simpleTree.add(3, 7);
+        assertThat(simpleTree.isBinary(), is(false));
     }
 }

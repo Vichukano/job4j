@@ -35,7 +35,8 @@ public class SimpleTreeImpl<E extends Comparable<E>> implements SimpleTree<E> {
     public boolean add(E parent, E child) {
         boolean result = false;
         Optional<Node<E>> parentNode = findBy(parent);
-        if (parentNode.isPresent()) {
+        Optional<Node<E>> checkNode = findBy(child);
+        if (parentNode.isPresent() && !checkNode.isPresent()) {
             if (parentNode.get().add(new Node<>(child))) {
                 result = true;
             }
@@ -69,6 +70,27 @@ public class SimpleTreeImpl<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     /**
+     * Метод проверяет является ли дерево бинарным.
+     *
+     * @return true если бинарное, иначе false.
+     */
+    public boolean isBinary() {
+        boolean result = true;
+        Queue<Node<E>> nodeQueue = new LinkedList<>();
+        nodeQueue.offer(this.root);
+        while (!nodeQueue.isEmpty()) {
+            Node<E> newNode = nodeQueue.poll();
+            if (newNode.leaves().size() > 2) {
+                result = false;
+            }
+            for (Node<E> child : newNode.leaves()) {
+                nodeQueue.offer(child);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Реализация итератора.
      *
      * @return класс - итератор контейнера.
@@ -94,7 +116,7 @@ public class SimpleTreeImpl<E extends Comparable<E>> implements SimpleTree<E> {
          * При инициализации класса все узлы дерева добавляеются в очередь queue
          * и инициализируется итератор очереди.
          *
-         * @param root
+         * @param root - корневой элемент дерава.
          */
         public SimpleTreeIterator(Node<E> root) {
             fill(root);
