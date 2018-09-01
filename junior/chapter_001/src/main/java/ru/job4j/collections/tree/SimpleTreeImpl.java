@@ -82,6 +82,7 @@ public class SimpleTreeImpl<E extends Comparable<E>> implements SimpleTree<E> {
             Node<E> newNode = nodeQueue.poll();
             if (newNode.leaves().size() > 2) {
                 result = false;
+                break;
             }
             for (Node<E> child : newNode.leaves()) {
                 nodeQueue.offer(child);
