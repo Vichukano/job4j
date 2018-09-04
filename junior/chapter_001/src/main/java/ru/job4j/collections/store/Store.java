@@ -3,7 +3,7 @@ package ru.job4j.collections.store;
 import java.util.*;
 
 class Store {
-    private HashMap<User, Object> map;
+    private HashSet<User> map;
 
     /**
      * Метод сравнивает две коллекции и возвращает информацию о ее изменении.
@@ -31,9 +31,9 @@ class Store {
         List<User> users = new ArrayList<>();
         users.addAll(pre);
         users.addAll(cur);
-        this.map = new HashMap<>();
+        this.map = new HashSet<>();
         for (User user : users) {
-            map.put(user, null);
+            map.add(user);
         }
     }
 
