@@ -21,6 +21,18 @@ public class RectangleMove implements Runnable {
     }
 
     /**
+     * Метод останавливает выполнение текущего потока.
+     */
+    public void stop() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Thread.currentThread().interrupt();
+    }
+
+    /**
      * Метод реализует логику движения шарика.
      * По достижении края площадки, шарик меняет направление движения.
      */
@@ -31,9 +43,13 @@ public class RectangleMove implements Runnable {
         this.rect.setX(this.rect.getX() + step);
     }
 
+    /**
+     * Выполнение движения шарика в отдельном потоке.
+     * Реализована проверка на interrupt потока.
+     */
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             move();
             try {
                 Thread.sleep(50);
