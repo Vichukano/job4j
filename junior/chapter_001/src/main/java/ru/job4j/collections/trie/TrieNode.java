@@ -1,14 +1,21 @@
 package ru.job4j.collections.trie;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class TrieNode<E> {
-    Map<Character, TrieNode<E>> children = new HashMap<>();
-    E value;
-    boolean isLeaf;//Нет реализации.
+/**
+ * Класс - узел.
+ * В качестве хранимого значения выбран динамический массив индексов.
+ */
+public class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    List<Integer> index = new ArrayList<>();
 
-    public TrieNode(E value) {
-        this.value = value;
+    public TrieNode() {
+
     }
+
+    public TrieNode(int value) {
+        this.index.add(value);
+    }
+
 }
