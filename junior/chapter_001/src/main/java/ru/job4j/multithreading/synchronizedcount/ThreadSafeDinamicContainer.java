@@ -4,8 +4,8 @@ import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 import ru.job4j.collections.list.Container;
 import ru.job4j.collections.list.DinamicContainer;
-
 import java.util.Iterator;
+
 
 @ThreadSafe
 public class ThreadSafeDinamicContainer<E> implements Container<E> {
@@ -38,7 +38,10 @@ public class ThreadSafeDinamicContainer<E> implements Container<E> {
     }
 
     private synchronized Container<E> copy(Container<E> dc) {
-        Container<E> temp = dc;
+        Container<E> temp = new DinamicContainer<>();
+        for (int i = 0; i < dc.getSize(); i++) {
+            temp.add(dc.get(i));
+        }
         return temp;
     }
 

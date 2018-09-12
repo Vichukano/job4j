@@ -45,5 +45,14 @@ public class ThreadSafeDinamicContainerTest {
         assertThat(it.next(), is(3));
     }
 
+    @Test
+    public void whenAddValueAfterIterateShouldNotTrowException() {
+        Iterator<Integer> it = safeContainer.iterator();
+        assertThat(it.next(), is(1));
+        safeContainer.add(4);
+        assertThat(it.next(), is(2));
+        assertThat(it.next(), is(3));
+    }
+
 
 }
