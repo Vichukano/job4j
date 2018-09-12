@@ -74,7 +74,7 @@ public class UserStorage implements Storage {
      *
      * @param id индекс объекта класса User.
      * @return объекс класса User с переданным индексом.
-     * @throws NoSuchElementException если в хранилище нет объекта с передаваемым индеком.
+     * @throws NoSuchElementException   если в хранилище нет объекта с передаваемым индеком.
      * @throws IllegalArgumentException если в метод передается недопустимое значение переменной.
      */
     public synchronized User findUserById(int id) {
@@ -88,12 +88,10 @@ public class UserStorage implements Storage {
             }
             if (users.contains(user)) {
                 return user;
-            }
-            else {
+            } else {
                 throw new NoSuchElementException();
             }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException();
         }
     }
@@ -104,7 +102,7 @@ public class UserStorage implements Storage {
      * @param fromId индекс объекта у кторого отнимается amount.
      * @param toId   индекс объекта которому передается amount.
      * @param amount переменная объекта класса User.
-     * @throws NoSuchElementException если в хранилище нет объекта с передаваемым индеком.
+     * @throws NoSuchElementException   если в хранилище нет объекта с передаваемым индеком.
      * @throws IllegalArgumentException если в метод передается недопустимое значение переменной.
      */
     @Override
@@ -115,12 +113,10 @@ public class UserStorage implements Storage {
                 User toUser = findUserById(toId);
                 fromUser.setAmount(fromUser.getAmount() - amount);
                 toUser.setAmount(toUser.getAmount() + amount);
-            }
-            else {
+            } else {
                 throw new NoSuchElementException();
             }
-        }
-        else {
+        } else {
             throw new IllegalArgumentException();
         }
     }

@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
  *
  * @param <E> - объект контейнера.
  */
-public class DinamicContainer<E> implements Iterable<E> {
+public class DinamicContainer<E> implements Container<E> {
     private E[] container;
     private int index;
     private int countElements;
@@ -25,8 +25,7 @@ public class DinamicContainer<E> implements Iterable<E> {
      * При инициализации создает массив вместимостью 10 элементов.
      */
     public DinamicContainer() {
-        int size = 10;
-        this.container = (E[]) new Object[size];
+        this.container = (E[]) new Object[10];
     }
 
     /**
@@ -35,6 +34,7 @@ public class DinamicContainer<E> implements Iterable<E> {
      *
      * @param value - значение объекта контейнера.
      */
+    @Override
     public void add(E value) {
         if (index < container.length) {
             container[index++] = value;
@@ -51,9 +51,11 @@ public class DinamicContainer<E> implements Iterable<E> {
     /**
      * Метод удаляет элемент с конца коллекции.
      */
+    @Override
     public void delete() {
-        E[] newContainer = (E[]) new Object[container.length - 1];
-        System.arraycopy(container, 0, newContainer, 0, container.length - 1);
+        E[] newContainer = (E[]) new Object[this.getSize() - 1];
+        System.arraycopy(container, 0, newContainer, 0, this.getSize() - 1);
+        countElements--;
         container = newContainer;
     }
 
@@ -81,6 +83,7 @@ public class DinamicContainer<E> implements Iterable<E> {
      * @return - значение объекта.
      * @throws ArrayIndexOutOfBoundsException, если индекс отрицательный или за пределами размера контейнера.
      */
+    @Override
     public E get(int index) {
         if (index >= 0 && index < container.length) {
             return (E) container[index];

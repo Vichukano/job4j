@@ -1,6 +1,5 @@
 package ru.job4j.collections.list;
 
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,5 +47,17 @@ public class DinamicContainerTest {
         Iterator<Integer> it = dc.iterator();
         dc.add(5);
         it.next();
+    }
+
+    @Test
+    public void whenDeleteValueThenReduceSize() {
+        dc.delete();
+        assertThat(dc.getSize(), is(2));
+    }
+
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void whenDeleteValueAndGetItShouldThrowException() {
+        dc.delete();
+        dc.get(2);
     }
 }

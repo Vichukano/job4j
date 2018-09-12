@@ -5,7 +5,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class DinamicLinkedContainer<E> implements Iterable<E> {
+public class DinamicLinkedContainer<E> implements Container<E> {
     private int size;
     private Node<E> first;
     private int modeCount;
@@ -24,6 +24,7 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
      *
      * @param date - объект контейнера.
      */
+    @Override
     public void add(E date) {
         Node<E> newLink = this.first;
         if (newLink != null) {
@@ -36,6 +37,31 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
         } else {
             this.first = new Node<>(date);
             size++;
+        }
+    }
+
+    @Override
+    public void delete() {
+        Node<E> newLink = this.first;
+        if (newLink != null) {
+            if (size == 1) {
+                first.next = null;
+                size--;
+                modeCount++;
+            } else if (size == 2) {
+                newLink.next = null;
+                size--;
+                modeCount++;
+            } else {
+                while (newLink.next.next != null) {
+                    newLink = newLink.next;
+                }
+                newLink.next = null;
+                size--;
+                modeCount++;
+            }
+        } else {
+            throw new NoSuchElementException();
         }
     }
 
@@ -112,6 +138,7 @@ public class DinamicLinkedContainer<E> implements Iterable<E> {
      * @param index - индекс элемента.
      * @return - значение Node, соответствующее заданному индексу.
      */
+    @Override
     public E get(int index) {
         if (index >= 0 && index < getSize()) {
             Node<E> result = this.first;
