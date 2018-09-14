@@ -27,7 +27,7 @@ public class UserStorage implements Storage {
      * @return true в случае успешного добавления, иначе false.
      */
     @Override
-    public synchronized boolean add(User user) {
+    public boolean add(User user) {
         boolean result = false;
         if (!users.contains(user)) {
             users.add(user);
@@ -43,7 +43,7 @@ public class UserStorage implements Storage {
      * @return true в случае успешного удаления, иначе false.
      */
     @Override
-    public synchronized boolean delete(User user) {
+    public boolean delete(User user) {
         boolean result = false;
         if (users.contains(user)) {
             users.remove(user);
@@ -59,7 +59,7 @@ public class UserStorage implements Storage {
      * @return true в случае успешного обновления, иначе false.
      */
     @Override
-    public synchronized boolean update(User user) {
+    public boolean update(User user) {
         boolean result = false;
         if (users.contains(user)) {
             int index = users.indexOf(user);
@@ -77,23 +77,21 @@ public class UserStorage implements Storage {
      * @throws NoSuchElementException   если в хранилище нет объекта с передаваемым индеком.
      * @throws IllegalArgumentException если в метод передается недопустимое значение переменной.
      */
-    public synchronized User findUserById(int id) {
+    public User findUserById(int id) {
         User user = new User();
-        if (id >= 0) {
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getId() == id) {
-                    user = users.get(i);
-                    break;
-                }
-            }
-            if (users.contains(user)) {
-                return user;
-            } else {
-                throw new NoSuchElementException();
-            }
-        } else {
+        if (id < 0) {
             throw new IllegalArgumentException();
         }
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getId() == id) {
+                user = users.get(i);
+                break;
+            }
+        }
+        if (!users.contains(user)) {
+            throw new NoSuchElementException();
+        }
+        return user;
     }
 
     /**
@@ -107,17 +105,16 @@ public class UserStorage implements Storage {
      */
     @Override
     public void transfer(int fromId, int toId, int amount) {
-        if (fromId >= 0 && toId >= 0 && amount >= 0 && fromId != toId) {
-            if (users.contains(findUserById(fromId)) && users.contains(findUserById(toId))) {
-                User fromUser = findUserById(fromId);
-                User toUser = findUserById(toId);
-                fromUser.setAmount(fromUser.getAmount() - amount);
-                toUser.setAmount(toUser.getAmount() + amount);
-            } else {
-                throw new NoSuchElementException();
-            }
-        } else {
+        if (fromId < 0 && toId < 0 && amount < 0 && fromId == toId) {
             throw new IllegalArgumentException();
         }
+        if (!users.contains(findUserById(fromId)) && !users.contains(findUserById(toId))) {
+            throw new NoSuchElementException();
+        }
+        User fromUser = findUserById(fromId);
+        User toUser = findUserById(toId);
+        fromUser.setAmount(fromUser.getAmount() - amount);
+        toUser.setAmount(toUser.getAmount() + amount);
     }
 }
+

@@ -4,13 +4,13 @@ import javafx.scene.shape.Rectangle;
 
 public class RectangleMove implements Runnable {
     private final Rectangle rect;
-    private int limitX;
+    private final int limitX;
     private int step;
 
     /**
      * В конструктор добавлены координаты края площадки и размер шага.
      *
-     * @param rect
+     * @param rect   объект - шарик.
      * @param limitX координата края площадки.
      * @param step   размер шага движения.
      */
