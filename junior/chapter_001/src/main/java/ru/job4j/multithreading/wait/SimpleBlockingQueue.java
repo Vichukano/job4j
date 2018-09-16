@@ -9,47 +9,47 @@ import java.util.Queue;
 @ThreadSafe
 public class SimpleBlockingQueue<E> {
     @GuardedBy("this")
-    private final Queue<E> q;
-    private boolean flag = false;
-    private final int size;
+    private final Queue<E> q = new LinkedList<>();
+    private final int size = 3;
     private int count;
-
-    public SimpleBlockingQueue(int size) {
-        this.q = new LinkedList<>();
-        this.size = size;
-    }
 
     /**
      * Метод добавляет значение в конец очереди.
+     * @param value добавлчемое значение.
+     * @throws InterruptedException при переходе потока в состояние wait.
      */
-    public void offer(E value) {
+    public void offer(E value) throws InterruptedException {
         synchronized (this) {
-            while (flag || count > size) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            while (count == size) {
+                wait();
             }
-            notify();
-            flag = true;
             q.offer(value);
             count++;
+            notify();
         }
     }
 
-    public E poll() {
+    /**
+     * Метод извлекает и возвращает значение из начала очереди.
+     * @return извлеченное значение.
+     * @throws InterruptedException при переходе потока в состояние wait.
+     */
+    public E poll() throws InterruptedException {
         synchronized (this) {
-            while (!flag)
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            flag = false;
-            notify();
+            while (isEmpty()) {
+                wait();
+            }
             count--;
+            notify();
             return q.poll();
         }
+    }
+
+    public boolean isEmpty() {
+        return this.count == 0;
+    }
+
+    public int getCount() {
+        return this.count;
     }
 }
