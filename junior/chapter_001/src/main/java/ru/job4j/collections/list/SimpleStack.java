@@ -21,7 +21,7 @@ public class SimpleStack<T> implements Iterable<T> {
     }
 
     /**
-     * Медол добавляет значение в конец контейнера.
+     * Медод добавляет значение в конец контейнера.
      *
      * @param value - добавляемое в контейнер значение.
      */
@@ -36,6 +36,10 @@ public class SimpleStack<T> implements Iterable<T> {
      */
     public T get(int index) {
         return dlc.get(index);
+    }
+
+    public int size() {
+        return dlc.getSize();
     }
 
     /**
