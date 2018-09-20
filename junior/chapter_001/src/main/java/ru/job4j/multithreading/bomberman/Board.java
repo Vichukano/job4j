@@ -9,15 +9,17 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Board {
     private final ReentrantLock[][] board;
+    private final int size;
 
     /**
      * Конструктор игрового поля.
+     * Поле представляет собой квадрат.
      *
-     * @param i размер поля высоте.
-     * @param j размер поля по ширине.
+     * @param size размер поля.
      */
-    public Board(int i, int j) {
-        board = new ReentrantLock[i][j];
+    public Board(int size) {
+        this.size = size;
+        board = new ReentrantLock[size][size];
         init();
 
     }
@@ -40,5 +42,14 @@ public class Board {
      */
     public ReentrantLock[][] getBoard() {
         return this.board;
+    }
+
+    /**
+     * Геттер для размера поля.
+     *
+     * @return размер поля.
+     */
+    public int getSize() {
+        return size;
     }
 }

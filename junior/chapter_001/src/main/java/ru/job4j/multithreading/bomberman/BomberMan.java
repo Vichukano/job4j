@@ -1,7 +1,7 @@
 package ru.job4j.multithreading.bomberman;
 
 import java.util.Random;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Класс описывает поведение игрового персонажа - бомбермен.
@@ -9,79 +9,82 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class BomberMan implements Runnable {
     private final Board board;
-    private ReentrantLock position;
-    private int x;
-    private int y;
+    private final Cell cell;
     private Random random = new Random();
 
     /**
      * Конструктор.
      *
-     * @param board игровое поле.
-     * @param x     начальная координата положения персонажа на поле.
-     * @param y     начальная координата положения персонажа на поле.
+     * @param board     игровое поле.
+     * @param startCell стартовая позиция персонажа.
      */
-    public BomberMan(Board board, int x, int y) {
+    public BomberMan(Board board, Cell startCell) {
         this.board = board;
-        this.x = x;
-        this.y = y;
+        cell = startCell;
     }
 
     /**
-     * Метод устанавливает персонажа в клетку с передаваемыми координатами.
-     *
-     * @param x координата положения.
-     * @param y координата положения.
+     * Метод устанавливает персонажа в клетку с передаваемыми координатами в конструкторе.
      */
-    private void setup(int x, int y) {
-        this.x = x;
-        this.y = y;
-        position = board.getBoard()[x][y];
-        System.out.println("Клетка заблокирована");
-        position.lock();
-        System.out.println("Бомбермен находится в клетке с координатами: " + x + " " + y);
-    }
-
-    /**
-     * Метод реализует случайный выбор координаты x или y.
-     * 0 == x
-     * 1 == y
-     *
-     * @return 0 или 1.
-     */
-    private int getCoordinate() {
-        return random.nextInt(2);
+    private void setup() {
+        board.getBoard()[cell.getX()][cell.getY()].lock();
+        System.out.println("Клетка " + cell.getX() + " " + cell.getY() + " заблокирована");
+        System.out.println("Бомбермен находится в клетке с координатами: " + cell.getX() + " " + cell.getX());
     }
 
     /**
      * Метод реализует движение персонажа на игровом поле.
      * Координата клеки, на которую передвинется персонаж выбирается в случайном порядке.
+     * При успешном передвижении на новую клетку в this.cell записываются новые коррдинаты.
      */
-    private void move() {
-        int coordinate = getCoordinate();
-        if (coordinate == 1) {
-            if (y == 0) {
-                y++;
-            } else if (y == board.getBoard()[x].length - 1) {
-                y = y - 1;
-            } else {
-                y = y + (-1 + random.nextInt(3));
+    private boolean move(Cell source, Cell dist) {
+        boolean result = false;
+        int srcX = source.getX();
+        int srcY = source.getY();
+        int dstX = dist.getX();
+        int dstY = dist.getY();
+        if (!(dstX < 0 || dstX > board.getSize() - 1 || dstY < 0 || dstY > board.getSize() - 1)) {
+            try {
+                if (board.getBoard()[dstX][dstY].tryLock(500, TimeUnit.MILLISECONDS)) {
+                    board.getBoard()[srcX][srcY].unlock();
+                    cell.setX(dstX);
+                    cell.setY(dstY);
+                    System.out.println("Клетка " + srcX + " " + srcY + " разблокирована");
+                    System.out.println("Бомбермен передвигается в клетку с координатами: " + dstX + " " + dstY);
+                    System.out.println("Клетка " + dstX + " " + dstY + " заблокирована");
+                    result = true;
+                } else {
+                    System.out.println("Этот путь заблокирован");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         } else {
-            if (x == 0) {
-                x++;
-            } else if (x == board.getBoard()[y].length - 1) {
-                x--;
-            } else {
-                x = x + (-1 + random.nextInt(3));
-            }
+            System.out.println("Выход за пределы игрового поля");
         }
-        position.unlock();
-        System.out.println("Клетка разблокирована");
-        position = board.getBoard()[x][y];
-        System.out.println("Бомбермен передвигается в клетку с координатами: " + x + " " + y);
-        position.lock();
-        System.out.println("Клетка заблокирована");
+        return result;
+    }
+
+    /**
+     * Метод возвращает соседнюю клетку в рандомном порядке.
+     *
+     * @param cell клетка
+     * @return новую клетку с рандомной координатой.
+     */
+    private Cell nextCell(Cell cell) {
+        int deltaX = 0;
+        int deltaY = 0;
+        int randInt = random.nextInt(100);
+        if (randInt < 25) {
+            deltaX = 1;
+        } else if (randInt < 50) {
+            deltaY = 1;
+        } else if (randInt < 75) {
+            deltaX = -1;
+        } else if (randInt < 100) {
+            deltaY = -1;
+        }
+        return new Cell(cell.getX() + deltaX, cell.getY() + deltaY);
     }
 
     /**
@@ -94,9 +97,9 @@ public class BomberMan implements Runnable {
 
     @Override
     public void run() {
-        setup(x, y);
+        setup();
         while (!Thread.currentThread().isInterrupted()) {
-            move();
+            move(cell, nextCell(cell));
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
