@@ -13,9 +13,12 @@ public class BomberManTest {
 
     @Before
     public void setup() {
-        board = new Board(10);
-        cell = new Cell(5, 5);
+        board = new Board(3);
+        cell = new Cell(1, 1);
         bomberMan = new BomberMan(board, cell);
+        board.getBoard()[0][2].lock();
+        board.getBoard()[1][2].lock();
+        board.getBoard()[2][2].lock();
     }
 
     @Test
@@ -23,6 +26,7 @@ public class BomberManTest {
         new Thread(bomberMan).start();
         Thread.sleep(5000);
         bomberMan.stop();
-
     }
+
+
 }

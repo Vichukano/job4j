@@ -45,6 +45,8 @@ public class BomberMan implements Runnable {
         int dstY = dist.getY();
         if (!(dstX < 0 || dstX > board.getSize() - 1 || dstY < 0 || dstY > board.getSize() - 1)) {
             try {
+                System.out.println("Попытка передвинуться в клетку с координатами " + dstX + " " + dstY);
+                Thread.sleep(500);
                 if (board.getBoard()[dstX][dstY].tryLock(500, TimeUnit.MILLISECONDS)) {
                     board.getBoard()[srcX][srcY].unlock();
                     cell.setX(dstX);
@@ -55,6 +57,7 @@ public class BomberMan implements Runnable {
                     result = true;
                 } else {
                     System.out.println("Этот путь заблокирован");
+                    move(source, nextCell(source));
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
