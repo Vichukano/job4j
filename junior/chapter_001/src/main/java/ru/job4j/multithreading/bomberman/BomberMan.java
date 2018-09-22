@@ -1,16 +1,16 @@
 package ru.job4j.multithreading.bomberman;
 
-import java.util.Random;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
+
 
 /**
  * Класс описывает поведение игрового персонажа - бомбермен.
  */
 
-public class BomberMan implements Runnable {
-    private final Board board;
-    private final Cell cell;
-    private Random random = new Random();
+public class BomberMan extends Figure implements Runnable {
 
     /**
      * Конструктор.
@@ -19,17 +19,17 @@ public class BomberMan implements Runnable {
      * @param startCell стартовая позиция персонажа.
      */
     public BomberMan(Board board, Cell startCell) {
-        this.board = board;
-        cell = startCell;
+        super(board, startCell);
     }
 
     /**
      * Метод устанавливает персонажа в клетку с передаваемыми координатами в конструкторе.
      */
-    private void setup() {
-        board.getBoard()[cell.getX()][cell.getY()].lock();
+    @Override
+    public void setup() {
+        super.setup();
         System.out.println("Клетка " + cell.getX() + " " + cell.getY() + " заблокирована");
-        System.out.println("Бомбермен находится в клетке с координатами: " + cell.getX() + " " + cell.getX());
+        System.out.println("Бомбермен находится в клетке с координатами: " + cell.getX() + " " + cell.getY());
     }
 
     /**
@@ -37,7 +37,8 @@ public class BomberMan implements Runnable {
      * Координата клеки, на которую передвинется персонаж выбирается в случайном порядке.
      * При успешном передвижении на новую клетку в this.cell записываются новые коррдинаты.
      */
-    private boolean move(Cell source, Cell dist) {
+    @Override
+    protected boolean move(Cell source, Cell dist) throws IOException {
         boolean result = false;
         int srcX = source.getX();
         int srcY = source.getY();
@@ -57,7 +58,7 @@ public class BomberMan implements Runnable {
                     result = true;
                 } else {
                     System.out.println("Этот путь заблокирован");
-                    move(source, nextCell(source));
+                    move(source, bomberMove(source));
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -69,40 +70,52 @@ public class BomberMan implements Runnable {
     }
 
     /**
-     * Метод возвращает соседнюю клетку в рандомном порядке.
+     * Метод реализующий ввод пользователя для передвижения персонажа.
      *
-     * @param cell клетка
-     * @return новую клетку с рандомной координатой.
+     * @param cell клетка на поле
+     * @return новую клетку, куда передвигается персонаж.
+     * @throws IOException
      */
-    private Cell nextCell(Cell cell) {
+    private Cell bomberMove(Cell cell) throws IOException {
         int deltaX = 0;
         int deltaY = 0;
-        int randInt = random.nextInt(100);
-        if (randInt < 25) {
-            deltaX = 1;
-        } else if (randInt < 50) {
-            deltaY = 1;
-        } else if (randInt < 75) {
-            deltaX = -1;
-        } else if (randInt < 100) {
-            deltaY = -1;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String direction = reader.readLine();
+        switch (direction) {
+            case "w":
+                deltaX = -1;
+                break;
+            case "s":
+                deltaX = +1;
+                break;
+            case "a":
+                deltaY = -1;
+                break;
+            case "d":
+                deltaY = +1;
+                break;
+            default:
+                break;
         }
         return new Cell(cell.getX() + deltaX, cell.getY() + deltaY);
+
     }
 
-    /**
-     * Метод остановки потока.
-     */
+    @Override
     public void stop() {
         Thread.currentThread().interrupt();
-        System.out.println("Поток остановлен");
+        System.out.println("Поток бомбермена остановлен");
     }
 
     @Override
     public void run() {
         setup();
         while (!Thread.currentThread().isInterrupted()) {
-            move(cell, nextCell(cell));
+            try {
+                move(cell, bomberMove(cell));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

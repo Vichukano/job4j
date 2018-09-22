@@ -1,5 +1,6 @@
 package ru.job4j.multithreading.bomberman;
 
+import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -10,6 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Board {
     private final ReentrantLock[][] board;
     private final int size;
+    private final Random random = new Random();
 
     /**
      * Конструктор игрового поля.
@@ -32,6 +34,19 @@ public class Board {
             for (int j = 0; j < board[i].length; j++) {
                 board[i][j] = new ReentrantLock();
             }
+        }
+    }
+
+    /**
+     * Метод устанавливает блоки на игровом поле.
+     */
+    public void setBlocks() {
+        int blocks = random.nextInt(size / 2);
+        for (int i = 0; i < blocks; i++) {
+            int x = random.nextInt(size);
+            int y = random.nextInt(size);
+            board[x][y].lock();
+            System.out.println("Блок установлен в клетке: " + x + " " + y);
         }
     }
 
