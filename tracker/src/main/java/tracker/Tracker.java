@@ -1,5 +1,6 @@
 package tracker;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Tracker {
@@ -29,12 +30,10 @@ public class Tracker {
      */
     public void replace(String id, Item item) {
         Item currItem = findById(id);
-        if (currItem != null) {
-            for (int i = 0; i < size; i++) {
-                if (items[i].getId().equals(currItem.getId())) {
-                    items[i] = item;
-                    break;
-                }
+        for (int i = 0; i < position; i++) {
+            if (items[i].getId().equals(currItem.getId())) {
+                items[i] = item;
+                break;
             }
         }
     }
@@ -45,13 +44,10 @@ public class Tracker {
      * @param id заявки, которую нужно удалить.
      */
     public void delete(String id) {
-        Item[] tmp = new Item[size];
         for (int i = 0; i < size; i++) {
             if (items[i].getId().equals(id)) {
-                System.arraycopy(items, 0, tmp, 0, i);
-                System.arraycopy(items, i + 1, tmp, i, size - 1 - i);
+                System.arraycopy(items, i + 1, items, i, size - 1 - i);
                 position--;
-                items = tmp;
                 break;
             }
         }
@@ -63,13 +59,7 @@ public class Tracker {
      * @return массив объектов item.
      */
     public Item[] findAll() {
-        Item[] tmp = new Item[position];
-        int tmpPosition = 0;
-        for (int i = 0; i < position; i++) {
-            if (items[i] != null) {
-                tmp[tmpPosition++] = items[i];
-            }
-        }
+        Item[] tmp = Arrays.copyOf(items, position);
         return tmp;
     }
 
