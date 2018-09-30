@@ -16,6 +16,7 @@
     <modules>
         <module>intern</module>
         <module>junior</module>
+        <module>tracker</module>
     </modules>
 
     <dependencies>
