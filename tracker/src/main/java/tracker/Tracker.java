@@ -23,19 +23,22 @@ public class Tracker {
     }
 
     /**
-     * Метод заменяет item в массиве с передаваемым id на передаваемый item
+     * Метод заменяет item в массиве с передаваемым id на передаваемый item.
      *
      * @param id   id заявки, которую нужно заменить.
      * @param item заявка, на которую будет произведена замена.
      */
-    public void replace(String id, Item item) {
-        Item currItem = findById(id);
+    public boolean replace(String id, Item item) {
+        boolean result = false;
         for (int i = 0; i < position; i++) {
-            if (items[i].getId().equals(currItem.getId())) {
+            if (items[i].getId().equals(id)) {
                 items[i] = item;
+                item.setId(id);
+                result = true;
                 break;
             }
         }
+        return result;
     }
 
     /**
@@ -43,14 +46,17 @@ public class Tracker {
      *
      * @param id заявки, которую нужно удалить.
      */
-    public void delete(String id) {
+    public boolean delete(String id) {
+        boolean result = false;
         for (int i = 0; i < size; i++) {
             if (items[i].getId().equals(id)) {
                 System.arraycopy(items, i + 1, items, i, size - 1 - i);
                 position--;
+                result = true;
                 break;
             }
         }
+        return result;
     }
 
     /**
@@ -59,8 +65,7 @@ public class Tracker {
      * @return массив объектов item.
      */
     public Item[] findAll() {
-        Item[] tmp = Arrays.copyOf(items, position);
-        return tmp;
+        return Arrays.copyOf(items, position);
     }
 
     /**
@@ -78,9 +83,7 @@ public class Tracker {
                 tmp[tmpPosition++] = items[i];
             }
         }
-        Item[] tmp2 = new Item[tmpPosition];
-        System.arraycopy(tmp, 0, tmp2, 0, tmpPosition);
-        return tmp2;
+        return Arrays.copyOf(tmp, tmpPosition);
     }
 
     /**
