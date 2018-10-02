@@ -14,10 +14,11 @@ public class StartUI {
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
+        init();
     }
 
     private void showMenu() {
-        System.out.println("########MENU########");
+        System.out.println("######## MENU ########");
         System.out.println("0. Add new Item");
         System.out.println("1. Show all items");
         System.out.println("2. Edit item");
