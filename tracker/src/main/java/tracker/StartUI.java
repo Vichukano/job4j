@@ -40,10 +40,13 @@ public class StartUI {
 
     private void showAllItems() {
         System.out.println("###### List of all items ######");
-        for (int i = 0; i < tracker.findAll().length; i++) {
-            System.out.println("Id: " + tracker.findAll()[i].getId()
-                    + " " + "Name: " + tracker.findAll()[i].getName()
-                    + " " + "Description: " + tracker.findAll()[i].getDesc());
+        Item[] items = tracker.findAll();
+        if (items.length > 0) {
+            for (int i = 0; i < items.length; i++) {
+                System.out.println(items[i]);
+            }
+        } else {
+            System.out.println("###### Tracker is empty ######");
         }
         System.out.println(" ");
     }
@@ -82,9 +85,7 @@ public class StartUI {
         Item item = tracker.findById(id);
         if (item != null) {
             System.out.println("###### Found item ######");
-            System.out.println("Id: " + item.getId());
-            System.out.println("Name: " + item.getName());
-            System.out.println("Description: " + item.getDesc());
+            System.out.println(item);
         } else {
             System.out.println("Заявки с таким ID не найдено.");
         }
@@ -96,9 +97,7 @@ public class StartUI {
         Item[] items = tracker.findByName(name);
         System.out.println("###### List of items with name " + name + " ######");
         for (int i = 0; i < items.length; i++) {
-            System.out.println("Id: " + items[i].getId());
-            System.out.println("Name: " + items[i].getName());
-            System.out.println("Description: " + items[i].getDesc());
+            System.out.println(items[i]);
         }
         System.out.println(" ");
     }

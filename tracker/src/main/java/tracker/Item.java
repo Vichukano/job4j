@@ -55,4 +55,11 @@ public class Item {
     public void setComments(String[] comments) {
         this.comments = comments;
     }
+
+    @Override
+    public String toString() {
+        return "Id='" + id + '\''
+                + ", Name='" + name + '\''
+                + ", Description='" + desc + '\'';
+    }
 }

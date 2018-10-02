@@ -4,87 +4,21 @@ import java.util.concurrent.Semaphore;
 
 /**
  * Пример использования Semaphore.
+ * Два семафора обеспечивают попеременный доступ потоков к общей переменной.
+ * SemaphoreOne с нулевым счетчиком гарантирует, что первым запустится поток ProducerOne.
+ * Количество итераций можно изменить в методах run(). По умолчанию 5.
  */
 public class Switcher {
-    private String string = "";
-    volatile boolean flag = true;
-    Semaphore semaphore = new Semaphore(1);
+    private final StringBuffer sb = new StringBuffer();
+    final Semaphore semaphoreOne = new Semaphore(0);
+    final Semaphore semaphoreTwo = new Semaphore(1);
 
     public void addValueToString(int value) {
-        string = string + value;
+        sb.append(value);
     }
 
     public String getString() {
-        return string;
+        return sb.toString();
     }
 }
 
-/**
- * Класс описывает добавление в строку значения 1.
- * По заверщению 10 итераций освобождает монитор и прекрашает выполнение метода addValue меняя флаг.
- */
-class ProducerOne implements Runnable {
-    private Switcher switcher;
-    private int value = 1;
-
-    public ProducerOne(Switcher switcher) {
-        this.switcher = switcher;
-    }
-
-    private synchronized void addValue() {
-        while (switcher.flag) {
-            try {
-                switcher.semaphore.acquire();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            for (int i = 0; i < 10; i++) {
-                switcher.addValueToString(value);
-            }
-            switcher.flag = false;
-            switcher.semaphore.release();
-        }
-    }
-
-    @Override
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            addValue();
-        }
-    }
-}
-
-/**
- * Класс описывает добавление в строку значения 2.
- * По заверщению 10 итераций освобождает монитор и прекрашает выполнение метода addValue меняя флаг.
- */
-class ProducerTwo implements Runnable {
-    private Switcher switcher;
-    private int value = 2;
-
-    public ProducerTwo(Switcher switcher) {
-        this.switcher = switcher;
-    }
-
-    private synchronized void addValue() {
-        while (!switcher.flag) {
-            try {
-                switcher.semaphore.acquire();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            for (int i = 0; i < 10; i++) {
-                switcher.addValueToString(value);
-            }
-            switcher.flag = true;
-            switcher.semaphore.release();
-        }
-    }
-
-    @Override
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            addValue();
-        }
-    }
-}

@@ -17,13 +17,10 @@ public class BomberManTest {
         board = new Board(5);
         cell = new Cell(1, 1);
         bomberMan = new BomberMan(board, cell);
-        board.getBoard()[0][2].lock();
-        board.getBoard()[1][2].lock();
-        board.getBoard()[2][2].lock();
     }
 
     @Test
-    public void whenGameStartBomberManShouldMoveCorrectly() throws InterruptedException {
+    public void whenGameStartBomberManShouldMoveCorrectly() {
 
     }
 }
