@@ -11,7 +11,6 @@ public class Tracker {
     private int size = 100;
     private Item[] items = new Item[size];
     private int position = 0;
-    private boolean exit = false;
 
     /**
      * Метод добавляет Item в массив.
@@ -106,14 +105,6 @@ public class Tracker {
             }
         }
         return item;
-    }
-
-    public boolean getExit() {
-        return this.exit;
-    }
-
-    public void setExit() {
-        this.exit = true;
     }
 
     /**

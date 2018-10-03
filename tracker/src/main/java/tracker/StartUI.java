@@ -10,12 +10,14 @@ import java.util.List;
 public class StartUI {
     private final Input input;
     private final Tracker tracker;
+    private boolean exit = false;
 
     public StartUI(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
         init();
     }
+
 
     /**
      * Метод реализует отрисовку меню трекера и выполнение действий в соответствии
@@ -25,15 +27,17 @@ public class StartUI {
         MenuTracker menu = new MenuTracker(this.input, this.tracker);
         List<Integer> range = new ArrayList<>();
         menu.fillActions();
-        for (int i = 0; i < menu.getActionsLength(); i++) {
-            range.add(i);
-        }
-
-        while (!tracker.getExit()) {
+        menu.fillRange(range);
+        while (!exit) {
             menu.show();
-            menu.select(input.ask("Select: ", range));
+            int key = input.ask("Select: ", range);
+            if (key == 6) {
+                exit = true;
+            }
+            menu.select(key);
         }
     }
+
 
     /**
      * Точка входа в приложение.
