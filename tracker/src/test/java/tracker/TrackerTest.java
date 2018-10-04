@@ -3,6 +3,9 @@ package tracker;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -44,7 +47,11 @@ public class TrackerTest {
         tracker.add(item1);
         tracker.add(item2);
         tracker.add(item3);
-        assertThat(tracker.findAll(), is(new Item[] {item1, item2, item3}));
+        List<Item> test = new ArrayList<>();
+        test.add(item1);
+        test.add(item2);
+        test.add(item3);
+        assertThat(tracker.findAll(), is(test));
     }
 
     @Test
@@ -59,7 +66,11 @@ public class TrackerTest {
         tracker.add(item3);
         tracker.add(item4);
         tracker.add(item5);
-        assertThat(tracker.findByName("2"), is(new Item[] {item2, item3, item5}));
+        List<Item> test = new ArrayList<>();
+        test.add(item2);
+        test.add(item3);
+        test.add(item5);
+        assertThat(tracker.findByName("2"), is(test));
     }
 
     @Test
@@ -74,18 +85,26 @@ public class TrackerTest {
         tracker.add(item3);
         tracker.add(item4);
         tracker.add(item5);
+        List<Item> test = new ArrayList<>();
+        test.add(item1);
+        test.add(item2);
+        test.add(item4);
+        test.add(item5);
         assertThat(tracker.getNumberOfItems(), is(5));
         tracker.delete(item3.getId());
-        assertThat(tracker.findAll(), is(new Item[] {item1, item2, item4, item5}));
+        assertThat(tracker.findAll(), is(test));
         assertThat(tracker.getNumberOfItems(), is(4));
         tracker.delete(item2.getId());
-        assertThat(tracker.findAll(), is(new Item[] {item1, item4, item5}));
+        test.remove(item2);
+        assertThat(tracker.findAll(), is(test));
         assertThat(tracker.getNumberOfItems(), is(3));
         tracker.delete(item5.getId());
-        assertThat(tracker.findAll(), is(new Item[] {item1, item4}));
+        test.remove(item5);
+        assertThat(tracker.findAll(), is(test));
         assertThat(tracker.getNumberOfItems(), is(2));
         tracker.delete(item1.getId());
-        assertThat(tracker.findAll(), is(new Item[] {item4}));
+        test.remove(item1);
+        assertThat(tracker.findAll(), is(test));
         assertThat(tracker.getNumberOfItems(), is(1));
     }
 }

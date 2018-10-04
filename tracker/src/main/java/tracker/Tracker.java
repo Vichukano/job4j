@@ -1,6 +1,7 @@
 package tracker;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -8,9 +9,7 @@ import java.util.Random;
  * Описывает действия над заявками.
  */
 public class Tracker {
-    private int size = 100;
-    private Item[] items = new Item[size];
-    private int position = 0;
+    private List<Item> items = new ArrayList();
 
     /**
      * Метод добавляет Item в массив.
@@ -22,7 +21,7 @@ public class Tracker {
      */
     public Item add(Item item) {
         item.setId(this.generateId());
-        this.items[position++] = item;
+        this.items.add(item);
         return item;
     }
 
@@ -34,9 +33,9 @@ public class Tracker {
      */
     public boolean replace(String id, Item item) {
         boolean result = false;
-        for (int i = 0; i < position; i++) {
-            if (items[i].getId().equals(id)) {
-                items[i] = item;
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId().equals(id)) {
+                items.set(i, item);
                 item.setId(id);
                 result = true;
                 break;
@@ -52,10 +51,9 @@ public class Tracker {
      */
     public boolean delete(String id) {
         boolean result = false;
-        for (int i = 0; i < size; i++) {
-            if (items[i].getId().equals(id)) {
-                System.arraycopy(items, i + 1, items, i, size - 1 - i);
-                position--;
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId().equals(id)) {
+                items.remove(i);
                 result = true;
                 break;
             }
@@ -68,8 +66,9 @@ public class Tracker {
      *
      * @return массив объектов item.
      */
-    public Item[] findAll() {
-        return Arrays.copyOf(items, position);
+    public List<Item> findAll() {
+        List<Item> tmp = items;
+        return tmp;
     }
 
     /**
@@ -79,15 +78,14 @@ public class Tracker {
      * @param key поле name у объекта item.
      * @return массив объектов item c переданным полем name. Если таких имен нет, то пустой массив.
      */
-    public Item[] findByName(String key) {
-        Item[] tmp = new Item[position];
-        int tmpPosition = 0;
-        for (int i = 0; i < position; i++) {
-            if (items[i].getName().equals(key)) {
-                tmp[tmpPosition++] = items[i];
+    public List<Item> findByName(String key) {
+        List<Item> tmp = new ArrayList<>();
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getName().equals(key)) {
+                tmp.add(items.get(i));
             }
         }
-        return Arrays.copyOf(tmp, tmpPosition);
+        return tmp;
     }
 
     /**
@@ -98,13 +96,42 @@ public class Tracker {
      */
     public Item findById(String id) {
         Item item = null;
-        for (int i = 0; i < position; i++) {
-            if (items[i].getId().equals(id)) {
-                item = items[i];
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i).getId().equals(id)) {
+                item = items.get(i);
                 break;
             }
         }
         return item;
+    }
+
+    /**
+     * Метод добавляет комментарий к заявке с указанным Id.
+     *
+     * @param id      id заявки.
+     * @param comment комментарий к заявке.
+     * @return true в случае добавления комментария, иначе false.
+     */
+    public boolean addComment(String id, String comment) {
+        boolean result = false;
+        Item item = findById(id);
+        if (item != null) {
+            item.addComment(comment);
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Метод возвращает копию массива с комментариями к заявке.
+     *
+     * @param id id заявки.
+     * @return копию массива с комментариями заявки.
+     */
+    public List<String> showComments(String id) {
+        Item item = findById(id);
+        List<String> comments = item.getComments();
+        return comments;
     }
 
     /**
@@ -113,7 +140,7 @@ public class Tracker {
      * @return количество заявок.
      */
     public int getNumberOfItems() {
-        return position;
+        return items.size();
     }
 
     /**

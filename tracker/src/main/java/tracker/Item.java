@@ -1,5 +1,8 @@
 package tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Класс - модель заявки.
  */
@@ -8,7 +11,7 @@ public class Item {
     private String name;
     private String desc;
     private long created;
-    private String[] comments;
+    private List<String> comments = new ArrayList<>();
 
     public Item(String name, String desc, long created) {
         this.name = name;
@@ -48,12 +51,16 @@ public class Item {
         this.created = created;
     }
 
-    public String[] getComments() {
+    public List<String> getComments() {
         return comments;
     }
 
-    public void setComments(String[] comments) {
+    public void setComments(List<String> comments) {
         this.comments = comments;
+    }
+
+    public void addComment(String comment) {
+        this.comments.add(comment);
     }
 
     @Override

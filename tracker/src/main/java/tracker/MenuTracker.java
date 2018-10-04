@@ -36,7 +36,9 @@ public class MenuTracker {
         this.actions.add(new EditAction(3, "Edit item"));
         this.actions.add(new FindByIdAction(4, "Find item by Id"));
         this.actions.add(new FindByNameAction(5, "Find item by name"));
-        this.actions.add(new ExitAction(6, "Exit program"));
+        this.actions.add(new AddCommentAction(6, "Add comment to item"));
+        this.actions.add(new ShowAllCommentsActon(7, "Show comments to item"));
+        this.actions.add(new ExitAction(8, "Exit program"));
     }
 
     /**
@@ -117,10 +119,10 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             System.out.println("###### List of all items ######");
-            Item[] items = tracker.findAll();
-            if (items.length > 0) {
-                for (int i = 0; i < items.length; i++) {
-                    System.out.println(items[i]);
+            List<Item> items = tracker.findAll();
+            if (items.size() > 0) {
+                for (int i = 0; i < items.size(); i++) {
+                    System.out.println(items.get(i));
                 }
             } else {
                 System.out.println("###### Tracker is empty ######");
@@ -208,10 +210,10 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Введите имя: ");
-            Item[] items = tracker.findByName(name);
+            List<Item> items = tracker.findByName(name);
             System.out.println("###### List of items with name " + name + " ######");
-            for (int i = 0; i < items.length; i++) {
-                System.out.println(items[i]);
+            for (int i = 0; i < items.size(); i++) {
+                System.out.println(items.get(i));
             }
             System.out.println(" ");
         }
@@ -269,5 +271,43 @@ class EditAction extends BaseAction {
             System.out.println("Заявки с таким ID не существует.");
         }
         System.out.println(" ");
+    }
+}
+
+class AddCommentAction extends BaseAction {
+
+    public AddCommentAction(int key, String name) {
+        super(key, name);
+    }
+
+    @Override
+    public void execute(Input input, Tracker tracker) {
+        String id = input.ask("Введите ID: ");
+        String comment = input.ask("Напишите комментарий: ");
+        if (!tracker.addComment(id, comment)) {
+            System.out.println("Комментарий не добавлен, возможно заявки с таким ID не существует.");
+        } else {
+            System.out.println("Добавлен комментарий к заявке с ID: " + id);
+        }
+        System.out.println(" ");
+    }
+}
+
+class ShowAllCommentsActon extends BaseAction {
+
+    public ShowAllCommentsActon(int key, String name) {
+        super(key, name);
+    }
+
+    @Override
+    public void execute(Input input, Tracker tracker) {
+        String id = input.ask("Ведите ID: ");
+        List<String> comments = tracker.showComments(id);
+        if (comments.size() > 0) {
+            for (int i = 0; i < comments.size(); i++) {
+                System.out.println(i + "." + " " + comments.get(i));
+            }
+            System.out.println(" ");
+        }
     }
 }

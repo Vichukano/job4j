@@ -31,7 +31,7 @@ public class StartUI {
         while (!exit) {
             menu.show();
             int key = input.ask("Select: ", range);
-            if (key == 6) {
+            if (key == 8) {
                 exit = true;
             }
             menu.select(key);
