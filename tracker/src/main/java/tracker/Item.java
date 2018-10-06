@@ -1,6 +1,7 @@
 package tracker;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,10 +64,19 @@ public class Item {
         this.comments.add(comment);
     }
 
+    /**
+     * Метод возвращает дату и время создания заявки на основе переменной long created.
+     * @return дата и время создания.
+     */
+    public Date getCreatedDate() {
+        return new Date(created);
+    }
+
     @Override
     public String toString() {
         return "Id='" + id + '\''
                 + ", Name='" + name + '\''
-                + ", Description='" + desc + '\'';
+                + ", Description='" + desc + '\''
+                + ", Created='" + getCreatedDate() + '\'';
     }
 }

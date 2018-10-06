@@ -98,7 +98,6 @@ public class MenuTracker {
             System.out.println("###### New item with id: " + item.getId() + " added ######");
             System.out.println(" ");
         }
-
     }
 
     /**

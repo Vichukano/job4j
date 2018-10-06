@@ -1,4 +1,4 @@
-package ru.job4j.multithreding;
+package ru.job4j.multithreding.switcher;
 
 import org.junit.Test;
 import ru.job4j.multithreading.switcher.ProducerOne;
