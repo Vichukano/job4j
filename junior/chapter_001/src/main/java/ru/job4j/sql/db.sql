@@ -117,10 +117,10 @@ VALUES ('sql', 'не получается выполнить задание по
 
 -- files --
 INSERT INTO files(file_path, item_id) VALUES ('127.0.0.1//file.jpg',
-                                              (SELECT item_id FROM items WHERE name = 'sql'));
+                                      (SELECT item_id FROM items WHERE name = 'sql'));
 
 -- comments --
 INSERT INTO comments (comment, item_id) VALUES ('SQL очень сложная тема, сразу не осилю',
-                                                (SELECT item_id FROM items WHERE name = 'sql'));
+                                        (SELECT item_id FROM items WHERE name = 'sql'));
 
 
