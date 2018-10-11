@@ -103,6 +103,14 @@ INNER JOIN product as p
 ON t.id = p.type_id
 WHERE p.in_store < 10;
 
+-- 7. Написать запрос, который выводит тип продуктов, которых осталось меньше 10 штук.
+-- запрос без колонки in_store:
+SELECT t.name, count(t.id) FROM type as t
+INNER JOIN product as p
+ON t.id = p.type_id
+GROUP BY t.name
+HAVING count(t.id) < 10;
+
 -- 8. Вывести все продукты и их тип.
 SELECT * FROM product as p
 INNER JOIN type as t
