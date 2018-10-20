@@ -80,13 +80,19 @@ public class TrackerDb implements AutoCloseable {
      * @return добавленная заявка.
      */
     public Item add(Item item) {
-        item.setId(this.generateId());
-        try (PreparedStatement st = conn.prepareStatement("INSERT INTO" + " " + tableName + "(item_id, item_name, item_desc, created) VALUES (?, ?, ?, ?)")) {
-            st.setString(1, item.getId());
-            st.setString(2, item.getName());
-            st.setString(3, item.getDesc());
-            st.setTimestamp(4, new Timestamp(item.getCreated()));
+        try (PreparedStatement st = conn.prepareStatement("INSERT INTO" + " " + tableName + "(item_name, item_desc, created) VALUES (?, ?, ?)")) {
+            st.setString(1, item.getName());
+            st.setString(2, item.getDesc());
+            st.setTimestamp(3, new Timestamp(item.getCreated()));
             st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try (Statement statement = conn.createStatement()) {
+            ResultSet rs = statement.executeQuery("SELECT item_id FROM " + tableName);
+            while (rs.next()) {
+                item.setId(String.valueOf(rs.getInt("item_id")));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -129,11 +135,11 @@ public class TrackerDb implements AutoCloseable {
             st.setString(1, item.getName());
             st.setString(2, item.getDesc());
             st.setTimestamp(3, new Timestamp(item.getCreated()));
-            st.setString(4, id);
+            st.setInt(4, Integer.parseInt(id));
             int updated = st.executeUpdate();
             if (updated > 0) {
                 result = true;
-                item.setId(id);
+                //item.setId(String.valueOf(id));
                 System.out.println("Запрос выполнен.");
             } else {
                 System.out.println("Запрос не выполнен.");
@@ -159,7 +165,7 @@ public class TrackerDb implements AutoCloseable {
                         rs.getString("item_desc"),
                         Timestamp.valueOf(rs.getString("created")).getTime()
                 );
-                newItem.setId(rs.getString("item_id"));
+                newItem.setId(String.valueOf(rs.getInt("item_id")));
                 tmp.add(newItem);
             }
         } catch (SQLException e) {
@@ -188,7 +194,7 @@ public class TrackerDb implements AutoCloseable {
                             rs.getString("item_desc"),
                             Timestamp.valueOf(rs.getString("created")).getTime()
                     );
-                    newItem.setId(rs.getString("item_id"));
+                    newItem.setId(String.valueOf(rs.getInt("item_id")));
                     tmp.add(newItem);
                 }
             }
@@ -210,7 +216,7 @@ public class TrackerDb implements AutoCloseable {
     public Item findById(String id) {
         Item newItem = null;
         try (PreparedStatement st = conn.prepareStatement("SELECT * FROM" + " " + tableName + " WHERE item_id = ?")) {
-            st.setString(1, id);
+            st.setInt(1, Integer.parseInt(id));
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
                     newItem = new Item(
@@ -218,7 +224,7 @@ public class TrackerDb implements AutoCloseable {
                             rs.getString("item_desc"),
                             Timestamp.valueOf(rs.getString("created")).getTime()
                     );
-                    newItem.setId(id);
+                    newItem.setId(String.valueOf(id));
                 }
             }
         } catch (SQLException e) {

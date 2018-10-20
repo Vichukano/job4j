@@ -21,8 +21,8 @@ public class TrackerDbTest {
 
     @Before
     public void setup() {
-        dbPath = "C:\\projects\\job4j\\tracker\\src\\test\\java\\tracker\\test_db.sql";
-        configPath = "C:\\projects\\job4j\\tracker\\src\\test\\java\\tracker\\config.properties";
+        dbPath = "C:\\projects\\job4j\\tracker\\src\\test\\java\\tracker\\resources\\test_db.sql";
+        configPath = "C:\\projects\\job4j\\tracker\\src\\test\\java\\tracker\\resources\\config.properties";
     }
 
     private Properties setProperties(String path) {
