@@ -26,7 +26,7 @@ public class StoreSQLTest {
         InputStream is;
         Properties properties = new Properties();
         try {
-            is = StoreSQL.class.getClassLoader().getResourceAsStream("test.properties");
+            is = this.getClass().getClassLoader().getResourceAsStream("test.properties");
             properties.load(is);
         } catch (IOException e) {
             e.printStackTrace();
