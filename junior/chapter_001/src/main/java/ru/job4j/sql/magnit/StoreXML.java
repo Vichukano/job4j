@@ -22,6 +22,7 @@ public class StoreXML {
 
     /**
      * Конструктор класса.
+     *
      * @param path путь к properties.
      * @param name имя атрибута properties.
      * @throws SQLException
@@ -36,6 +37,7 @@ public class StoreXML {
     /**
      * Метод получает объект класса ResultSet, содержайщий значения
      * всех строк таблицы.
+     *
      * @param con объект класса ConnectSQL.
      * @return объект ResultSet.
      */
@@ -52,6 +54,7 @@ public class StoreXML {
 
     /**
      * Метод генерирует объект Entry с полями из таблицы.
+     *
      * @param con объект класса ConnectSQL.
      * @return объект класса Entry.
      */
@@ -70,6 +73,7 @@ public class StoreXML {
 
     /**
      * Метод генерирует файл xml.
+     *
      * @param con объект класса ConnectSQL.
      */
     private void createXML(ConnectSQL con) {
@@ -78,7 +82,9 @@ public class StoreXML {
             JAXBContext context = JAXBContext.newInstance(Entry.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(entry, new File("junior/chapter_001/src/main/java/ru/job4j/sql/magnit/resource/entry.xml"));
+            marshaller.marshal(entry,
+                    new File(this.getClass().getClassLoader().getResource("entry.xml").getFile())
+            );
         } catch (JAXBException e) {
             e.printStackTrace();
         }

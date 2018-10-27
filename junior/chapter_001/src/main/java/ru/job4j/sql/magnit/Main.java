@@ -1,7 +1,5 @@
 package ru.job4j.sql.magnit;
 
-import org.xml.sax.SAXException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,19 +21,17 @@ public class Main {
         ConvertXSQL convert = new ConvertXSQL();
         try {
             convert.convert(
-                    new File("junior/chapter_001/src/main/java/ru/job4j/sql/magnit/resource/entry.xml"),
-                    new File("junior/chapter_001/src/main/java/ru/job4j/sql/magnit/resource/convert.xml"),
-                    new File("junior/chapter_001/src/main/java/ru/job4j/sql/magnit/resource/scheme.xsl")
+                    new File(Main.class.getClassLoader().getResource("entry.xml").getFile()),
+                    new File(Main.class.getClassLoader().getResource("convert.xml").getFile()),
+                    new File(Main.class.getClassLoader().getResource("scheme.xsl").getFile())
             );
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        Parser parser = new Parser(new File("junior/chapter_001/src/main/java/ru/job4j/sql/magnit/resource/convert.xml"));
+        Parser parser = new Parser(new File(Main.class.getClassLoader().getResource("convert.xml").getFile()));
         try {
             System.out.println(parser.getSum());
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
             e.printStackTrace();
         }
         System.out.println(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis() - start));

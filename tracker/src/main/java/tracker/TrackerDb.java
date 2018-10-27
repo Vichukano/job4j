@@ -1,10 +1,7 @@
 package tracker;
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.lang.AutoCloseable;
 import java.sql.*;
 import java.util.*;
@@ -35,22 +32,14 @@ public class TrackerDb implements AutoCloseable {
      * @throws SQLException
      */
     public void importTable(String path) throws SQLException {
-        FileInputStream is = null;
-        try {
-            is = new FileInputStream(new File(path));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        try (
-                Scanner sc = new Scanner(is);
-                Statement st = conn.createStatement()
-        ) {
-            sc.useDelimiter(";");
-            while (sc.hasNext()) {
-                String line = sc.next();
-                if (line.trim().length() > 0) {
-                    st.execute(line);
-                }
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream(path);
+        Scanner sc = new Scanner(is);
+        Statement st = conn.createStatement();
+        sc.useDelimiter(";");
+        while (sc.hasNext()) {
+            String line = sc.next();
+            if (line.trim().length() > 0) {
+                st.execute(line);
             }
         }
     }
@@ -62,9 +51,11 @@ public class TrackerDb implements AutoCloseable {
      * @return properties.
      */
     private Properties setProperties(String path) {
+        InputStream is;
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File(path)));
+            is = this.getClass().getClassLoader().getResourceAsStream(path);
+            properties.load(is);
         } catch (IOException e) {
             e.printStackTrace();
         }

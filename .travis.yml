@@ -15,3 +15,8 @@ notifications:
       - vichukano@gmail.com
     on_success: never # default: change
     on_failure: always # default: always
+services:
+  - postgresql
+before_script:
+  - psql -c "CREATE DATABASE tracker;" -U postgres
+  - psql -c "CREATE DATABASE parser_testing;" -U postgres

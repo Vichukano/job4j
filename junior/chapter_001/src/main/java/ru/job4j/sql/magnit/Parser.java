@@ -24,11 +24,11 @@ public class Parser {
     /**
      * Метод парсит все значения из xml с атрибутом href
      * и считает их сумму.
+     *
      * @return сумма значений.
      * @throws IOException
-     * @throws SAXException
      */
-    public long getSum() throws IOException, SAXException {
+    public long getSum() throws IOException {
         DefaultHandler handler = new DefaultHandler() {
             @Override
             public void startElement(String uri, String localName, String qName, Attributes attributes) {
@@ -40,8 +40,12 @@ public class Parser {
         };
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser parser = factory.newSAXParser();
-            parser.parse(file, handler);
+            try {
+                SAXParser parser = factory.newSAXParser();
+                parser.parse(file, handler);
+            } catch (SAXException e) {
+                e.printStackTrace();
+            }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }

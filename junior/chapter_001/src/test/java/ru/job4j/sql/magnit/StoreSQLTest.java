@@ -26,7 +26,7 @@ public class StoreSQLTest {
         InputStream is;
         Properties properties = new Properties();
         try {
-            is = StoreSQL.class.getClassLoader().getResourceAsStream("config.properties");
+            is = StoreSQL.class.getClassLoader().getResourceAsStream("test.properties");
             properties.load(is);
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,7 +44,7 @@ public class StoreSQLTest {
 
     @Test
     public void whenGenerateValuesItShouldWriteIntoTable() throws SQLException {
-        new StoreSQL("config.properties", "url", 5);
+        new StoreSQL("test.properties", "url", 5);
         PreparedStatement st = con.getCon().prepareStatement("SELECT * FROM 'entry'");
         ResultSet rs = st.executeQuery();
         List<Integer> test = new ArrayList<>();

@@ -14,9 +14,10 @@ public class StoreSQL {
     /**
      * Конструктор класса.
      * В конструкторе создается объект класса ConnectSQL.
+     *
      * @param path путь к properties.
      * @param name имя атрибута properties.
-     * @param n количество записей в таблицу.
+     * @param n    количество записей в таблицу.
      * @throws SQLException
      */
     public StoreSQL(String path, String name, int n) throws SQLException {
@@ -31,6 +32,7 @@ public class StoreSQL {
      * Метод реализует подключение к базе данных и генерирует в ней таблицу
      * entry с полем INTEGER field.
      * Применяется autocommit = false.
+     *
      * @param con объект класса ConnectSQL.
      * @throws SQLException
      */
@@ -100,6 +102,8 @@ public class StoreSQL {
         } catch (SQLException e) {
             con.getCon().rollback();
             e.printStackTrace();
+        } finally {
+            st1.close();
         }
     }
 }

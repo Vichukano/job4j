@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,19 +17,13 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class TrackerDbTest {
-    private String dbPath;
-    private String configPath;
-
-    @Before
-    public void setup() {
-        dbPath = "C:\\projects\\job4j\\tracker\\src\\test\\java\\tracker\\resources\\test_db.sql";
-        configPath = "C:\\projects\\job4j\\tracker\\src\\test\\java\\tracker\\resources\\config.properties";
-    }
 
     private Properties setProperties(String path) {
+        InputStream is;
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream(new File(path)));
+            is = this.getClass().getClassLoader().getResourceAsStream(path);
+            properties.load(is);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,7 +32,7 @@ public class TrackerDbTest {
 
     @After
     public void dropTable() {
-        Properties prop = setProperties(configPath);
+        Properties prop = setProperties("config.properties");
         try (Connection con = DriverManager.getConnection(
                 prop.getProperty("url") + prop.getProperty("db_name"),
                 prop.getProperty("login"),
@@ -52,7 +47,7 @@ public class TrackerDbTest {
 
     @Test
     public void whenReplaceNameThenReturnNewName() {
-        try (TrackerDb tr = new TrackerDb(configPath, dbPath)) {
+        try (TrackerDb tr = new TrackerDb("config.properties", "test_db.sql")) {
             Item previous = new Item("test1", "testDescription", 123L);
             tr.add(previous);
             Item next = new Item("test2", "testDescription2", 1234L);
@@ -69,7 +64,7 @@ public class TrackerDbTest {
         Item item1 = new Item("1", "abc", 123L);
         Item item2 = new Item("2", "abc", 124L);
         Item item3 = new Item("3", "abc", 125L);
-        try (TrackerDb tr = new TrackerDb(configPath, dbPath)) {
+        try (TrackerDb tr = new TrackerDb("config.properties", "test_db.sql")) {
             tr.add(item1);
             tr.add(item2);
             tr.add(item3);
@@ -84,7 +79,7 @@ public class TrackerDbTest {
         Item item1 = new Item("1", "abc", 123L);
         Item item2 = new Item("2", "abc", 124L);
         Item item3 = new Item("3", "abc", 125L);
-        try (TrackerDb tr = new TrackerDb(configPath, dbPath)) {
+        try (TrackerDb tr = new TrackerDb("config.properties", "test_db.sql")) {
             tr.add(item1);
             tr.add(item2);
             tr.add(item3);
@@ -105,7 +100,7 @@ public class TrackerDbTest {
         Item item3 = new Item("2", "abc", 125L);
         Item item4 = new Item("3", "abc", 126L);
         Item item5 = new Item("2", "abc", 127L);
-        try (TrackerDb tr = new TrackerDb(configPath, dbPath)) {
+        try (TrackerDb tr = new TrackerDb("config.properties", "test_db.sql")) {
             tr.add(item1);
             tr.add(item2);
             tr.add(item3);
