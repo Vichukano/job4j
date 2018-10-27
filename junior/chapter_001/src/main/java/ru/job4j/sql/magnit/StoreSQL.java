@@ -84,16 +84,16 @@ public class StoreSQL {
     private void generate(int n, ConnectSQL con) throws SQLException {
         PreparedStatement st1 = null;
         try {
-            st1 = con.getCon().prepareStatement("SELECT * FROM 'entry'");
+            st1 = con.getCon().prepareStatement("SELECT * FROM entry");
             ResultSet rs = st1.executeQuery();
             if (rs.next()) {
-                PreparedStatement st2 = con.getCon().prepareStatement("DELETE FROM 'entry'");
+                PreparedStatement st2 = con.getCon().prepareStatement("DELETE FROM entry");
                 st2.execute();
                 st2.close();
             }
             st1.close();
             for (int i = 1; i <= n; i++) {
-                PreparedStatement st = con.getCon().prepareStatement("INSERT INTO 'entry'('field') VALUES (?);");
+                PreparedStatement st = con.getCon().prepareStatement("INSERT INTO entry(field) VALUES (?);");
                 st.setInt(1, i);
                 st.executeUpdate();
                 st.close();

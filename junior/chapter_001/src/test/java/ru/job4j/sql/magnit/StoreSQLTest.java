@@ -36,7 +36,7 @@ public class StoreSQLTest {
 
     @After
     public void reset() throws SQLException {
-        PreparedStatement st = con.getCon().prepareStatement("DELETE FROM 'entry'");
+        PreparedStatement st = con.getCon().prepareStatement("DELETE FROM entry");
         st.executeUpdate();
         st.close();
         con.close();
@@ -45,7 +45,7 @@ public class StoreSQLTest {
     @Test
     public void whenGenerateValuesItShouldWriteIntoTable() throws SQLException {
         new StoreSQL("test.properties", "url", 5);
-        PreparedStatement st = con.getCon().prepareStatement("SELECT * FROM 'entry'");
+        PreparedStatement st = con.getCon().prepareStatement("SELECT * FROM entry");
         ResultSet rs = st.executeQuery();
         List<Integer> test = new ArrayList<>();
         while (rs.next()) {

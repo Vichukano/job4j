@@ -21,13 +21,13 @@ public class ArrayAndLinkedListTest {
     public void addElementToFirst() {
         System.out.println("Add elements to first.");
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 500_000; i++) {
+        for (int i = 0; i < 50_000; i++) {
             linked.add(0, 1);
         }
         long end = System.currentTimeMillis();
         System.out.println("Linked: " + (end - start));
         start = System.currentTimeMillis();
-        for (int i = 0; i < 500_000; i++) {
+        for (int i = 0; i < 50_000; i++) {
             array.add(0, 1);
         }
         end = System.currentTimeMillis();
@@ -38,13 +38,13 @@ public class ArrayAndLinkedListTest {
     public void addElementToLast() {
         System.out.println("Add elements to last.");
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 500_000; i++) {
+        for (int i = 0; i < 50_000; i++) {
             linked.addLast(1);
         }
         long end = System.currentTimeMillis();
         System.out.println("Linked: " + (end - start));
         start = System.currentTimeMillis();
-        for (int i = 0; i < 500_000; i++) {
+        for (int i = 0; i < 50_000; i++) {
             array.add(1);
         }
         end = System.currentTimeMillis();
@@ -54,19 +54,19 @@ public class ArrayAndLinkedListTest {
     @Test
     public void addElementToCentre() {
         System.out.println("Add elements to centre.");
-        for (int i = 0; i < 100_000; i++) {
+        for (int i = 0; i < 10_000; i++) {
             linked.add(1);
             array.add(1);
         }
         long start = System.currentTimeMillis();
-        for (int i = 0; i < 100_000; i++) {
-            linked.add(50_000, 1);
+        for (int i = 0; i < 10_000; i++) {
+            linked.add(5_000, 1);
         }
         long end = System.currentTimeMillis();
         System.out.println("Linked: " + (end - start));
         start = System.currentTimeMillis();
-        for (int i = 0; i < 100_000; i++) {
-            array.add(50_000, 1);
+        for (int i = 0; i < 10_000; i++) {
+            array.add(5_000, 1);
         }
         end = System.currentTimeMillis();
         System.out.println("Array: " + (end - start));
