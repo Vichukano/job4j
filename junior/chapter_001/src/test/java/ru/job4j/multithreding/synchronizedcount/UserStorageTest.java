@@ -1,5 +1,6 @@
 package ru.job4j.multithreding.synchronizedcount;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.multithreading.synchronizedcount.User;
@@ -54,6 +55,13 @@ public class UserStorageTest {
         user1 = new User(1, 50);
         user2 = new User(2, 100);
         user3 = new User(3, 150);
+    }
+
+    @After
+    public void reset() {
+        user1 = null;
+        user2 = null;
+        user3 = null;
     }
 
     @Test
