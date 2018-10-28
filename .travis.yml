@@ -17,7 +17,7 @@ notifications:
     on_failure: always # default: always
 
 before_script:
-  - export TZ=Russia/Moscow
+  - export TZ=Europe/Moscow
 services:
   - postgresql
 addons:
