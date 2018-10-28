@@ -129,10 +129,10 @@ public class Parser {
                 createdDate = createdDate.replace("май", "мая");
             }
             if (createdDate.length() == 8) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yy");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yy").withLocale(new Locale("ru"));
                 datePart = LocalDate.parse(createdDate, formatter);
             } else {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yy");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yy").withLocale(new Locale("ru"));
                 datePart = LocalDate.parse(createdDate, formatter);
             }
         }
