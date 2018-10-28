@@ -16,7 +16,7 @@ notifications:
     on_success: never # default: change
     on_failure: always # default: always
 
-before_script:
+before_install:
   - export TZ=Europe/Moscow
 services:
   - postgresql
