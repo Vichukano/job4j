@@ -41,7 +41,7 @@ public class StoreSQL {
         try {
             con.getCon().setAutoCommit(false);
             st = con.getCon().createStatement();
-            st.execute("CREATE TABLE IF NOT EXISTS 'entry' ('field' INTEGER);");
+            st.execute("CREATE TABLE IF NOT EXISTS entry (field INTEGER);");
             con.getCon().commit();
         } catch (SQLException e) {
             con.getCon().rollback();
@@ -63,7 +63,7 @@ public class StoreSQL {
         InputStream is;
         Properties properties = new Properties();
         try {
-            is = StoreSQL.class.getClassLoader().getResourceAsStream(path);
+            is = this.getClass().getClassLoader().getResourceAsStream(path);
             properties.load(is);
         } catch (IOException e) {
             e.printStackTrace();
