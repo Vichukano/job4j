@@ -17,6 +17,8 @@ notifications:
     on_failure: always # default: always
 services:
   - postgresql
+  addons:
+      postgresql: "9.6"
 before_script:
   - psql -c "CREATE DATABASE tracker;" -U postgres
   - psql -c "CREATE DATABASE parser_testing;" -U postgres
