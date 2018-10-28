@@ -1,7 +1,5 @@
 package ru.job4j.multithreding.synchronizedcount;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.multithreading.synchronizedcount.User;
 import ru.job4j.multithreading.synchronizedcount.UserStorage;
@@ -10,9 +8,9 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class UserStorageTest {
-    private User user1;
-    private User user2;
-    private User user3;
+    private User user1 = new User(1, 50);
+    private User user2 = new User(2, 100);
+    private User user3 = new User(3, 150);
 
     /**
      * Поток выполнения добавляет объекты User в хранилище.
@@ -48,20 +46,6 @@ public class UserStorageTest {
             us.transfer(3, 1, 50);
             us.update(user2);
         }
-    }
-
-    @Before
-    public void setUp() {
-        user1 = new User(1, 50);
-        user2 = new User(2, 100);
-        user3 = new User(3, 150);
-    }
-
-    @After
-    public void reset() {
-        user1 = null;
-        user2 = null;
-        user3 = null;
     }
 
     @Test
