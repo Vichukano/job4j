@@ -27,8 +27,7 @@ public class ParserJob implements Job {
         try {
             jobs = parser.getMsgFromLink();
         } catch (ParseException e) {
-            LOG.error(e.getMessage());
-            e.printStackTrace();
+            LOG.error("Error ParseException", e);
         }
         StoreSQL sql = new StoreSQL(PROP_NAME);
         sql.addValuesToTable(jobs);

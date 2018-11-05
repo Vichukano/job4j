@@ -31,8 +31,7 @@ public class Main {
             LOG.debug("Настройки получены.");
             properties.load(is);
         } catch (IOException e) {
-            LOG.error(e.getMessage());
-            e.printStackTrace();
+            LOG.error("Error IOException", e);
         }
         return properties;
     }
@@ -60,8 +59,7 @@ public class Main {
             sc.scheduleJob(job, trigger);
             LOG.debug("Приложение в работе.");
         } catch (SchedulerException e) {
-            LOG.error(e.getMessage());
-            e.printStackTrace();
+            LOG.error("Error SchedulerException", e);
         }
     }
 }

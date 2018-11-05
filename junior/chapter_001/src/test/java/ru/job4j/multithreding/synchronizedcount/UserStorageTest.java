@@ -56,8 +56,8 @@ public class UserStorageTest {
         Thread t1 = new Thread(one);
         Thread t2 = new Thread(two);
         t1.start();
-        t2.start();
         t1.join();
+        t2.start();
         t2.join();
         assertThat(us.findUserById(1).getAmount(), is(100));
     }

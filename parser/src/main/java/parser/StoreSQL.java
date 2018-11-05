@@ -2,6 +2,8 @@ package parser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,13 +47,11 @@ public class StoreSQL {
             this.con.setAutoCommit(false);
             LOG.debug("Открыто подключение к БД.");
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
-            e.printStackTrace();
+            LOG.error("Error SQLException", e);
             try {
                 this.con.rollback();
             } catch (SQLException e1) {
-                LOG.error(e1.getMessage());
-                e1.printStackTrace();
+                LOG.error("Error SQLException", e);
             }
         }
         return this.con;
@@ -66,8 +66,7 @@ public class StoreSQL {
                 con.close();
                 LOG.debug("Подключение к БД закрыто.");
             } catch (SQLException e) {
-                LOG.error(e.getMessage());
-                e.printStackTrace();
+                LOG.error("Error SQLException", e);
             }
         }
     }
@@ -94,8 +93,7 @@ public class StoreSQL {
             con.commit();
             LOG.debug("Создана таблица jobs.");
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
-            e.printStackTrace();
+            LOG.error("Error SQLException", e);
         } finally {
             closeConnection();
         }
@@ -115,8 +113,7 @@ public class StoreSQL {
             LOG.debug("Настройки получены.");
             properties.load(is);
         } catch (IOException e) {
-            LOG.error(e.getMessage());
-            e.printStackTrace();
+            LOG.error("Error IOException", e);
         }
         return properties;
     }
@@ -132,24 +129,23 @@ public class StoreSQL {
         try {
             this.con = createConnection();
             for (Map.Entry entry : messages.entrySet()) {
-                PreparedStatement st = this.con.prepareStatement(
+                try (PreparedStatement st = this.con.prepareStatement(
                         "INSERT INTO jobs(created_date, description) VALUES (?, ?) ON CONFLICT DO NOTHING;"
-                );
-                Date date = (Date) entry.getKey();
-                st.setTimestamp(1, new Timestamp(date.getTime()));
-                st.setString(2, String.valueOf(entry.getValue()));
-                st.executeUpdate();
-                st.close();
+                )) {
+                    Date date = (Date) entry.getKey();
+                    st.setTimestamp(1, new Timestamp(date.getTime()));
+                    st.setString(2, String.valueOf(entry.getValue()));
+                    st.executeUpdate();
+                }
             }
             this.con.commit();
             LOG.debug("Коммит.");
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
-            e.printStackTrace();
+            LOG.error("Error SQLException", e);
             try {
                 con.rollback();
             } catch (SQLException e1) {
-                e1.printStackTrace();
+                LOG.error("Error SQLException", e);
             }
         } finally {
             closeConnection();

@@ -2,6 +2,8 @@ package parser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,6 +29,7 @@ import java.util.regex.Pattern;
  */
 public class Parser {
     private static final Logger LOG = LogManager.getLogger(Parser.class);
+    private static final Marker SQL_MARKER = MarkerManager.getMarker("SQL");
     /**
      * Регулярное выражение, по кторому идет отбор текста вакансий.
      * Пропускает java, Java, JAVA, java ee, java8 и тд.
@@ -46,23 +49,22 @@ public class Parser {
      */
     public List<String> getLinksFromForumTable() {
         List<String> links = new ArrayList<>();
+        int count = 0;
         for (int i = 1; i != 50; i++) {
             String url = String.format("%s%s", path, i);
             try {
                 Document doc = Jsoup.connect(url).get();
-                int count = 0;
                 LOG.debug("Получили подключение к сайту." + " Парсим страницу " + i);
                 Elements forumTable = doc.select("table.forumTable");
                 for (Element element : forumTable.select("td.postslisttopic")) {
                     links.add(element.select("a").attr("href"));
                     count++;
                 }
-                LOG.debug("Добвалено " + count + " ссылок.");
             } catch (IOException e) {
-                LOG.error(e.getMessage());
-                e.printStackTrace();
+                LOG.error("Error IOException", e);
             }
         }
+        LOG.debug(SQL_MARKER, "Inserted {} jobs", count);
         return links;
     }
 
@@ -94,13 +96,13 @@ public class Parser {
                         ) {
                     messages.put(date, msg);
                     count++;
-                    LOG.debug("Вакансия добавлена. Всего добавлено " + count + " вакансий");
+                    LOG.debug("Вакансия добавлена");
                 }
             } catch (IOException e) {
-                LOG.error(e.getMessage());
-                e.printStackTrace();
+                LOG.error("Error IOException", e);
             }
         }
+        LOG.debug(SQL_MARKER, "Added {} jobs", count);
         return messages;
     }
 
