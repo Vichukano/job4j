@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>User Service</title>
+</head>
+<body>
+    <form method="post" action="/test">
+        <input type="hidden" name="action" value="add">
+        Name:<br>
+        <input type="text" name="name"><br>
+        Login:<br>
+        <input type="text" name="login"><br>
+        Email:<br>
+        <input type="text" name="email"><br>
+        <input type="submit" value="SEND">
+    </form>
+    <br>
+    <br>
+    <form method="get" action="/test">
+        <h3>Show all users</h3><br>
+        <input type="submit" value="SHOW">
+    </form>
+</body>
+</html>
