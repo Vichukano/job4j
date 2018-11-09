@@ -4,15 +4,20 @@ import ru.job4j.model.User;
 import ru.job4j.persistent.MemoryStore;
 import ru.job4j.persistent.Store;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Класс валидации добавления данных в хранилище пользователей.
+ * Синглетон.
+ * Применяется Dispatcher Pattern Петра Арсентьева.
+ */
 public class ValidateService implements Validate {
     private final static ValidateService SERVICE = new ValidateService();
     private final Store memoryStore = MemoryStore.getStoreInstance();
+    private final Map<Action.Type, Function<User, Boolean>> dispatch = new HashMap<>();
 
     private ValidateService() {
 
@@ -22,34 +27,38 @@ public class ValidateService implements Validate {
         return SERVICE;
     }
 
-    public boolean add(User user) {
-        boolean result = true;
-        List<User> users = this.memoryStore.findAll();
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).equals(user)) {
-                result = false;
-                break;
+    public Function<User, Boolean> add() {
+        return user -> {
+            boolean result = true;
+            List<User> users = this.memoryStore.findAll();
+            for (User u : users) {
+                if (u.equals(user)) {
+                    result = false;
+                    break;
+                }
             }
-        }
-        if (result) {
-            this.memoryStore.getUsers().add(user);
-        }
-        return result;
+            if (result) {
+                this.memoryStore.getUsers().add(user);
+            }
+            return result;
+        };
     }
 
-    public boolean delete(int id) {
-        return this.memoryStore.delete(id);
+    public Function<User, Boolean> delete() {
+        return user -> this.memoryStore.delete(user.getId());
     }
 
-    public boolean update(int id, User user) {
-        boolean result;
-        try {
-            this.memoryStore.update(id, user);
-            result = true;
-        } catch (IndexOutOfBoundsException e) {
-            result = false;
-        }
-        return result;
+    public Function<User, Boolean> update() {
+        return user -> {
+            boolean result;
+            try {
+                this.memoryStore.update(user.getId(), user);
+                result = true;
+            } catch (IndexOutOfBoundsException e) {
+                result = false;
+            }
+            return result;
+        };
     }
 
     public List<User> findAll() {
@@ -62,5 +71,20 @@ public class ValidateService implements Validate {
 
     public List<User> getUsers() {
         return this.memoryStore.getUsers();
+    }
+
+    public ValidateService init() {
+        load(Action.Type.ADD, add());
+        load(Action.Type.DELETE, delete());
+        load(Action.Type.UPDATE, update());
+        return this;
+    }
+
+    public void load(Action.Type type, Function<User, Boolean> handle) {
+        this.dispatch.put(type, handle);
+    }
+
+    public Boolean action(Action.Type action, User user) {
+        return this.dispatch.get(action).apply(user);
     }
 }

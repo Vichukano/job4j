@@ -1,7 +1,9 @@
 package ru.job4j.logic;
 
 
-public interface ActionType {
+public interface Action {
+
+    Type type();
 
     enum Type {
         ADD,

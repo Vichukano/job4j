@@ -5,6 +5,10 @@ import ru.job4j.model.User;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Класс - хранилище пользователей.
+ * Синглетон.
+ */
 public class MemoryStore implements Store {
     private final static MemoryStore STORE = new MemoryStore();
     private final List<User> users = new CopyOnWriteArrayList<>();

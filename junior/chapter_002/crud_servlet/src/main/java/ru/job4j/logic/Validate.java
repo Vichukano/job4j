@@ -3,13 +3,14 @@ package ru.job4j.logic;
 import ru.job4j.model.User;
 
 import java.util.List;
+import java.util.function.Function;
 
 public interface Validate {
-    boolean add(User user);
+    Function<User, Boolean> add();
 
-    boolean update(int id, User user);
+    Function<User, Boolean> update();
 
-    boolean delete(int id);
+    Function<User, Boolean> delete();
 
     List<User> findAll();
 

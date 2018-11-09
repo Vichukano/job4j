@@ -1,65 +1,84 @@
 package ru.job4j.persistent;
 
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import ru.job4j.model.User;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class StoreTest {
-    private static final Store STORE = MemoryStore.getStoreInstance();
+    private final Store store = MemoryStore.getStoreInstance();
 
-    @BeforeClass
-    public static void setUp() {
-        STORE.add(new User(
+
+    @Before
+    public void resetBefore() {
+        store.delete(1);
+        store.delete(2);
+        store.delete(3);
+        store.delete(4);
+    }
+
+    @After
+    public void resetAfter() {
+        store.delete(1);
+        store.delete(2);
+        store.delete(3);
+        store.delete(4);
+    }
+
+
+    @Test
+    public void whenUpdateUserItShouldChanged() {
+        store.add(new User(
                 "test",
                 "test",
                 "test"
         ));
-        STORE.add(new User(
+        store.add(new User(
                 "test1",
                 "test1",
                 "test1"
         ));
-        STORE.add(new User(
+        store.add(new User(
                 "test2",
                 "test2",
                 "test2"
         ));
-    }
-
-    @AfterClass
-    public static void reset() {
-        STORE.delete(1);
-        STORE.delete(2);
-        STORE.delete(3);
-    }
-
-    @Test
-    public void whenAddAndDeleteUserSizeShouldChanged() {
-        assertThat(STORE.getUsers().size(), is(3));
-    }
-
-    @Test
-    public void whenUpdateUserItShouldChanged() {
-        int id = STORE.getUsers().get(0).getId();
+        int id = store.getUsers().get(0).getId();
         User updatedUser = new User(
                 "updated",
                 "updated",
                 "updated"
         );
-        STORE.update(id, updatedUser);
+        store.update(id, updatedUser);
         assertThat(updatedUser.getId(), is(id));
-        assertThat(STORE.getUsers().get(0).getName(), is("updated"));
+        assertThat(store.getUsers().get(0).getName(), is("updated"));
     }
 
     @Test
     public void whenFindAllUsersShouldReturnNewArrayList() {
-        assertThat(STORE.findAll().get(0).getName(), is("test"));
-        assertThat(STORE.findAll().get(1).getName(), is("test1"));
-        assertThat(STORE.findAll().get(2).getName(), is("test2"));
+        store.add(new User(
+                "test",
+                "test",
+                "test"
+        ));
+        store.add(new User(
+                "test1",
+                "test1",
+                "test1"
+        ));
+        store.add(new User(
+                "test2",
+                "test2",
+                "test2"
+        ));
+        assertThat(store.findAll().get(0).getName(), is("test"));
+        assertThat(store.findAll().get(1).getName(), is("test1"));
+        assertThat(store.findAll().get(2).getName(), is("test2"));
     }
 }

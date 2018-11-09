@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Класс - модель пользователя.
+ */
 public class User {
     private int id;
     private static final AtomicInteger COUNT = new AtomicInteger(0);

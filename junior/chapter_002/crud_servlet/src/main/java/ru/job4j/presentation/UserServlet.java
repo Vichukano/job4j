@@ -1,6 +1,6 @@
 package ru.job4j.presentation;
 
-import ru.job4j.logic.Validate;
+import ru.job4j.logic.Action;
 import ru.job4j.logic.ValidateService;
 import ru.job4j.model.User;
 
@@ -11,12 +11,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Класс - сервлет.
+ */
 public class UserServlet extends HttpServlet {
-    private static final String ADD_ACTION = "add";
-    private static final String DELETE_ACTION = "delete";
-    private static final String UPDATE_ACTION = "update";
-    private final Validate logic = ValidateService.getInstance();
+    private final ValidateService logic = ValidateService.getInstance();
 
+    /**
+     * Метод возвращает всех пользователей клиенту.
+     * @param req Http request
+     * @param resp Http response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
@@ -30,26 +37,31 @@ public class UserServlet extends HttpServlet {
         writer.close();
     }
 
+    /**
+     * Метод получает POST запрос со стороны клиента
+     * и создает, удаляет, редактирует пользователя с
+     * переданными параметрами.
+     * @param req Http request
+     * @param resp Http response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getParameter("action").equals(ADD_ACTION)) {
-            this.logic.add(new User(
-                    req.getParameter("name"),
-                    req.getParameter("login"),
-                    req.getParameter("email")
-            ));
-        } else if (req.getParameter("action").equals(DELETE_ACTION)) {
-            int id = Integer.parseInt(req.getParameter("id"));
-            this.logic.delete(id);
-        } else if (req.getParameter("action").equals(UPDATE_ACTION)) {
-            int id = Integer.parseInt(req.getParameter("id"));
-            User user = new User(
-                    req.getParameter("name"),
-                    req.getParameter("login"),
-                    req.getParameter("email")
-            );
-            this.logic.update(id, user);
+        String action = req.getParameter("action");
+        Action.Type actionType = Action.Type.valueOf(action.toUpperCase());
+        User user = new User(
+                req.getParameter("name"),
+                req.getParameter("login"),
+                req.getParameter("email")
+        );
+        String idFromRequest = req.getParameter("id");
+        int id;
+        if (!idFromRequest.equals("") || idFromRequest != null) {
+            id = Integer.parseInt(idFromRequest);
+            user.setId(id);
         }
+        logic.init().action(actionType, user);
         resp.sendRedirect("index.html");
     }
 }
