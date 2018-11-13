@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>crud_servlet</module>
+        <module>servlet_2</module>
     </modules>
     <dependencies>
         <dependency>

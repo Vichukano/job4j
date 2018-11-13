@@ -26,6 +26,6 @@ public class ParserTest {
         Parser parser = new Parser();
         List<String> links = parser.getLinksFromForumTable();
         assertThat(links.size(), is(49 * 53));
-        assertThat(links.get(0), is("http://www.sql.ru/forum/485068/soobshheniya-ot-moderatorov-zdes-vy-mozhete-uznat-prichiny-udaleniya-topikov"));
+        assertThat(links.get(0), is("https://www.sql.ru/forum/485068/soobshheniya-ot-moderatorov-zdes-vy-mozhete-uznat-prichiny-udaleniya-topikov"));
     }
 }
