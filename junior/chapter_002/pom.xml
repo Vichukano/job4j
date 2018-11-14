@@ -13,6 +13,7 @@
     <modules>
         <module>crud_servlet</module>
         <module>servlet_2</module>
+        <module>servlet_3</module>
     </modules>
     <dependencies>
         <dependency>
