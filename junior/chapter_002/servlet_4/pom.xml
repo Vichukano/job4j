@@ -3,20 +3,27 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>junior</artifactId>
+        <artifactId>chapter_002</artifactId>
         <groupId>ru.job4j</groupId>
         <version>2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>chapter_002</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>crud_servlet</module>
-        <module>servlet_2</module>
-        <module>servlet_3</module>
-        <module>servlet_4</module>
-    </modules>
+    <packaging>war</packaging>
+    <artifactId>servlet_4</artifactId>
+
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.5</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>2.4.0</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
@@ -28,14 +35,6 @@
             <artifactId>log4j-api</artifactId>
             <version>2.11.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
-
 
 </project>

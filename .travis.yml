@@ -25,3 +25,4 @@ addons:
 before_script:
   - psql -c "CREATE DATABASE tracker;" -U postgres
   - psql -c "CREATE DATABASE parser_testing;" -U postgres
+  - psql -c "CREATE DATABASE servlet_test;" -U postgres
