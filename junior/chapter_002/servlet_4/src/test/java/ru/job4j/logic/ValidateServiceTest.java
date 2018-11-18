@@ -45,6 +45,16 @@ public class ValidateServiceTest {
     }
 
     @Test
+    public void whenDeleteIncorrectUserShouldReturnFalse() {
+        assertThat(validate.init().action(Action.Type.valueOf("DELETE"), new User(
+                "test",
+                "test",
+                "test"
+        )), is(false));
+    }
+
+    @Test
+    @Ignore
     public void whenDeleteCorrectUserShouldReturnTrue() {
         User user = new User("test", "test", "test");
         validate.init().action(Action.Type.valueOf("ADD"), user);
