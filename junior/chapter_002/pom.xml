@@ -15,6 +15,7 @@
         <module>servlet_2</module>
         <module>servlet_3</module>
         <module>servlet_4</module>
+        <module>servlet_5</module>
     </modules>
     <dependencies>
         <dependency>
