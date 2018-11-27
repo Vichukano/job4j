@@ -1,23 +1,26 @@
 package ru.job4j.logic;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.job4j.model.Role;
 import ru.job4j.model.User;
-import ru.job4j.persistent.MemoryStore;
+import ru.job4j.persistent.DbStore;
 import ru.job4j.persistent.Store;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * Класс валидации добавления данных в хранилище пользователей.
- * Синглетон.
+ * Синглтон.
  * Применяется Dispatcher Pattern Петра Арсентьева.
  */
 public class ValidateService implements Validate {
     private final static ValidateService SERVICE = new ValidateService();
-    private final Store memoryStore = MemoryStore.getStoreInstance();
+    private final Store<User> dbStore = DbStore.getInstance();
+    private final Logger logger = LogManager.getLogger(ValidateService.class);
     private final Map<Action.Type, Function<User, Boolean>> dispatch = new HashMap<>();
 
     private ValidateService() {
@@ -31,37 +34,65 @@ public class ValidateService implements Validate {
     public Function<User, Boolean> add() {
         return user -> {
             boolean result = false;
-            if (this.memoryStore.findAll().stream().allMatch(x -> !user.equals(x))) {
-                result = this.memoryStore.add(user);
+            if (this.dbStore.findAll().stream().allMatch(x -> !user.equals(x))) {
+                result = this.dbStore.add(user);
+                logger.debug("User {} added", user);
             }
             return result;
         };
     }
 
     public Function<User, Boolean> delete() {
-        return user -> this.memoryStore.delete(user.getId());
+        return user -> this.dbStore.delete(user.getId());
     }
 
     public Function<User, Boolean> update() {
         return user -> {
-            boolean result = this.memoryStore.findAll().stream().anyMatch(x -> x.getId() == user.getId());
+            boolean result = this.dbStore.findAll().stream().anyMatch(x -> x.getId() == user.getId());
             if (result) {
-                this.memoryStore.update(user.getId(), user);
+                this.dbStore.update(user.getId(), user);
+                logger.debug("User {} updated", user);
             }
             return result;
         };
     }
 
     public List<User> findAll() {
-        return this.memoryStore.findAll();
+        return this.dbStore.findAll();
     }
 
     public User findById(int id) {
-        return this.memoryStore.findById(id);
+        return this.dbStore.findById(id);
+    }
+
+    public User findByLogin(String login) {
+        return this.dbStore.findByName(login);
     }
 
     public List<User> getUsers() {
-        return this.memoryStore.getUsers();
+        return this.dbStore.getUsers();
+    }
+
+    public boolean isCredential(String login, String password) {
+        boolean exist = false;
+        for (User u : findAll()) {
+            if (u.getLogin().equals(login) && u.getPassword().equals(password)) {
+                exist = true;
+                break;
+            }
+        }
+        return exist;
+    }
+
+    public boolean isExist(String login) {
+        boolean exist = false;
+        for (User u : findAll()) {
+            if (u.getLogin().equals(login)) {
+                exist = true;
+                break;
+            }
+        }
+        return exist;
     }
 
     public ValidateService init() {

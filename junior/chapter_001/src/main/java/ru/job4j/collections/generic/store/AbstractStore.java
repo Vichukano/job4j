@@ -15,7 +15,6 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
     /**
      * Конструктор принимает массив объектов и размер массива.
      *
-     * @param model - объект.
      * @param size  - размер массива.
      */
     public AbstractStore(int size) {

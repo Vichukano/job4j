@@ -60,7 +60,6 @@ public class User {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -70,8 +69,7 @@ public class User {
             return false;
         }
         User user = (User) o;
-        return id == user.id
-                && Objects.equals(name, user.name)
+        return Objects.equals(name, user.name)
                 && Objects.equals(login, user.login)
                 && Objects.equals(email, user.email);
     }
