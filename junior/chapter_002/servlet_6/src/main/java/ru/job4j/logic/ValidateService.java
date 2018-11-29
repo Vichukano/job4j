@@ -18,8 +18,8 @@ import java.util.function.Function;
  * Применяется Dispatcher Pattern Петра Арсентьева.
  */
 public class ValidateService implements Validate {
-    private final static ValidateService SERVICE = new ValidateService();
-    private final Store<User> dbStore = DbStore.getInstance();
+    private final static Validate SERVICE = new ValidateService();
+    private final Store dbStore = DbStore.getInstance();
     private final Logger logger = LogManager.getLogger(ValidateService.class);
     private final Map<Action.Type, Function<User, Boolean>> dispatch = new HashMap<>();
 
@@ -27,7 +27,7 @@ public class ValidateService implements Validate {
 
     }
 
-    public static ValidateService getInstance() {
+    public static Validate getInstance() {
         return SERVICE;
     }
 
@@ -56,23 +56,28 @@ public class ValidateService implements Validate {
             return result;
         };
     }
-
+    @Override
     public List<User> findAll() {
         return this.dbStore.findAll();
     }
 
+    @Override
     public User findById(int id) {
         return this.dbStore.findById(id);
     }
 
-    public User findByLogin(String login) {
-        return this.dbStore.findByName(login);
-    }
-
+    @Override
     public List<User> getUsers() {
-        return this.dbStore.getUsers();
+        return null;
     }
 
+    @Override
+    public User findByLogin(String login) {
+        return this.dbStore.findByLogin(login);
+    }
+
+
+    @Override
     public boolean isCredential(String login, String password) {
         boolean exist = false;
         for (User u : findAll()) {
@@ -84,6 +89,7 @@ public class ValidateService implements Validate {
         return exist;
     }
 
+    @Override
     public boolean isExist(String login) {
         boolean exist = false;
         for (User u : findAll()) {
@@ -95,7 +101,8 @@ public class ValidateService implements Validate {
         return exist;
     }
 
-    public ValidateService init() {
+    @Override
+    public Validate init() {
         load(Action.Type.ADD, add());
         load(Action.Type.DELETE, delete());
         load(Action.Type.UPDATE, update());
@@ -106,6 +113,7 @@ public class ValidateService implements Validate {
         this.dispatch.put(type, handle);
     }
 
+    @Override
     public Boolean action(Action.Type action, User user) {
         return this.dispatch.get(action).apply(user);
     }

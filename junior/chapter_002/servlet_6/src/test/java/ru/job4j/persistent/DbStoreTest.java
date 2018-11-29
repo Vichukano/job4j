@@ -19,7 +19,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class DbStoreTest {
-    private final Store<User> dbStore = DbStore.getInstance();
+    private final Store dbStore = DbStore.getInstance();
     private Connector connector = new Connector();
 
     @Before

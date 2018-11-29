@@ -1,6 +1,7 @@
 package ru.job4j.presentation;
 
 import ru.job4j.logic.Action;
+import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
 import ru.job4j.model.User;
 
@@ -14,7 +15,7 @@ import java.io.IOException;
  * Servlet class for deleting users.
  */
 public class UserDeleteServlet extends HttpServlet {
-    private final ValidateService service = ValidateService.getInstance();
+    private final Validate service = ValidateService.getInstance();
 
     /**
      * doGet method.

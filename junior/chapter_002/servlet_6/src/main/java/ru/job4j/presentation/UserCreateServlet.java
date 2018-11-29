@@ -3,6 +3,7 @@ package ru.job4j.presentation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.logic.Action;
+import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
@@ -18,7 +19,7 @@ import java.io.IOException;
  * Servlet class for adding users.
  */
 public class UserCreateServlet extends HttpServlet {
-    private final ValidateService logic = ValidateService.getInstance();
+    private final Validate logic = ValidateService.getInstance();
     private final Logger logger = LogManager.getLogger(UserCreateServlet.class);
 
     /**

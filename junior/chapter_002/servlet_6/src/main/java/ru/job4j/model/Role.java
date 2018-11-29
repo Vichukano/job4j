@@ -38,13 +38,12 @@ public class Role extends Model {
             return false;
         }
         Role role = (Role) o;
-        return roleId == role.roleId
-                && Objects.equals(name, role.name);
+        return Objects.equals(name, role.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roleId, name);
+        return Objects.hash(name);
     }
 
     @Override

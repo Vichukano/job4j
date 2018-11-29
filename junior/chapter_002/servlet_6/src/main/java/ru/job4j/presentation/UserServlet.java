@@ -1,6 +1,7 @@
 package ru.job4j.presentation;
 
 
+import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
 
 import javax.servlet.ServletException;
@@ -14,7 +15,7 @@ import java.io.IOException;
  * Servlet class for main page.
  */
 public class UserServlet extends HttpServlet {
-    private final ValidateService logic = ValidateService.getInstance();
+    private final Validate logic = ValidateService.getInstance();
 
     /**
      * Method return all users in storage to client.

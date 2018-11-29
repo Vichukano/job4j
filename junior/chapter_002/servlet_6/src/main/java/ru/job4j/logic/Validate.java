@@ -17,4 +17,14 @@ public interface Validate {
     User findById(int id);
 
     List<User> getUsers();
+
+    Validate init();
+
+    User findByLogin(String login);
+
+    boolean isCredential(String login, String password);
+
+    boolean isExist(String login);
+
+    Boolean action(Action.Type type, User user);
 }

@@ -1,6 +1,7 @@
 package ru.job4j.presentation;
 
 import ru.job4j.logic.Action;
+import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
 import ru.job4j.model.User;
 
@@ -16,7 +17,7 @@ import java.io.IOException;
  * When new user registrate set his role to user.
  */
 public class RegistrationServlet extends HttpServlet {
-    private final ValidateService service = ValidateService.getInstance();
+    private final Validate service = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -21,7 +21,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class ValidateServiceTest {
-    private final ValidateService validate = ValidateService.getInstance();
+    private final Validate validate = ValidateService.getInstance();
     private final Connector connector = new Connector();
 
     @Before
@@ -126,7 +126,7 @@ class Connector {
                     + ");"
             );
             st.execute("INSERT INTO roles(role_name) "
-                    + "VALUES ('Admin'), ('User');"
+                    + "VALUES ('Admin'), ('User') ON CONFLICT DO NOTHING;"
 
             );
             st.execute("CREATE TABLE IF NOT EXISTS users("

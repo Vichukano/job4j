@@ -18,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Class for storage users in DB.
  * Used postgresql as DB.
  */
-public class DbStore implements Store<User> {
+public class DbStore implements Store {
     private static final BasicDataSource SOURCE = new BasicDataSource();
     private static final DbStore INSTANCE = new DbStore();
     private final Logger logger = LogManager.getLogger(DbStore.class);
@@ -54,7 +54,7 @@ public class DbStore implements Store<User> {
      *
      * @return DbStore instance.
      */
-    public static DbStore getInstance() {
+    public static Store getInstance() {
         return INSTANCE;
     }
 
@@ -165,6 +165,11 @@ public class DbStore implements Store<User> {
         return result;
     }
 
+    @Override
+    public boolean add(Role role) {
+        return false;
+    }
+
     /**
      * Method for updating users in DB.
      *
@@ -225,6 +230,7 @@ public class DbStore implements Store<User> {
         return result;
     }
 
+    @Override
     public Role findRoleByName(String name) {
         Role role = null;
         try (Connection con = SOURCE.getConnection();
@@ -326,7 +332,7 @@ public class DbStore implements Store<User> {
      * @return user with login.
      */
     @Override
-    public User findByName(String login) {
+    public User findByLogin(String login) {
         User user = null;
         try (Connection con = SOURCE.getConnection();
              PreparedStatement st = con.prepareStatement(
@@ -362,7 +368,7 @@ public class DbStore implements Store<User> {
      * @return null.
      */
     @Override
-    public List<User> getUsers() {
+    public List<Role> getRoles() {
         return null;
     }
 

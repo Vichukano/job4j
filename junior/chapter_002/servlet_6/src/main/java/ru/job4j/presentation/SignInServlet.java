@@ -1,5 +1,6 @@
 package ru.job4j.presentation;
 
+import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
 import ru.job4j.model.User;
 
@@ -14,7 +15,7 @@ import java.io.IOException;
  * Servlet class for signing in.
  */
 public class SignInServlet extends HttpServlet {
-    private final ValidateService service = ValidateService.getInstance();
+    private final Validate service = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

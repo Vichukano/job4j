@@ -1,6 +1,5 @@
 package ru.job4j.persistent;
 
-import ru.job4j.model.Model;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
 
@@ -9,19 +8,23 @@ import java.util.List;
 /**
  * Interface for CRUD methods.
  */
-public interface Store<T extends Model> {
+public interface Store {
 
-    boolean add(T model);
+    boolean add(User user);
 
-    T update(int id, T model);
+    boolean add(Role role);
+
+    User update(int id, User user);
 
     boolean delete(int id);
 
-    List<T> findAll();
+    List<User> findAll();
 
-    T findById(int id);
+    User findById(int id);
 
-    T findByName(String name);
+    User findByLogin(String name);
 
-    List<T> getUsers();
+    List<Role> getRoles();
+
+    Role findRoleByName(String name);
 }
