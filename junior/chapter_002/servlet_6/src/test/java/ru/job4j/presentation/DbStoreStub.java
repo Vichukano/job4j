@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Stub class of DbStore for testing servlets.
+ */
 public class DbStoreStub implements Store {
     private final Map<Integer, User> users = new HashMap<>();
     private final Map<Integer, Role> roles = new HashMap<>();

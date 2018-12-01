@@ -25,8 +25,7 @@ import java.io.IOException;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ValidateService.class, DbStore.class})
@@ -35,7 +34,7 @@ public class UserUpdateServletTest {
 
 
     @Test
-    public void dbSoreStubTest() {
+    public void whenAddModelToStubStoreThenStoreIt() {
         Store store = new DbStoreStub();
         Role admin = new Role("Admin");
         Role userRole = new Role("User");
@@ -85,5 +84,7 @@ public class UserUpdateServletTest {
         assertThat(validate.findAll().get(0).getPassword(), is("test"));
         assertThat(validate.findAll().get(0).getEmail(), is("test@test.com"));
         assertThat(validate.findAll().get(0).getRoleName(), is("Admin"));
+        verify(req, times(9)).getParameter(anyString());
+        verify(resp, times(1)).sendRedirect(anyString());
     }
 }

@@ -11,7 +11,7 @@
     <artifactId>chapter_002</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>crud_servlet</module>
+        <module>servlet_1</module>
         <module>servlet_2</module>
         <module>servlet_3</module>
         <module>servlet_4</module>

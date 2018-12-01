@@ -22,8 +22,8 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ValidateService.class, DbStore.class})
@@ -53,5 +53,6 @@ public class UserCreateServletTest {
         assertThat(validate.findAll().get(0).getPassword(), is("test"));
         assertThat(validate.findAll().get(0).getEmail(), is("test@test.com"));
         assertThat(validate.findAll().get(0).getRoleName(), is("User"));
+        verify(req, times(7)).getParameter(anyString());
     }
 }

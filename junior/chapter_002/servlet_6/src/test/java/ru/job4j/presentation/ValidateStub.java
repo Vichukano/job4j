@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Stub class of ValidateService for testing servlets.
+ */
 public class ValidateStub implements Validate {
     private final Store store = new DbStoreStub();
     private final Map<Action.Type, Function<User, Boolean>> dispatch = new HashMap<>();

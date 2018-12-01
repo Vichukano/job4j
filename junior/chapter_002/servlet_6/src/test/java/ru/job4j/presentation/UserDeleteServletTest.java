@@ -22,8 +22,7 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ValidateService.class, DbStore.class})
@@ -49,6 +48,8 @@ public class UserDeleteServletTest {
         when(req.getParameter("id")).thenReturn("0");
         UserDeleteServlet deleteServlet = new UserDeleteServlet();
         deleteServlet.doGet(req, resp);
+        verify(req, times(2)).getParameter(anyString());
+        verify(resp, times(1)).sendRedirect(anyString());
         assertThat(validate.findAll().size(), is(0));
     }
 

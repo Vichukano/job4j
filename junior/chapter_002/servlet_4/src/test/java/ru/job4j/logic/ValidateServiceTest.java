@@ -34,7 +34,7 @@ public class ValidateServiceTest {
         this.connector.dropTable();
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void whenAddSameUserTwiceShouldReturnFalse() {
         User user = new User("test", "test", "test");
@@ -55,7 +55,7 @@ public class ValidateServiceTest {
     }
 
     @Test
-    @Ignore
+    //@Ignore
     public void whenDeleteCorrectUserShouldReturnTrue() {
         User user = new User("test", "test", "test");
         validate.init().action(Action.Type.valueOf("ADD"), user);
