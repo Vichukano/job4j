@@ -14,7 +14,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!--javascript functions-->
-    <script src ="scripts/scripts.js"></script>
+    <script src ="/scripts/scripts.js"></script>
     <title>User Service</title>
 </head>
 <body>
@@ -22,29 +22,29 @@
     <br>
     <div class="col-md-4"></div>
     <div class="col-md-4">
-    <form>
+    <form id="myForm">
         <div class="form-group" id="name-group">
             <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter your name">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
         </div>
         <div class="form-group" id="surname-group">
             <label for="surname">Surname:</label>
-            <input type="text" class="form-control" id="surname" placeholder="Enter your surname">
+            <input type="text" class="form-control" id="surname" name="surname" placeholder="Enter your surname">
         </div>
         <div class="form-group">
         <div class="radio">
-            <label><input type="radio" id="maleRadio" name="optradio" value="Male" checked>Male</label>
+            <label><input type="radio" id="maleRadio" name="sex" value="Male" checked>Male</label>
         </div>
         <div class="radio">
-            <label><input type="radio" id="femRadio" name="optradio" value="Female">Female</label>
+            <label><input type="radio" id="femRadio" name="sex" value="Female">Female</label>
         </div>
         </div>
         <div class="form-group">
             <label for="description">Description:</label>
-            <textarea class="form-control" rows="4" id="description"></textarea>
+            <textarea class="form-control" rows="4" id="description" name="desc"></textarea>
         </div>
         <div class="form-group">
-        <input type="button" class="btn btn-info" value="Submit" onclick="validate()">
+        <input type="button" class="btn btn-info" value="Submit" onclick="send()">
         </div>
     </form>
     </div>
