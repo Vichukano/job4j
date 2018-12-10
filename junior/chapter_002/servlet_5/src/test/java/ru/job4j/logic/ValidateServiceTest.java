@@ -60,6 +60,7 @@ public class ValidateServiceTest {
     }
 
     @Test
+    @Ignore
     public void whenDeleteCorrectUserShouldReturnTrue() {
         User user = new User("test", "test", "test");
         validate.init().action(Action.Type.valueOf("ADD"), user);
