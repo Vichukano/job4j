@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.model.User;
+import ru.job4j.persistent.DbStore;
 import ru.job4j.persistent.DbStoreTest;
 
 import java.io.IOException;
@@ -27,6 +28,11 @@ public class ValidateServiceTest {
     @Before
     public void setUp() {
         this.connector.createTable();
+        DbStore.getInstance().delete(1);
+        DbStore.getInstance().delete(2);
+        DbStore.getInstance().delete(3);
+        DbStore.getInstance().delete(4);
+        DbStore.getInstance().delete(5);
     }
 
     @After

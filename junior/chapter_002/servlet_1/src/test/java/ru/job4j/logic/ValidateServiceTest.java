@@ -1,8 +1,12 @@
 package ru.job4j.logic;
 
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.model.User;
+import ru.job4j.persistent.MemoryStore;
+import ru.job4j.persistent.Store;
 
 
 import static org.hamcrest.core.Is.is;
@@ -10,6 +14,24 @@ import static org.junit.Assert.assertThat;
 
 public class ValidateServiceTest {
     private final ValidateService validate = ValidateService.getInstance();
+
+    @Before
+    public void resetBefore() {
+        MemoryStore.getStoreInstance().delete(1);
+        MemoryStore.getStoreInstance().delete(2);
+        MemoryStore.getStoreInstance().delete(3);
+        MemoryStore.getStoreInstance().delete(4);
+        MemoryStore.getStoreInstance().delete(5);
+    }
+
+    @After
+    public void resetAfter() {
+        MemoryStore.getStoreInstance().delete(1);
+        MemoryStore.getStoreInstance().delete(2);
+        MemoryStore.getStoreInstance().delete(3);
+        MemoryStore.getStoreInstance().delete(4);
+        MemoryStore.getStoreInstance().delete(5);
+    }
 
     @Test
     public void whenAddSameUserShouldReturnFalse() {

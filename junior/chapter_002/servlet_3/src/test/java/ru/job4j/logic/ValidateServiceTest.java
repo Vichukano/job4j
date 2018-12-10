@@ -3,6 +3,7 @@ package ru.job4j.logic;
 import org.junit.AfterClass;
 import org.junit.Test;
 import ru.job4j.model.User;
+import ru.job4j.persistent.MemoryStore;
 
 import java.util.Arrays;
 
@@ -19,6 +20,11 @@ public class ValidateServiceTest {
         SERVICE.init().action(Action.Type.valueOf("DELETE"), user);
         SERVICE.init().action(Action.Type.valueOf("DELETE"), user1);
         SERVICE.init().action(Action.Type.valueOf("DELETE"), user);
+        MemoryStore.getStoreInstance().delete(1);
+        MemoryStore.getStoreInstance().delete(2);
+        MemoryStore.getStoreInstance().delete(3);
+        MemoryStore.getStoreInstance().delete(4);
+        MemoryStore.getStoreInstance().delete(5);
     }
 
     @Test
