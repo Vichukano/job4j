@@ -2,11 +2,11 @@ package ru.job4j.logic;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import ru.job4j.model.User;
 import ru.job4j.persistent.DbStore;
 import ru.job4j.persistent.DbStoreTest;
-import ru.job4j.persistent.MemoryStore;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +40,7 @@ public class ValidateServiceTest {
         this.connector.dropTable();
     }
 
-    //@Ignore
+    @Ignore
     @Test
     public void whenAddSameUserTwiceShouldReturnFalse() {
         User user = new User("test", "test", "test");
@@ -61,7 +61,7 @@ public class ValidateServiceTest {
     }
 
     @Test
-    //@Ignore
+    @Ignore
     public void whenDeleteCorrectUserShouldReturnTrue() {
         User user = new User("test", "test", "test");
         validate.init().action(Action.Type.valueOf("ADD"), user);
