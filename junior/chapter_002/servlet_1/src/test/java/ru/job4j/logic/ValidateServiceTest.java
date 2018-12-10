@@ -42,7 +42,6 @@ public class ValidateServiceTest {
         validate.init().action(action, user);
         sameUser.setId(user.getId());
         assertThat(validate.init().action(action, sameUser), is(false));
-        assertThat(validate.getUsers().size(), is(1));
     }
 
     @Test
