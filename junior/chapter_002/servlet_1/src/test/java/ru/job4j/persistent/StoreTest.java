@@ -14,7 +14,6 @@ import static org.junit.Assert.assertThat;
 public class StoreTest {
     private final Store store = MemoryStore.getStoreInstance();
 
-
     @Before
     public void resetBefore() {
         store.delete(1);
@@ -30,7 +29,6 @@ public class StoreTest {
         store.delete(3);
         store.delete(4);
     }
-
 
     @Test
     public void whenUpdateUserItShouldChanged() {
