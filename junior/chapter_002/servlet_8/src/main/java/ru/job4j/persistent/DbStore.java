@@ -3,6 +3,8 @@ package ru.job4j.persistent;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.model.City;
+import ru.job4j.model.Country;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
 
@@ -46,6 +48,8 @@ public class DbStore implements Store {
         SOURCE.setMaxOpenPreparedStatements(100);
         logger.debug("Properties loaded.");
         createRoleTable();
+        createCountiesTable();
+        createCitiesTable();
         createUserTable();
     }
 
@@ -101,6 +105,59 @@ public class DbStore implements Store {
         }
         logger.debug("Table roles created.");
     }
+
+    private void createCountiesTable() {
+        try (Connection con = SOURCE.getConnection();
+             Statement st = con.createStatement()
+        ) {
+            st.execute("CREATE TABLE IF NOT EXISTS countries("
+                    + "id SERIAL PRIMARY KEY,"
+                    + "country_name VARCHAR(50) NOT NULL"
+                    + ");"
+            );
+            st.execute("INSERT INTO countries(id, country_name) "
+                    + "VALUES (1, 'Russia'), "
+                    + "(2, 'USA'), "
+                    + "(3, 'Australia') "
+                    + "ON CONFLICT (id) DO NOTHING;"
+            );
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        logger.debug("Table counties created.");
+    }
+
+    private void createCitiesTable() {
+        try (Connection con = SOURCE.getConnection();
+             Statement st = con.createStatement()
+        ) {
+            st.execute("CREATE TABLE IF NOT EXISTS cities("
+                    + "id SERIAL PRIMARY KEY,"
+                    + "city_name VARCHAR(50) NOT NULL,"
+                    + "country_id INTEGER "
+                    + "CONSTRAINT countries_id_fk "
+                    + "REFERENCES countries(id) "
+                    + ");"
+            );
+            st.execute("INSERT INTO cities(id, city_name, country_id) "
+                    + "VALUES (2, 'Moscow', 1), "
+                    + "(3, 'CPB', 1), "
+                    + "(3, 'CPB', 1), "
+                    + "(4, 'GUS', 1), "
+                    + "(5, 'Washington', 2), "
+                    + "(6, 'NY', 2), "
+                    + "(7, 'Detroit', 2), "
+                    + "(8, 'Sidney', 3), "
+                    + "(9, 'Pert', 3), "
+                    + "(10, 'Melbourne', 3) "
+                    + "ON CONFLICT (id) DO NOTHING;"
+            );
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        logger.debug("Table cities created.");
+    }
+
 
     /**
      * Method for creating table users in DB.
@@ -388,42 +445,80 @@ public class DbStore implements Store {
     }
 
     @Override
-    public int getCountryIdByName(String name) {
-        int id = 0;
-        try (Connection con = SOURCE.getConnection();
-             PreparedStatement st = con.prepareStatement(
-                     "SELECT id FROM countries "
-                     + "WHERE country_name = ?;"
-             )
-        ) {
-            st.setString(1,name);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                id = rs.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
-    }
-
-    @Override
-    public List<String> getCitiesByCountryId(int id) {
-        List<String> cities = new ArrayList<>();
+    public List<City> getCitiesByCountryId(int id) {
+        List<City> cities = new ArrayList<>();
         try (Connection con = SOURCE.getConnection();
             PreparedStatement st = con.prepareStatement(
-                    "SELECT city_name FROM cities "
+                    "SELECT * FROM cities "
                     + "WHERE country_id = ?;"
             )
         ) {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                cities.add(rs.getString("city_name"));
+                cities.add(new City(rs.getInt("id"), rs.getString("city_name")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return cities;
+    }
+
+    public List<Country> getCountries() {
+        List<Country> countries = new ArrayList<>();
+        try (Connection con = SOURCE.getConnection();
+             PreparedStatement st = con.prepareStatement(
+                     "SELECT * FROM countries;"
+             )
+        ) {
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                countries.add(new Country(rs.getInt("id"),
+                        rs.getString("country_name")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return countries;
+    }
+
+    @Override
+    public City getCityById(int id) {
+        City city = null;
+        try (Connection con = SOURCE.getConnection();
+             PreparedStatement st = con.prepareStatement(
+                     "SELECT * FROM cities "
+                     + "WHERE id = ?;"
+             )
+        ) {
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                city = new City(rs.getInt("id"), rs.getString("city_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return city;
+    }
+
+    @Override
+    public Country getCountryByID(int id) {
+        Country country = null;
+        try (Connection con = SOURCE.getConnection();
+             PreparedStatement st = con.prepareStatement(
+                     "SELECT * FROM countries "
+                             + "WHERE id = ?;"
+             )
+        ) {
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                country = new Country(rs.getInt("id"), rs.getString("country_name"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return country;
     }
 }

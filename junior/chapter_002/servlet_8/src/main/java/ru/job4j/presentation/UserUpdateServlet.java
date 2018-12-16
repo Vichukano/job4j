@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 import ru.job4j.logic.Action;
 import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
+import ru.job4j.model.City;
+import ru.job4j.model.Country;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
 import ru.job4j.persistent.DbStore;
@@ -46,6 +48,8 @@ public class UserUpdateServlet extends HttpServlet {
         req.setAttribute("password", user.getPassword());
         req.setAttribute("email", user.getEmail());
         req.setAttribute("roleName", user.getRoleName());
+        req.setAttribute("countryName", user.getCountry());
+        req.setAttribute("cityName", user.getCity());
         HttpSession session = req.getSession();
         String role = (String) session.getAttribute("role");
         req.setAttribute("role", role);
@@ -67,6 +71,8 @@ public class UserUpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html;charset=UTF-8");
+        String countryID = req.getParameter("country");
+        String cityId = req.getParameter("city");
         String action = req.getParameter("action");
         Action.Type actionType = Action.Type.valueOf(action.toUpperCase());
         if (!req.getParameter("login").trim().equals("") && !req.getParameter("password").trim().equals("")) {
@@ -78,6 +84,10 @@ public class UserUpdateServlet extends HttpServlet {
             Role role = DbStore.getInstance().findRoleByName(req.getParameter("roleName"));
             user.setRoleName(role.getName());
             user.setRoleId(role.getRoleId());
+            Country country = DbStore.getInstance().getCountryByID(Integer.parseInt(countryID));
+            City city = DbStore.getInstance().getCityById(Integer.parseInt(cityId));
+            user.setCountry(country.getName());
+            user.setCity(city.getName());
             Role changedRole = DbStore.getInstance().findRoleByName(req.getParameter("role"));
             if (changedRole != null) {
                 logger.debug(changedRole.getRoleId() + " " + changedRole.getName());

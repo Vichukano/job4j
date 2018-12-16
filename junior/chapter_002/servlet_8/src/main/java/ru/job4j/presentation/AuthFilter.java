@@ -14,7 +14,9 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpSession session = ((HttpServletRequest) req).getSession();
-        if (request.getRequestURI().contains("/signin") || request.getRequestURI().contains("/registration")) {
+        if (request.getRequestURI().contains("/signin")
+                || request.getRequestURI().contains("/registration")
+                || request.getRequestURI().contains("/cities")) { // ФИЛЬТР НЕ ПРОПУСКАЛ AJAX
             chain.doFilter(req, resp);
         } else {
             if (session.getAttribute("login") == null) {

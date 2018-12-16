@@ -1,5 +1,7 @@
 package ru.job4j.persistent;
 
+import ru.job4j.model.City;
+import ru.job4j.model.Country;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
 
@@ -28,7 +30,11 @@ public interface Store {
 
     Role findRoleByName(String name);
 
-    int getCountryIdByName(String name);
+    List<City> getCitiesByCountryId(int id);
 
-    List<String> getCitiesByCountryId(int id);
+    List<Country> getCountries();
+
+    City getCityById(int id);
+
+    Country getCountryByID(int id);
 }

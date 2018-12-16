@@ -17,7 +17,9 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <!--javascript functions-->
-    <script type="text/javascript" src='<c:url value="/scripts/select.js"/>'></script>
+    <script type="text/javascript">
+        <%@include file="/scripts/select.js"%>
+    </script>
     <title>User Registration</title>
 </head>
 <body>
@@ -30,7 +32,7 @@
     </c:if>
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <form method='post' action="/registration">
+        <form method='post' id="regForm" action="/registration">
             <input type='hidden' name='action' value='add'><br>
             <div class="form-group" id="login-group">
                 <label for="login">Login:</label>
@@ -49,26 +51,33 @@
                 <input type='text' class="form-control" name='confirm' id="confirm" value=''><br>
             </div>
             <div class="form-group" id="country-group">
-                <label for="confirm">Choose country:</label>
-                <select class="custom-select mr-sm-2" id="selectCountry">
-                    <option selected>Choose...</option>
-                    <option value="1">Russia</option>
-                    <option value="2">USA</option>
-                    <option value="3">Australia</option>
+                <label for="selectCountry">Choose country:</label>
+                <select class="custom-select mr-sm-2" name ="country" id="selectCountry" required>
+                    <!--Insert data dynamically-->
                 </select>
             </div>
             <div class="form-group" id="city-group">
-                <label for="confirm">Choose city:</label>
-                <select class="custom-select mr-sm-2" id="selectCity">
-                    <option selected>Choose...</option>
+                <label for="selectCity">Choose city:</label>
+                <select class="custom-select mr-sm-2" name="city" id="selectCity" required>
+                    <option value="" disabled selected>Choose...</option>
                     <!--Insert data dynamically-->
                 </select>
             </div>
             <br>
             <div class="form-group">
-                <button class="btn btn-info" style="width: 100px" type="submit">Registration</button>
+                <button class="btn btn-info" id="submit" style="width: 100px" type="submit" onclick="return validate()">
+                    Registration
+                </button>
             </div>
         </form>
+    </div>
+</div>
+<div class="footer navbar-fixed-bottom text-right" style="background-color: lightcyan">
+    <div class="col-md-11 text-right">
+        <i class="glyphicon glyphicon-envelope"></i>
+        <label>vichukano@gmail.com</label><br>
+        <i class="glyphicon glyphicon-user"></i>
+        <a href="https://vk.com/vichukano" target="_blank">ВКонтакте</a>
     </div>
 </div>
 </body>

@@ -5,9 +5,12 @@ import org.apache.logging.log4j.Logger;
 import ru.job4j.logic.Action;
 import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
+import ru.job4j.model.City;
+import ru.job4j.model.Country;
 import ru.job4j.model.Role;
 import ru.job4j.model.User;
 import ru.job4j.persistent.DbStore;
+import ru.job4j.persistent.Store;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +23,7 @@ import java.io.IOException;
  */
 public class UserCreateServlet extends HttpServlet {
     private final Validate logic = ValidateService.getInstance();
+    private final Store store = DbStore.getInstance();
     private final Logger logger = LogManager.getLogger(UserCreateServlet.class);
 
     /**
@@ -53,6 +57,8 @@ public class UserCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html;charset=UTF-8");
+        String countryID = req.getParameter("country");
+        String cityId = req.getParameter("city");
         String action = req.getParameter("action");
         Action.Type actionType = Action.Type.valueOf(action.toUpperCase());
         if (!req.getParameter("login").trim().equals("") && !req.getParameter("password").trim().equals("")) {
@@ -62,9 +68,13 @@ public class UserCreateServlet extends HttpServlet {
                     req.getParameter("email")
             );
             Role role = DbStore.getInstance().findRoleByName(req.getParameter("role"));
+            Country country = store.getCountryByID(Integer.parseInt(countryID));
+            City city = store.getCityById(Integer.parseInt(cityId));
             logger.debug(role.getRoleId() + " " + role.getName());
             user.setRoleId(role.getRoleId());
             user.setRoleName(role.getName());
+            user.setCountry(country.getName());
+            user.setCity(city.getName());
             logic.init().action(actionType, user);
             resp.sendRedirect("/");
         } else {

@@ -1,9 +1,14 @@
 package ru.job4j.presentation;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.job4j.logic.Action;
 import ru.job4j.logic.Validate;
 import ru.job4j.logic.ValidateService;
+import ru.job4j.model.City;
+import ru.job4j.model.Country;
 import ru.job4j.model.User;
+import ru.job4j.persistent.DbStore;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +23,7 @@ import java.io.IOException;
  */
 public class RegistrationServlet extends HttpServlet {
     private final Validate service = ValidateService.getInstance();
+    private final static Logger LOG = LogManager.getLogger(RegistrationServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,15 +39,22 @@ public class RegistrationServlet extends HttpServlet {
         String password = req.getParameter("password");
         String confirm = req.getParameter("confirm");
         String email = req.getParameter("email");
+        String countryID = req.getParameter("country");
+        String cityId = req.getParameter("city");
         String action = req.getParameter("action");
         Action.Type actionType = Action.Type.valueOf(action.toUpperCase());
         if (!req.getParameter("login").trim().equals("") && !req.getParameter("password").trim().equals("")) {
             if (password.equals(confirm)) {
                 if (!this.service.isExist(login)) {
                     User user = new User(login, password, email);
+                    Country country = DbStore.getInstance().getCountryByID(Integer.parseInt(countryID));
+                    City city = DbStore.getInstance().getCityById(Integer.parseInt(cityId));
                     user.setRoleId(2);
+                    user.setCountry(country.getName());
+                    user.setCity(city.getName());
                     this.service.init().action(actionType, user);
                     user = this.service.findByLogin(login);
+                    LOG.debug(user.toString());
                     session.setAttribute("login", login);
                     session.setAttribute("role", user.getRoleName());
                     session.setAttribute("id", user.getId());

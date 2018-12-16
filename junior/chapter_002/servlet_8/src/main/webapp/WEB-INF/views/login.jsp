@@ -29,35 +29,43 @@
     </c:if>
     <br>
     <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-        <form method='post' action="/signin">
-            <input type='hidden' name='action' value=''>
-            <input type='hidden' name='id' value=''>
-            <div class="form-group" id="login-group">
-                <label for="login">Login:</label>
-                <input type='text' class="form-control" name='login' id="login" value=''><br>
-            </div>
-            <div class="form-group" id="pass-group">
-                <label for="pass">Password:</label>
-                <input type='text' class="form-control" name='password' id="pass" value=''><br>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-info" style="width: 100px" type="submit">Login</button>
-            </div>
-        </form>
-    </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <form method='post' action="/signin">
+                <input type='hidden' name='action' value=''>
+                <input type='hidden' name='id' value=''>
+                <div class="form-group" id="login-group">
+                    <label for="login">Login:</label>
+                    <input type='text' class="form-control" name='login' id="login" value=''><br>
+                </div>
+                <div class="form-group" id="pass-group">
+                    <label for="pass">Password:</label>
+                    <input type='text' class="form-control" name='password' id="pass" value=''><br>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-info" style="width: 100px" type="submit">Login</button>
+                </div>
+            </form>
+        </div>
     </div>
     <br>
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6">
-        <form method="get" action="/registration">
-        <div class="form-group">
-            <button class="btn btn-info" style="width: 100px" type="submit">Registration</button>
+            <form method="get" action="/registration">
+                <div class="form-group">
+                    <button class="btn btn-info" style="width: 100px" type="submit">Registration</button>
+                </div>
+            </form>
         </div>
-    </form>
     </div>
+</div>
+<div class="footer navbar-fixed-bottom text-right" style="background-color: lightcyan">
+    <div class="col-md-11 text-right">
+        <i class="glyphicon glyphicon-envelope"></i>
+        <label>vichukano@gmail.com</label><br>
+        <i class="glyphicon glyphicon-user"></i>
+        <a href="https://vk.com/vichukano" target="_blank">ВКонтакте</a>
     </div>
 </div>
 </body>

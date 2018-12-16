@@ -115,4 +115,30 @@ public class User extends Model {
     public int hashCode() {
         return Objects.hash(id, login, password, email, createDate, roleId);
     }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id="
+                + id
+                + ", login='"
+                + login
+                + ", password='"
+                + password
+                + ", email='"
+                + email
+                + ", createDate="
+                + createDate
+                + ", roleId="
+                + roleId
+                + ", roleName='"
+                + roleName
+                + ", country='"
+                + country
+                + ", city='"
+                + city
+                + '}';
+    }
 }
+
+

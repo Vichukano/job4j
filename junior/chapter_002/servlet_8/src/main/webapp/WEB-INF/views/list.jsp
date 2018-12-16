@@ -15,8 +15,6 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
     <!--javascript functions-->
-    <script src="/scripts/scripts.js"></script>
-    <style src="/style/style.css"></style>
     <title>User Service v8.0</title>
 </head>
 <body>
@@ -47,12 +45,12 @@
                 <td>
                     <c:out value="${user.roleName}"></c:out>
                 </td>
-                    <td>
-                        <c:out value="${user.country}"></c:out>
-                    </td>
-                    <td>
-                        <c:out value="${user.city}"></c:out>
-                    </td>
+                <td>
+                    <c:out value="${user.country}"></c:out>
+                </td>
+                <td>
+                    <c:out value="${user.city}"></c:out>
+                </td>
                 <c:if test="${role == 'Admin'}">
                     <td>
                         <c:out value="${user.password}"></c:out>
@@ -135,6 +133,14 @@
                 </tr>
             </table>
         </div>
+    </div>
+</div><br><br><br>
+<div class="footer navbar-fixed-bottom text-right" style="background-color: lightcyan">
+    <div class="col-md-11 text-right">
+        <i class="glyphicon glyphicon-envelope"></i>
+        <label>vichukano@gmail.com</label><br>
+        <i class="glyphicon glyphicon-user"></i>
+        <a href="https://vk.com/vichukano" target="_blank">ВКонтакте</a>
     </div>
 </div>
 </body>
