@@ -113,31 +113,4 @@ public class DbStore {
         }
         return properties;
     }
-
-    public Place getPlaceFromDefaultPlaces(Place place) {
-        Place pl = null;
-        try (Connection con = this.getConnection();
-            PreparedStatement st = con.prepareStatement(
-                    "SELECT * FROM places_default "
-                    + "WHERE row = ? AND col = ?;"
-            );
-        ) {
-            st.setInt(1, place.getRow());
-            st.setInt(2, place.getCol());
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Place temp = new Place(
-                        rs.getInt("row"),
-                        rs.getInt("col")
-                );
-                temp.setId(rs.getInt("id"));
-                temp.setCost(rs.getDouble("cost"));
-                pl = temp;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return pl;
-    }
-
 }

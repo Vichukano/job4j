@@ -5,12 +5,14 @@ function getReservedPlaces() {
         type: "get",
         dataType: "json",
         success: function (data) {
-            console.log(data);
-            for (var i = 0; i < data.length; i++) {
-                table.rows[data[i].row - 1].cells[data[i].col]
-                    .setAttribute("style", "background-color: lightskyblue");
-                table.rows[data[i].row - 1].cells[data[i].col]
-                    .getElementsByTagName("input")[0].setAttribute("disabled", "disabled");
+            if (data !== null) {
+                console.log(data);
+                for (var i = 0; i < data.length; i++) {
+                    table.rows[data[i].row - 1].cells[data[i].col]
+                        .setAttribute("style", "background-color: lightskyblue");
+                    table.rows[data[i].row - 1].cells[data[i].col]
+                        .getElementsByTagName("input")[0].setAttribute("disabled", "disabled");
+                }
             }
         }
     });

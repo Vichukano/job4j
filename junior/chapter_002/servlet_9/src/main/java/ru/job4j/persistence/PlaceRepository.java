@@ -21,12 +21,14 @@ public class PlaceRepository implements Store<Place> {
         boolean result = false;
         try (Connection con = this.store.getConnection();
              PreparedStatement st = con.prepareStatement(
-                     "INSERT INTO places_default(row, col) "
-                             + "VALUES (?, ?);"
+                     "INSERT INTO places_default(row, col, cost, reserved) "
+                             + "VALUES (?, ?, ?, ?);"
              )
         ) {
             st.setInt(1, model.getRow());
             st.setInt(2, model.getCol());
+            st.setDouble(3, model.getCost());
+            st.setBoolean(4, model.isReserved());
             if (st.executeUpdate() > 0) {
                 result = true;
                 logger.debug("Place {} added", model.toString());
@@ -75,6 +77,7 @@ public class PlaceRepository implements Store<Place> {
                 );
                 tmpPlace.setId(rs.getInt("id"));
                 tmpPlace.setCost(rs.getDouble("cost"));
+                tmpPlace.setReserved(rs.getBoolean("reserved"));
                 place = tmpPlace;
             }
         } catch (SQLException e) {
@@ -82,6 +85,35 @@ public class PlaceRepository implements Store<Place> {
         }
         return place;
     }
+
+    @Override
+    public Place findByParam(Place model) {
+        Place place = null;
+        try (Connection con = this.store.getConnection();
+             PreparedStatement st = con.prepareStatement(
+                     "SELECT * FROM places_default "
+                             + "WHERE row = ? AND col = ?;"
+             )
+        ) {
+            st.setInt(1, model.getRow());
+            st.setInt(2, model.getCol());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Place tmpPlace = new Place(
+                        rs.getInt("row"),
+                        rs.getInt("col")
+                );
+                tmpPlace.setId(rs.getInt("id"));
+                tmpPlace.setCost(rs.getDouble("cost"));
+                tmpPlace.setReserved(rs.getBoolean("reserved"));
+                place = tmpPlace;
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+        }
+        return place;
+    }
+
 
     @Override
     public List<Place> findAll() {
@@ -99,6 +131,7 @@ public class PlaceRepository implements Store<Place> {
                 );
                 place.setId(rs.getInt("id"));
                 place.setCost(rs.getDouble("cost"));
+                place.setReserved(rs.getBoolean("reserved"));
                 tmp.add(place);
             }
         } catch (SQLException e) {
@@ -113,7 +146,7 @@ public class PlaceRepository implements Store<Place> {
         try (Connection con = this.store.getConnection();
              PreparedStatement st = con.prepareStatement(
                      "SELECT * FROM places_default "
-                     + "WHERE reserved = TRUE; "
+                     + "WHERE reserved = TRUE;"
              );
              ResultSet rs = st.executeQuery();
         ) {
@@ -124,6 +157,7 @@ public class PlaceRepository implements Store<Place> {
                 );
                 place.setId(rs.getInt("id"));
                 place.setCost(rs.getDouble("cost"));
+                place.setReserved(rs.getBoolean("reserved"));
                 tmp.add(place);
             }
         } catch (SQLException e) {
@@ -133,16 +167,23 @@ public class PlaceRepository implements Store<Place> {
     }
 
     @Override
-    public boolean reservePlace(Place place) {
+    public boolean updatePlace(Place place) {
         boolean result = false;
         try (Connection con = this.store.getConnection();
              PreparedStatement st = con.prepareStatement(
                      "UPDATE places_default "
-                             + "SET reserved = TRUE "
+                             + "SET row = ?, "
+                             + "col = ?, "
+                             + "cost = ?, "
+                             + "reserved = ?"
                              + "WHERE id = ?;"
              )
         ) {
-            st.setInt(1, place.getId());
+            st.setInt(1, place.getRow());
+            st.setInt(2, place.getCol());
+            st.setDouble(3, place.getCost());
+            st.setBoolean(4, place.isReserved());
+            st.setInt(5, place.getId());
             if (st.executeUpdate() > 0) {
                 result = true;
                 logger.debug("Place {} updated", place.toString());
@@ -152,4 +193,6 @@ public class PlaceRepository implements Store<Place> {
         }
         return result;
     }
+
+
 }

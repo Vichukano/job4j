@@ -5,8 +5,11 @@ public class Place {
     private int row;
     private int col;
     private double cost;
+    private boolean reserved = false;
 
-    public Place() {}
+    public Place() {
+
+    }
 
     public Place(int row, int col) {
         this.row = row;
@@ -45,6 +48,14 @@ public class Place {
         this.cost = cost;
     }
 
+    public boolean isReserved() {
+        return reserved;
+    }
+
+    public void setReserved(boolean reserved) {
+        this.reserved = reserved;
+    }
+
     @Override
     public String toString() {
         return "Place{"
@@ -54,6 +65,8 @@ public class Place {
                 + col
                 + ", cost= "
                 + cost
+                + ", reserved: "
+                + reserved
                 + '}';
     }
 }

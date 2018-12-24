@@ -67,8 +67,8 @@ public class CustomerRepository implements Store<Customer> {
              PreparedStatement st = con.prepareStatement(
                      "SELECT * FROM customers "
                              + "LEFT OUTER JOIN places_default "
-                             + "ON customers.place_id = places.id "
-                             + "WHERE id = ?;"
+                             + "ON customers.place_id = places_default.id "
+                             + "WHERE customers.id = ?;"
              )
         ) {
             st.setInt(1, id);
@@ -116,5 +116,10 @@ public class CustomerRepository implements Store<Customer> {
             logger.error(e.getMessage());
         }
         return tmp;
+    }
+
+    @Override
+    public Customer findByParam(Customer model) {
+        return null;
     }
 }

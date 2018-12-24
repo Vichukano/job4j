@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.model.Place;
 import ru.job4j.persistence.DbStore;
+import ru.job4j.persistence.PlaceRepository;
+import ru.job4j.persistence.Store;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +18,7 @@ import java.io.PrintWriter;
 
 public class PaymentServlet extends HttpServlet {
     private final Logger logger = LogManager.getLogger(PaymentServlet.class);
+    private final Store<Place> placeStore = new PlaceRepository();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +39,7 @@ public class PaymentServlet extends HttpServlet {
         logger.debug(sb.toString());
         ObjectMapper mapper = new ObjectMapper();
         Place tmp = mapper.readValue(sb.toString(), Place.class);
-        Place place = DbStore.getStoreInstance().getPlaceFromDefaultPlaces(tmp);
+        Place place = this.placeStore.findByParam(tmp);
         logger.debug("Place with cost: " + place.toString());
         String json = mapper.writeValueAsString(place);
         PrintWriter writer = resp.getWriter();

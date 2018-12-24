@@ -1,6 +1,6 @@
 $(document).ready(function () {
     getCustomers();
-    setInterval('getCustomers()', 10000);
+    setInterval('getCustomers()', 30000);
     $('#hallBtn').click(function () {
         window.location.href = "/";
     });
@@ -31,16 +31,14 @@ function getCustomers() {
 }
 
 function deleteCustomer() {
-    var id = $("button[name='delBtn']").data("id");//Возвращает undefined нужен другой механизм
+    var id = $("button[name='delBtn']").data("id");
     $.ajax({
         url: "delete",
         type: "post",
         data: JSON.stringify(id),
-        success: function () {
-            console.log("Customer with id: " + id + "deleted");
-        },
-        complete: function () {
-            console.log(id);
+        success: function () {//Возвращает статуст 500 необработанные заголовки.
+            console.log("Customer with id: " + id + " deleted");
+            getCustomers();
         }
     });
 }

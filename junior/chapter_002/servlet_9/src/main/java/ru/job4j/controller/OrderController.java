@@ -33,9 +33,10 @@ public class OrderController extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         Customer customer = mapper.readValue(sb.toString(), Customer.class);
         Place reservedPlace = this.placeStore.findById(customer.getPlaceId());
+        reservedPlace.setReserved(true);
         customer.setRow(reservedPlace.getRow());
         customer.setCol(reservedPlace.getCol());
-        this.placeStore.reservePlace(reservedPlace);
+        this.placeStore.updatePlace(reservedPlace);
         this.customerStore.add(customer);
         logger.debug("Customer {} added", customer.toString());
     }

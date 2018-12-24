@@ -8,7 +8,9 @@ public class Customer {
     private int row;
     private int col;
 
-    public Customer() {}
+    public Customer() {
+
+    }
 
     public Customer(String name, String phone) {
         this.name = name;

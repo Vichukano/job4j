@@ -12,11 +12,13 @@ public interface Store<T> {
 
     List<T> findAll();
 
+    T findByParam(T model);
+
     default List<T> findAllReserved() {
         return null;
     }
 
-    default boolean reservePlace(T place) {
+    default boolean updatePlace(T place) {
         return false;
     }
 }
