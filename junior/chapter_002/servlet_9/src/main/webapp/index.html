@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!--javascript functions-->
+    <script src ="/scripts/script.js"></script>
+    <title>Cinema service</title>
+</head>
+<body>
+<div class="container">
+    <br>
+    <br>
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <h4 class="text-center">Бронирование места на сеанс</h4>
+        <table class="table table-bordered" id="placesTable">
+            <thead>
+            <tr>
+                <th style="width: 120px;">Ряд / Место</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+            </tr>
+            </thead>
+            <tbody id="placesTableBody">
+            <tr id="row_1">
+                <th>1</th>
+                <td><input type="radio" name="place" value= '{"row" : 1, "col" : 1}'> Ряд 1, Место 1</td>
+                <td><input type="radio" name="place" value='{"row" : 1, "col" : 2}'> Ряд 1, Место 2</td>
+                <td><input type="radio" name="place" value="13"> Ряд 1, Место 3</td>
+            </tr>
+            <tr id="row_2">
+                <th>2</th>
+                <td><input type="radio" name="place" value="21"> Ряд 2, Место 1</td>
+                <td><input type="radio" name="place" value="22"> Ряд 2, Место 2</td>
+                <td><input type="radio" name="place" value="23"> Ряд 2, Место 3</td>
+            </tr>
+            <tr id="row_3">
+                <th>3</th>
+                <td><input type="radio" name="place" value="31"> Ряд 3, Место 1</td>
+                <td><input type="radio" name="place" value="32"> Ряд 3, Место 2</td>
+                <td><input type="radio" name="place" value="33"> Ряд 3, Место 3</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-9 text-right">
+        <button type="button" class="btn btn-success" id="payBtn">Оплатить</button>
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-9 text-right">
+        <button type="button" class="btn btn-success" id="listBtn">Список покупателей</button>
+    </div>
+</div>
+</body>
+</html>
