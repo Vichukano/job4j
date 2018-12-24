@@ -23,7 +23,6 @@ public class OrderController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("application/json");
         BufferedReader reader = req.getReader();
         StringBuilder sb = new StringBuilder();
         String data;

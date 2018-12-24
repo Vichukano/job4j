@@ -36,7 +36,7 @@ function deleteCustomer() {
         url: "delete",
         type: "post",
         data: JSON.stringify(id),
-        success: function () {//Возвращает статуст 500 необработанные заголовки.
+        success: function () {
             console.log("Customer with id: " + id + " deleted");
             getCustomers();
         }

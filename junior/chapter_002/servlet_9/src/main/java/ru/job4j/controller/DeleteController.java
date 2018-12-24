@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class DeleteController extends HttpServlet {
     private final Logger logger = LogManager.getLogger(DeleteController.class);
@@ -25,7 +24,6 @@ public class DeleteController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json");
         BufferedReader reader = req.getReader();
         StringBuilder sb = new StringBuilder();
         String data;
@@ -39,8 +37,5 @@ public class DeleteController extends HttpServlet {
         place.setReserved(false);
         this.placeStore.updatePlace(place);
         this.customerStore.delete(id);
-        PrintWriter writer = resp.getWriter();
-        writer.print("OK");
-        writer.flush();
     }
 }

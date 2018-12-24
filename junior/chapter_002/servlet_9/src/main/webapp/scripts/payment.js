@@ -12,7 +12,7 @@ $(document).ready(function () {
                 "phone": customer.phone,
                 "placeId": place.id
             }),
-            complete: function () {
+            success: function () {
                 window.location.href = "/customers";
             }
         })
