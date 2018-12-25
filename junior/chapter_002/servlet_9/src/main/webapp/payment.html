@@ -25,15 +25,15 @@
 
         </h3>
         <form id="customerForm">
-            <div class="form-group">
+            <div class="form-group" id="nameGroup">
                 <label for="username">Name</label>
-                <input type="text" class="form-control" name="name" id="username">
+                <input type="text" class="form-control" name="name" id="username" placeholder="Enter your name">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="phoneGroup">
                 <label for="phone">Phone</label>
-                <input type="text" class="form-control" name="phone" id="phone">
+                <input type="text" class="form-control" name="phone" id="phone" placeholder="Enter your phone number">
             </div>
-            <button type="button" class="btn btn-success" id="payBtn">PAY</button>
+            <button type="button" class="btn btn-success" id="payBtn" onclick="sendCustomer()">PAY</button>
         </form>
     </div>
 </div>

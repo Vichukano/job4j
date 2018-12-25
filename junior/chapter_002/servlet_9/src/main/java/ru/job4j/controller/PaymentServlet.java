@@ -3,8 +3,7 @@ package ru.job4j.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.model.Place;
-import ru.job4j.persistence.DbStore;
+import ru.job4j.entity.Place;
 import ru.job4j.persistence.PlaceRepository;
 import ru.job4j.persistence.Store;
 

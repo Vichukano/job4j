@@ -2,7 +2,7 @@ package ru.job4j.persistence;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.model.Place;
+import ru.job4j.entity.Place;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
