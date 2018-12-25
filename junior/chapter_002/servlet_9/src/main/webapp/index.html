@@ -23,45 +23,69 @@
     <br>
     <div class="col-md-3"></div>
     <div class="col-md-6">
-        <h4 class="text-center">Бронирование места на сеанс</h4>
+        <h4 class="text-center">Reservation place</h4>
         <table class="table table-bordered" id="placesTable">
             <thead>
             <tr>
-                <th style="width: 120px;">Ряд / Место</th>
+                <th style="width: 120px;">Row / Column</th>
                 <th>1</th>
                 <th>2</th>
                 <th>3</th>
+                <th>4</th>
+                <th>5</th>
             </tr>
             </thead>
             <tbody id="placesTableBody">
             <tr id="row_1">
                 <th>1</th>
-                <td><input type="radio" name="place" value='{"row" : 1, "col" : 1}'> Ряд 1, Место 1</td>
-                <td><input type="radio" name="place" value='{"row" : 1, "col" : 2}'> Ряд 1, Место 2</td>
-                <td><input type="radio" name="place" value='{"row" : 1, "col" : 3}'> Ряд 1, Место 3</td>
+                <td><input type="radio" name="place" value='{"row" : 1, "col" : 1}'> Row 1, Column 1</td>
+                <td><input type="radio" name="place" value='{"row" : 1, "col" : 2}'> Row 1, Column 2</td>
+                <td><input type="radio" name="place" value='{"row" : 1, "col" : 3}'> Row 1, Column 3</td>
+                <td><input type="radio" name="place" value='{"row" : 1, "col" : 4}'> Row 1, Column 4</td>
+                <td><input type="radio" name="place" value='{"row" : 1, "col" : 5}'> Row 1, Column 5</td>
             </tr>
             <tr id="row_2">
                 <th>2</th>
-                <td><input type="radio" name="place" value='{"row" : 2, "col" : 1}'> Ряд 2, Место 1</td>
-                <td><input type="radio" name="place" value='{"row" : 2, "col" : 2}'> Ряд 2, Место 2</td>
-                <td><input type="radio" name="place" value='{"row" : 2, "col" : 3}'> Ряд 2, Место 3</td>
+                <td><input type="radio" name="place" value='{"row" : 2, "col" : 1}'> Row 2, Column 1</td>
+                <td><input type="radio" name="place" value='{"row" : 2, "col" : 2}'> Row 2, Column 2</td>
+                <td><input type="radio" name="place" value='{"row" : 2, "col" : 3}'> Row 2, Column 3</td>
+                <td><input type="radio" name="place" value='{"row" : 2, "col" : 4}'> Row 2, Column 4</td>
+                <td><input type="radio" name="place" value='{"row" : 2, "col" : 5}'> Row 2, Column 5</td>
             </tr>
             <tr id="row_3">
                 <th>3</th>
-                <td><input type="radio" name="place" value='{"row" : 3, "col" : 1}'> Ряд 3, Место 1</td>
-                <td><input type="radio" name="place" value='{"row" : 3, "col" : 2}'> Ряд 3, Место 2</td>
-                <td><input type="radio" name="place" value='{"row" : 3, "col" : 3}'> Ряд 3, Место 3</td>
+                <td><input type="radio" name="place" value='{"row" : 3, "col" : 1}'> Row 3, Column 1</td>
+                <td><input type="radio" name="place" value='{"row" : 3, "col" : 2}'> Row 3, Column 2</td>
+                <td><input type="radio" name="place" value='{"row" : 3, "col" : 3}'> Row 3, Column 3</td>
+                <td><input type="radio" name="place" value='{"row" : 3, "col" : 4}'> Row 3, Column 4</td>
+                <td><input type="radio" name="place" value='{"row" : 3, "col" : 5}'> Row 3, Column 5</td>
+            </tr>
+            <tr id="row_4">
+                <th>4</th>
+                <td><input type="radio" name="place" value='{"row" : 4, "col" : 1}'> Row 4, Column 1</td>
+                <td><input type="radio" name="place" value='{"row" : 4, "col" : 2}'> Row 4, Column 2</td>
+                <td><input type="radio" name="place" value='{"row" : 4, "col" : 3}'> Row 4, Column 3</td>
+                <td><input type="radio" name="place" value='{"row" : 4, "col" : 4}'> Row 4, Column 4</td>
+                <td><input type="radio" name="place" value='{"row" : 4, "col" : 5}'> Row 4, Column 5</td>
+            </tr>
+            <tr id="row_5">
+                <th>5</th>
+                <td><input type="radio" name="place" value='{"row" : 5, "col" : 1}'> Row 5, Column 1</td>
+                <td><input type="radio" name="place" value='{"row" : 5, "col" : 2}'> Row 5, Column 2</td>
+                <td><input type="radio" name="place" value='{"row" : 5, "col" : 3}'> Row 5, Column 3</td>
+                <td><input type="radio" name="place" value='{"row" : 5, "col" : 4}'> Row 5, Column 4</td>
+                <td><input type="radio" name="place" value='{"row" : 5, "col" : 5}'> Row 5, Column 5</td>
             </tr>
             </tbody>
         </table>
     </div>
     <div class="col-md-3"></div>
     <div class="col-md-9 text-right">
-        <button type="button" class="btn btn-success" id="payBtn">Оплатить</button>
+        <button type="button" class="btn btn-success" id="payBtn">Pay</button>
     </div>
     <div class="col-md-3"></div>
     <div class="col-md-9 text-right">
-        <button type="button" class="btn btn-success" id="listBtn">Список покупателей</button>
+        <button type="button" class="btn btn-success" id="listBtn">Customers list</button>
     </div>
 </div>
 </body>

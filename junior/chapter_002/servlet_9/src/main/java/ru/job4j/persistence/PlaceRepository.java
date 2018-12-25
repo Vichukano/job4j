@@ -2,6 +2,7 @@ package ru.job4j.persistence;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.dao.PlaceDao;
 import ru.job4j.entity.Place;
 
 import java.sql.Connection;
@@ -11,10 +12,19 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class PlaceRepository implements Store<Place> {
+public class PlaceRepository implements PlaceDao {
     private final DbStore store = DbStore.getStoreInstance();
+    private static final PlaceDao INSTANCE = new PlaceRepository();
     private final Logger logger = LogManager.getLogger(PlaceRepository.class);
 
+
+    private PlaceRepository() {
+
+    }
+
+    public static PlaceDao getPlaceStoreInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public boolean add(Place model) {
@@ -43,10 +53,10 @@ public class PlaceRepository implements Store<Place> {
     public boolean delete(int id) {
         boolean result = false;
         try (Connection con = this.store.getConnection();
-            PreparedStatement st = con.prepareStatement(
-                    "DELETE FROM places_default "
-                    + "WHERE id = ?;"
-            )
+             PreparedStatement st = con.prepareStatement(
+                     "DELETE FROM places_default "
+                             + "WHERE id = ?;"
+             )
         ) {
             st.setInt(1, id);
             if (st.executeUpdate() > 0) {
@@ -63,10 +73,10 @@ public class PlaceRepository implements Store<Place> {
     public Place findById(int id) {
         Place place = null;
         try (Connection con = this.store.getConnection();
-            PreparedStatement st = con.prepareStatement(
-                    "SELECT * FROM places_default "
-                    + "WHERE id = ?;"
-            )
+             PreparedStatement st = con.prepareStatement(
+                     "SELECT * FROM places_default "
+                             + "WHERE id = ?;"
+             )
         ) {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
@@ -119,10 +129,10 @@ public class PlaceRepository implements Store<Place> {
     public List<Place> findAll() {
         List<Place> tmp = new CopyOnWriteArrayList<>();
         try (Connection con = this.store.getConnection();
-            PreparedStatement st = con.prepareStatement(
-                    "SELECT * FROM places_default;"
-            );
-            ResultSet rs = st.executeQuery();
+             PreparedStatement st = con.prepareStatement(
+                     "SELECT * FROM places_default;"
+             );
+             ResultSet rs = st.executeQuery();
         ) {
             while (rs.next()) {
                 Place place = new Place(
@@ -146,7 +156,7 @@ public class PlaceRepository implements Store<Place> {
         try (Connection con = this.store.getConnection();
              PreparedStatement st = con.prepareStatement(
                      "SELECT * FROM places_default "
-                     + "WHERE reserved = TRUE;"
+                             + "WHERE reserved = TRUE;"
              );
              ResultSet rs = st.executeQuery();
         ) {
@@ -193,6 +203,4 @@ public class PlaceRepository implements Store<Place> {
         }
         return result;
     }
-
-
 }

@@ -2,6 +2,7 @@ package ru.job4j.persistence;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.dao.CustomerDao;
 import ru.job4j.entity.Customer;
 
 import java.sql.Connection;
@@ -11,9 +12,18 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class CustomerRepository implements Store<Customer> {
+public class CustomerRepository implements CustomerDao {
     private final DbStore store = DbStore.getStoreInstance();
+    private static final CustomerDao INSTANCE = new CustomerRepository();
     private final Logger logger = LogManager.getLogger(CustomerRepository.class);
+
+    private CustomerRepository() {
+
+    }
+
+    public static CustomerDao getCustomerStoreInstance() {
+        return INSTANCE;
+    }
 
     @Override
     public boolean add(Customer model) {
@@ -115,10 +125,5 @@ public class CustomerRepository implements Store<Customer> {
             logger.error(e.getMessage());
         }
         return tmp;
-    }
-
-    @Override
-    public Customer findByParam(Customer model) {
-        return null;
     }
 }

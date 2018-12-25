@@ -3,9 +3,9 @@ package ru.job4j.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.dao.PlaceDao;
 import ru.job4j.entity.Place;
 import ru.job4j.persistence.PlaceRepository;
-import ru.job4j.persistence.Store;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 
 public class PaymentServlet extends HttpServlet {
     private final Logger logger = LogManager.getLogger(PaymentServlet.class);
-    private final Store<Place> placeStore = new PlaceRepository();
+    private final PlaceDao placeStore = PlaceRepository.getPlaceStoreInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

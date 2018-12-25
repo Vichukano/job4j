@@ -2,11 +2,12 @@ package ru.job4j.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.dao.CustomerDao;
+import ru.job4j.dao.PlaceDao;
 import ru.job4j.entity.Customer;
 import ru.job4j.entity.Place;
 import ru.job4j.persistence.CustomerRepository;
 import ru.job4j.persistence.PlaceRepository;
-import ru.job4j.persistence.Store;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +18,8 @@ import java.io.IOException;
 
 public class DeleteController extends HttpServlet {
     private final Logger logger = LogManager.getLogger(DeleteController.class);
-    private final Store<Customer> customerStore = new CustomerRepository();
-    private final Store<Place> placeStore = new PlaceRepository();
+    private final CustomerDao customerStore = CustomerRepository.getCustomerStoreInstance();
+    private final PlaceDao placeStore = PlaceRepository.getPlaceStoreInstance();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
