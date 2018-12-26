@@ -15,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class PlaceRepository implements PlaceDao {
     private final DbStore store = DbStore.getStoreInstance();
     private static final PlaceDao INSTANCE = new PlaceRepository();
-    private final Logger logger = LogManager.getLogger(PlaceRepository.class);
+    private final static Logger LOG = LogManager.getLogger(PlaceRepository.class);
 
 
     private PlaceRepository() {
@@ -41,10 +41,10 @@ public class PlaceRepository implements PlaceDao {
             st.setBoolean(4, model.isReserved());
             if (st.executeUpdate() > 0) {
                 result = true;
-                logger.debug("Place {} added", model.toString());
+                LOG.debug("Place {} added", model.toString());
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return result;
     }
@@ -61,7 +61,7 @@ public class PlaceRepository implements PlaceDao {
             st.setInt(1, id);
             if (st.executeUpdate() > 0) {
                 result = true;
-                logger.debug("Place with id = {} deleted", id);
+                LOG.debug("Place with id = {} deleted", id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,7 +91,7 @@ public class PlaceRepository implements PlaceDao {
                 place = tmpPlace;
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return place;
     }
@@ -119,7 +119,7 @@ public class PlaceRepository implements PlaceDao {
                 place = tmpPlace;
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return place;
     }
@@ -145,7 +145,7 @@ public class PlaceRepository implements PlaceDao {
                 tmp.add(place);
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return tmp;
     }
@@ -171,7 +171,7 @@ public class PlaceRepository implements PlaceDao {
                 tmp.add(place);
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return tmp;
     }
@@ -196,10 +196,10 @@ public class PlaceRepository implements PlaceDao {
             st.setInt(5, place.getId());
             if (st.executeUpdate() > 0) {
                 result = true;
-                logger.debug("Place {} updated", place.toString());
+                LOG.debug("{} updated", place.toString());
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return result;
     }

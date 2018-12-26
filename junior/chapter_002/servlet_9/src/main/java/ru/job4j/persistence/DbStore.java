@@ -11,7 +11,7 @@ import java.util.Properties;
 
 public class DbStore {
     private static final BasicDataSource SOURCE = new BasicDataSource();
-    private final Logger logger = LogManager.getLogger(DbStore.class);
+    private final static Logger LOG = LogManager.getLogger(DbStore.class);
     private static final DbStore INSTANCE = new DbStore();
 
     private DbStore() {
@@ -27,7 +27,7 @@ public class DbStore {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         SOURCE.setUrl(prop.getProperty("url"));
         SOURCE.setUsername(prop.getProperty("login"));
@@ -35,7 +35,7 @@ public class DbStore {
         SOURCE.setMinIdle(5);
         SOURCE.setMaxIdle(10);
         SOURCE.setMaxOpenPreparedStatements(100);
-        logger.debug("Properties loaded.");
+        LOG.debug("Properties loaded.");
         createTablePlaces();
         createTableCustomers();
     }
@@ -44,7 +44,7 @@ public class DbStore {
         try (Connection con = SOURCE.getConnection();
              Statement st = con.createStatement()
         ) {
-            st.execute("CREATE TABLE IF NOT EXISTS places_default("
+            boolean result = st.execute("CREATE TABLE IF NOT EXISTS places_default("
                     + "id SERIAL PRIMARY KEY,"
                     + "row INT NOT NULL, "
                     + "col INT NOT NULL, "
@@ -52,17 +52,20 @@ public class DbStore {
                     + "reserved BOOLEAN DEFAULT FALSE"
                     + ");"
             );
-            st.execute("INSERT INTO places_default(row, col, cost) "
-                    + "VALUES (1 , 1, 900.00), (1 , 2, 900.00), (1 , 3, 900.00), (1 , 4, 900.00), (1 , 5, 900.00), "
-                    + "(2 , 1, 800.00), (2 , 2, 800.00), (2 , 3, 800.00), (2 , 4, 800.00), (2 , 5, 800.00), "
-                    + "(3 , 1, 600.00), (3 , 2, 600.00), (3 , 3, 600.00), (3 , 4, 600.00), (3 , 5, 600.00), "
-                    + "(4 , 1, 400.00), (4 , 2, 400.00), (4 , 3, 400.00), (4 , 4, 400.00), (4 , 5, 400.00), "
-                    + "(5 , 1, 200.00), (5 , 2, 200.00), (5 , 3, 200.00), (5 , 4, 200.00), (5 , 5, 200.00);"
-            );
+            if (result) {
+                st.execute("INSERT INTO places_default(row, col, cost) "
+                        + "VALUES (1 , 1, 900.00), (1 , 2, 900.00), (1 , 3, 900.00), (1 , 4, 900.00), (1 , 5, 900.00), "
+                        + "(2 , 1, 800.00), (2 , 2, 800.00), (2 , 3, 800.00), (2 , 4, 800.00), (2 , 5, 800.00), "
+                        + "(3 , 1, 600.00), (3 , 2, 600.00), (3 , 3, 600.00), (3 , 4, 600.00), (3 , 5, 600.00), "
+                        + "(4 , 1, 400.00), (4 , 2, 400.00), (4 , 3, 400.00), (4 , 4, 400.00), (4 , 5, 400.00), "
+                        + "(5 , 1, 200.00), (5 , 2, 200.00), (5 , 3, 200.00), (5 , 4, 200.00), (5 , 5, 200.00);"
+                );
+                LOG.debug("Values inserted.");
+            }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
-        logger.debug("Tale places created.");
+        LOG.debug("Tale places_default created.");
     }
 
     private void createTableCustomers() {
@@ -80,9 +83,9 @@ public class DbStore {
                     + ");"
             );
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
-        logger.debug("Tale customers created.");
+        LOG.debug("Tale customers created.");
     }
 
     /**
@@ -117,7 +120,7 @@ public class DbStore {
             is = DbStore.class.getClassLoader().getResourceAsStream(propName);
             properties.load(is);
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return properties;
     }

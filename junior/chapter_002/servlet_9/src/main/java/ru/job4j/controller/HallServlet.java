@@ -3,9 +3,9 @@ package ru.job4j.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.dao.PlaceDao;
 import ru.job4j.entity.Place;
-import ru.job4j.persistence.PlaceRepository;
+import ru.job4j.service.PlaceService;
+import ru.job4j.service.PlaceServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,18 +17,18 @@ import java.io.PrintWriter;
 import java.util.List;
 
 public class HallServlet extends HttpServlet {
-    private final PlaceDao placeStore = PlaceRepository.getPlaceStoreInstance();
-    private final Logger logger = LogManager.getLogger(HallServlet.class);
+    private final PlaceService placeService = PlaceServiceImpl.getPlaceServiceInstance();
+    private final static Logger LOG = LogManager.getLogger(HallServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
-        List<Place> places = this.placeStore.findAllReserved();
-        logger.debug(places);
+        List<Place> places = this.placeService.findAllReserved();
+        LOG.debug(places);
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(places);
-        logger.debug(json);
+        LOG.debug(json);
         PrintWriter writer = resp.getWriter();
         writer.print(json);
         writer.flush();
@@ -44,11 +44,11 @@ public class HallServlet extends HttpServlet {
         while ((data = reader.readLine()) != null) {
             sb.append(data);
         }
-        logger.debug(sb.toString());
+        LOG.debug(sb.toString());
         ObjectMapper mapper = new ObjectMapper();
         Place place = mapper.readValue(sb.toString(), Place.class);
-        logger.debug(place.toString());
-        this.placeStore.add(place);
+        LOG.debug(place.toString());
+        this.placeService.add(place);
         String json = mapper.writeValueAsString(place);
         PrintWriter writer = resp.getWriter();
         writer.print(json);

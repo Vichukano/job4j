@@ -1,5 +1,7 @@
 package ru.job4j.entity;
 
+import java.util.Objects;
+
 public class Customer {
     private int id;
     private String name;
@@ -69,16 +71,40 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{"
-                + "name='"
+                + "id="
+                + id
+                + ", name="
                 + name
-                + ", phone='"
+                + ", phone="
                 + phone
                 + ", placeId="
                 + placeId
-                + ", row= "
+                + ", row="
                 + row
                 + ", col="
                 + col
                 + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Customer)) {
+            return false;
+        }
+        Customer customer = (Customer) o;
+        return id == customer.id
+                && placeId == customer.placeId
+                && row == customer.row
+                && col == customer.col
+                && Objects.equals(name, customer.name)
+                && Objects.equals(phone, customer.phone);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, phone, placeId, row, col);
     }
 }

@@ -3,6 +3,7 @@ package ru.job4j.persistence;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.dao.CustomerDao;
+import ru.job4j.dao.PlaceDao;
 import ru.job4j.entity.Customer;
 
 import java.sql.Connection;
@@ -15,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class CustomerRepository implements CustomerDao {
     private final DbStore store = DbStore.getStoreInstance();
     private static final CustomerDao INSTANCE = new CustomerRepository();
-    private final Logger logger = LogManager.getLogger(CustomerRepository.class);
+    private final static Logger LOG = LogManager.getLogger(CustomerRepository.class);
 
     private CustomerRepository() {
 
@@ -26,7 +27,7 @@ public class CustomerRepository implements CustomerDao {
     }
 
     @Override
-    public boolean add(Customer model) {
+    public boolean add(Customer customer) {
         boolean result = false;
         try (Connection con = this.store.getConnection();
              PreparedStatement st = con.prepareStatement(
@@ -34,17 +35,17 @@ public class CustomerRepository implements CustomerDao {
                              + "VALUES (?, ?, ?, ?, ?);"
              )
         ) {
-            st.setString(1, model.getName());
-            st.setString(2, model.getPhone());
-            st.setInt(3, model.getPlaceId());
-            st.setInt(4, model.getRow());
-            st.setInt(5, model.getCol());
+            st.setString(1, customer.getName());
+            st.setString(2, customer.getPhone());
+            st.setInt(3, customer.getPlaceId());
+            st.setInt(4, customer.getRow());
+            st.setInt(5, customer.getCol());
             if (st.executeUpdate() > 0) {
                 result = true;
-                logger.debug("Customer {} added", model.toString());
+                LOG.debug("{} added", customer.toString());
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return result;
     }
@@ -61,7 +62,7 @@ public class CustomerRepository implements CustomerDao {
             st.setInt(1, id);
             if (st.executeUpdate() > 0) {
                 result = true;
-                logger.debug("Customer with id = {} deleted", id);
+                LOG.debug("Customer with id = {} deleted", id);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,7 +95,7 @@ public class CustomerRepository implements CustomerDao {
                 customer = tmpCustomer;
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return customer;
     }
@@ -122,7 +123,7 @@ public class CustomerRepository implements CustomerDao {
                 tmp.add(customer);
             }
         } catch (SQLException e) {
-            logger.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return tmp;
     }

@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-    integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!--JQuery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
     <!--javascript functions-->
-    <script src ="/scripts/script.js"></script>
+    <script src="/scripts/script.js"></script>
     <title>Cinema service</title>
 </head>
 <body>
@@ -27,17 +28,17 @@
         <table class="table table-bordered" id="placesTable">
             <thead>
             <tr>
-                <th style="width: 120px;">Row / Column</th>
-                <th>1</th>
-                <th>2</th>
-                <th>3</th>
-                <th>4</th>
-                <th>5</th>
+                <th class="text-center" style="width: 120px;">Row / Column</th>
+                <th class="text-center">1</th>
+                <th class="text-center">2</th>
+                <th class="text-center">3</th>
+                <th class="text-center">4</th>
+                <th class="text-center">5</th>
             </tr>
             </thead>
             <tbody id="placesTableBody">
             <tr id="row_1">
-                <th>1</th>
+                <th class="text-center">1</th>
                 <td><input type="radio" name="place" value='{"row" : 1, "col" : 1}'> Row 1, Column 1</td>
                 <td><input type="radio" name="place" value='{"row" : 1, "col" : 2}'> Row 1, Column 2</td>
                 <td><input type="radio" name="place" value='{"row" : 1, "col" : 3}'> Row 1, Column 3</td>
@@ -45,7 +46,7 @@
                 <td><input type="radio" name="place" value='{"row" : 1, "col" : 5}'> Row 1, Column 5</td>
             </tr>
             <tr id="row_2">
-                <th>2</th>
+                <th class="text-center">2</th>
                 <td><input type="radio" name="place" value='{"row" : 2, "col" : 1}'> Row 2, Column 1</td>
                 <td><input type="radio" name="place" value='{"row" : 2, "col" : 2}'> Row 2, Column 2</td>
                 <td><input type="radio" name="place" value='{"row" : 2, "col" : 3}'> Row 2, Column 3</td>
@@ -53,7 +54,7 @@
                 <td><input type="radio" name="place" value='{"row" : 2, "col" : 5}'> Row 2, Column 5</td>
             </tr>
             <tr id="row_3">
-                <th>3</th>
+                <th class="text-center">3</th>
                 <td><input type="radio" name="place" value='{"row" : 3, "col" : 1}'> Row 3, Column 1</td>
                 <td><input type="radio" name="place" value='{"row" : 3, "col" : 2}'> Row 3, Column 2</td>
                 <td><input type="radio" name="place" value='{"row" : 3, "col" : 3}'> Row 3, Column 3</td>
@@ -61,7 +62,7 @@
                 <td><input type="radio" name="place" value='{"row" : 3, "col" : 5}'> Row 3, Column 5</td>
             </tr>
             <tr id="row_4">
-                <th>4</th>
+                <th class="text-center">4</th>
                 <td><input type="radio" name="place" value='{"row" : 4, "col" : 1}'> Row 4, Column 1</td>
                 <td><input type="radio" name="place" value='{"row" : 4, "col" : 2}'> Row 4, Column 2</td>
                 <td><input type="radio" name="place" value='{"row" : 4, "col" : 3}'> Row 4, Column 3</td>
@@ -69,7 +70,7 @@
                 <td><input type="radio" name="place" value='{"row" : 4, "col" : 5}'> Row 4, Column 5</td>
             </tr>
             <tr id="row_5">
-                <th>5</th>
+                <th class="text-center">5</th>
                 <td><input type="radio" name="place" value='{"row" : 5, "col" : 1}'> Row 5, Column 1</td>
                 <td><input type="radio" name="place" value='{"row" : 5, "col" : 2}'> Row 5, Column 2</td>
                 <td><input type="radio" name="place" value='{"row" : 5, "col" : 3}'> Row 5, Column 3</td>
@@ -81,11 +82,10 @@
     </div>
     <div class="col-md-3"></div>
     <div class="col-md-9 text-right">
-        <button type="button" class="btn btn-success" id="payBtn">Pay</button>
-    </div>
-    <div class="col-md-3"></div>
-    <div class="col-md-9 text-right">
-        <button type="button" class="btn btn-success" id="listBtn">Customers list</button>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-success" id="payBtn">Pay</button>
+            <button type="button" class="btn btn-success" id="listBtn">Customers list</button>
+        </div>
     </div>
 </div>
 </body>

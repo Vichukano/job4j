@@ -1,5 +1,7 @@
 package ru.job4j.entity;
 
+import java.util.Objects;
+
 public class Place {
     private int id;
     private int row;
@@ -59,7 +61,9 @@ public class Place {
     @Override
     public String toString() {
         return "Place{"
-                + "row="
+                + "id="
+                + id
+                + ", row="
                 + row
                 + ", col="
                 + col
@@ -68,5 +72,26 @@ public class Place {
                 + ", reserved: "
                 + reserved
                 + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Place)) {
+            return false;
+        }
+        Place place = (Place) o;
+        return id == place.id
+                && row == place.row
+                && col == place.col
+                && Double.compare(place.cost, cost) == 0
+                && reserved == place.reserved;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, row, col, cost, reserved);
     }
 }
