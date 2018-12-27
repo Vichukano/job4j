@@ -36,9 +36,9 @@ public class PlaceServiceImplStub implements PlaceService {
     @Override
     public List<Place> findAllReserved() {
         return Arrays.asList(
-                new Place(1,1),
+                new Place(1, 1),
                 new Place(2, 2),
-                new Place(3,3)
+                new Place(3, 3)
         );
     }
 

@@ -26,9 +26,9 @@ public class CustomerServiceImplStub implements CustomerService {
     @Override
     public List<Customer> findAll() {
         return Arrays.asList(
-                new Customer("test", "test" ),
-                new Customer("test", "test" ),
-                new Customer("test", "test" )
+                new Customer("test", "test"),
+                new Customer("test", "test"),
+                new Customer("test", "test")
         );
     }
 }

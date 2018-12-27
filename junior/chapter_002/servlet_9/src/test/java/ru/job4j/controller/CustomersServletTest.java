@@ -10,8 +10,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import ru.job4j.service.CustomerService;
 import ru.job4j.service.CustomerServiceImpl;
-import ru.job4j.service.PlaceService;
-import ru.job4j.service.PlaceServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
