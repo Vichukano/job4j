@@ -2,6 +2,9 @@ package ru.job4j.entity;
 
 import java.util.Objects;
 
+/**
+ * Place entity class.
+ */
 public class Place {
     private int id;
     private int row;

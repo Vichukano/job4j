@@ -24,6 +24,10 @@ function arrayToJson(arr) {
     return result;
 }
 
+/**
+ * Function for validating fields in payment.html page.
+ * @returns {boolean} true if all field filled, else false.
+ */
 function validate() {
     var result = false;
     if (document.getElementById("username").value !== ''
@@ -36,6 +40,9 @@ function validate() {
     return result;
 }
 
+/**
+ * Function for sending customer in JSON format to server.
+ */
 function sendCustomer() {
     if (validate()) {
         document.getElementById("nameGroup").classList.remove("has-error");

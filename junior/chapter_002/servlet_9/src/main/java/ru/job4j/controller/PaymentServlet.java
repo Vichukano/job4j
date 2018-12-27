@@ -15,10 +15,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Servlet class for payment.html page.
+ */
 public class PaymentServlet extends HttpServlet {
     private final static Logger LOG = LogManager.getLogger(PaymentServlet.class);
     private final PlaceService placeService = PlaceServiceImpl.getPlaceServiceInstance();
 
+    /**
+     * Get method.
+     * Redirect to payment.html page.
+     * @param req client request.
+     * @param resp server response.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
@@ -26,6 +37,16 @@ public class PaymentServlet extends HttpServlet {
         req.getRequestDispatcher("payment.html").forward(req, resp);
     }
 
+    /**
+     * Post method.
+     * Read JSON data from client with row and col parameters.
+     * Build and find place object with this parameters from database.
+     * Send this place object to client in JSON format.
+     * @param req client request.
+     * @param resp server response.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");

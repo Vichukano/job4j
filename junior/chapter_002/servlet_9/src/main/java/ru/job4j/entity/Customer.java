@@ -2,6 +2,9 @@ package ru.job4j.entity;
 
 import java.util.Objects;
 
+/**
+ * Customer entity class.
+ */
 public class Customer {
     private int id;
     private String name;

@@ -4,6 +4,9 @@ import ru.job4j.entity.Place;
 
 import java.util.List;
 
+/**
+ * Dao interface for places.
+ */
 public interface PlaceDao {
 
     boolean add(Place place);

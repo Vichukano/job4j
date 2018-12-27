@@ -1,3 +1,6 @@
+/**
+ * Function for getting places with parameter reserved = true from server.
+ */
 function getReservedPlaces() {
     var table = document.getElementById("placesTableBody");
     $.ajax({

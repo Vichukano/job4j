@@ -12,6 +12,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+/**
+ * Singleton class for crud methods with place object.
+ */
 public class PlaceRepository implements PlaceDao {
     private final DbStore store = DbStore.getStoreInstance();
     private static final PlaceDao INSTANCE = new PlaceRepository();

@@ -17,11 +17,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+/**
+ * Servlet class for adding customers id database.
+ */
 public class OrderController extends HttpServlet {
     private final static Logger LOG = LogManager.getLogger(OrderController.class);
     private final CustomerService customerService = CustomerServiceImpl.getCustomerServiceInstance();
     private final PlaceService placeService = PlaceServiceImpl.getPlaceServiceInstance();
 
+    /**
+     * Post method.
+     * Read JSON data from client and build customer with parameters.
+     * Add customer to database.
+     * @param req client request.
+     * @param resp server response.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         BufferedReader reader = req.getReader();
@@ -35,11 +47,7 @@ public class OrderController extends HttpServlet {
         Place place = new Place();
         place.setId(customer.getPlaceId());
         Place reservedPlace = this.placeService.findById(place);
-        reservedPlace.setReserved(true);
-        customer.setRow(reservedPlace.getRow());
-        customer.setCol(reservedPlace.getCol());
-        this.placeService.updatePlace(reservedPlace);
-        this.customerService.add(customer);
+        this.customerService.addCustomerWithPlace(customer, reservedPlace);
         LOG.debug("{} added", customer.toString());
     }
 }

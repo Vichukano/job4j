@@ -15,10 +15,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * Servlet class for customer list page.
+ */
 public class CustomersServlet extends HttpServlet {
     private final static Logger LOG = LogManager.getLogger(CustomersServlet.class);
     private final CustomerService customerService = CustomerServiceImpl.getCustomerServiceInstance();
 
+    /**
+     * Get method redirect to customers.html page.
+     * @param req client request.
+     * @param resp server response.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -26,6 +36,14 @@ public class CustomersServlet extends HttpServlet {
         req.getRequestDispatcher("customers.html").forward(req, resp);
     }
 
+    /**
+     * Post method.
+     * Send list of customers in JSON to client.
+     * @param req client request.
+     * @param resp server response.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");

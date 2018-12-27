@@ -9,6 +9,9 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
+/**
+ * Util class for connecting to database.
+ */
 public class DbStore {
     private static final BasicDataSource SOURCE = new BasicDataSource();
     private final static Logger LOG = LogManager.getLogger(DbStore.class);
@@ -40,6 +43,9 @@ public class DbStore {
         createTableCustomers();
     }
 
+    /**
+     * Method create table 'places_default' if not exist and insert values of places.
+     */
     private void createTablePlaces() {
         try (Connection con = SOURCE.getConnection();
              Statement st = con.createStatement()
@@ -68,6 +74,9 @@ public class DbStore {
         LOG.debug("Tale places_default created.");
     }
 
+    /**
+     * Method create table 'customers' if not exist.
+     */
     private void createTableCustomers() {
         try (Connection con = SOURCE.getConnection();
              Statement st = con.createStatement()
