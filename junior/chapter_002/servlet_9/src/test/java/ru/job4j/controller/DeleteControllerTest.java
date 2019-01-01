@@ -39,4 +39,18 @@ public class DeleteControllerTest {
         verify(req, times(1)).getReader();
         verify(customerService, times(1)).deleteCustomerWithPlace(any(Customer.class));
     }
+
+    @Test
+    public void whenPostRequestThenDeleteCustomerWithoutMock() throws IOException, ServletException {
+        CustomerService customerService = new CustomerServiceImplStub();
+        PowerMockito.mockStatic(CustomerServiceImpl.class);
+        Mockito.when(CustomerServiceImpl.getCustomerServiceInstance()).thenReturn(customerService);
+        HttpServletRequest req = mock(HttpServletRequest.class);
+        HttpServletResponse resp = mock(HttpServletResponse.class);
+        BufferedReader reader = mock(BufferedReader.class);
+        when(req.getReader()).thenReturn(reader);
+        when(reader.readLine()).thenReturn("2").thenReturn(null);
+        new DeleteController().doPost(req, resp);
+        verify(req, times(1)).getReader();
+    }
 }
