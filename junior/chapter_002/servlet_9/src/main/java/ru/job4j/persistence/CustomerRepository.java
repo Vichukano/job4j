@@ -62,12 +62,13 @@ public class CustomerRepository implements CustomerDao {
                 placeSt.setInt(2, customer.getPlaceId());
                 if (customerSt.executeUpdate() > 0 && placeSt.executeUpdate() > 0) {
                     con.commit();
+                    con.setAutoCommit(true);
                     result = true;
                     LOG.debug("{} added with {}", customer.toString(), place.toString());
                 }
             } catch (SQLException e) {
                 con.rollback();
-                LOG.error(e.getMessage());
+                LOG.error("Can not add customer with place.", e.getMessage());
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage());
@@ -113,6 +114,7 @@ public class CustomerRepository implements CustomerDao {
                 placeSt.setInt(2, placeId);
                 if (customerSt.executeUpdate() > 0 && placeSt.executeUpdate() > 0) {
                     con.commit();
+                    con.setAutoCommit(true);
                     result = true;
                     LOG.debug("Customer with id = {} deleted", id);
                 }

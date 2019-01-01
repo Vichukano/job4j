@@ -15,7 +15,9 @@ public class CustomerServiceImplStub implements CustomerService {
 
     @Override
     public boolean deleteCustomerWithPlace(Customer customer) {
-        return false;
+        String result = String.format("Customer with id = %d deleted", customer.getId());
+        System.out.print(result);
+        return true;
     }
 
     @Override
