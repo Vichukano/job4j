@@ -20,7 +20,11 @@ public class PlaceServiceImplStub implements PlaceService {
 
     @Override
     public Place findById(Place place) {
-        return null;
+        Place pls = new Place();
+        pls.setId(place.getId());
+        pls.setRow(1);
+        pls.setCol(1);
+        return pls;
     }
 
     @Override

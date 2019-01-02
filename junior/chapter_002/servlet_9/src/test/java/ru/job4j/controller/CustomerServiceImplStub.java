@@ -1,5 +1,6 @@
 package ru.job4j.controller;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import ru.job4j.entity.Customer;
 import ru.job4j.entity.Place;
 import ru.job4j.service.CustomerService;
@@ -10,7 +11,11 @@ import java.util.List;
 public class CustomerServiceImplStub implements CustomerService {
     @Override
     public boolean addCustomerWithPlace(Customer customer, Place place) {
-        return false;
+        String cust = String.format("Customer with id = %d added", customer.getId());
+        String pls = String.format("Place with id = %d added", place.getId());
+        System.out.println(cust);
+        System.out.println(pls);
+        return true;
     }
 
     @Override
