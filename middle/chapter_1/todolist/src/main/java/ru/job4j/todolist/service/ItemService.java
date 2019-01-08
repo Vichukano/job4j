@@ -2,11 +2,13 @@ package ru.job4j.todolist.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.job4j.todolist.dao.DaoException;
 import ru.job4j.todolist.dao.ItemDao;
 import ru.job4j.todolist.dao.ItemDaoImpl;
 import ru.job4j.todolist.model.Item;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +29,7 @@ public class ItemService {
 
     /**
      * Method for getting instance of ItemService class.
+     *
      * @return
      */
     public static ItemService getItemServiceInstance() {
@@ -35,56 +38,92 @@ public class ItemService {
 
     /**
      * Method for adding item to database.
+     *
      * @param item item for add.
      */
     public void add(Item item) {
         item.setCreated(new Timestamp(System.currentTimeMillis()));
-        itemDao.add(item);
-        LOGGER.debug("{} added.", item);
+        try {
+            itemDao.add(item);
+            LOGGER.debug("{} added.", item);
+        } catch (DaoException e) {
+            LOGGER.error("Failed to add item.", e.getMessage());
+        }
     }
 
     /**
      * Method for deleting item from database.
+     *
      * @param item item for delete.
      */
     public void delete(Item item) {
-        itemDao.delete(item);
-        LOGGER.debug("{} deleted", item);
+        try {
+            itemDao.delete(item);
+            LOGGER.debug("{} deleted", item);
+        } catch (DaoException e) {
+            LOGGER.error("Failed to delete item.", e.getMessage());
+        }
     }
 
     /**
      * Method for updating done-value of item.
+     *
      * @param item item for update.
      */
     public void update(Item item) {
-        Item tmp = itemDao.findById(item.getId());
-        tmp.setDone(item.isDone());
-        itemDao.update(tmp);
-        LOGGER.debug("{} updated", tmp);
+        try {
+            Item tmp = itemDao.findById(item.getId());
+            tmp.setDone(item.isDone());
+            itemDao.update(tmp);
+            LOGGER.debug("{} updated", tmp);
+        } catch (DaoException e) {
+            LOGGER.error("Failed to update item.", e.getMessage());
+        }
     }
 
     /**
      * Method for finding item by id.
+     *
      * @param item item object.
      * @return item with id from database.
      */
     public Item findById(Item item) {
-        return itemDao.findById(item.getId());
+        Item newItem = null;
+        try {
+            newItem = itemDao.findById(item.getId());
+        } catch (DaoException e) {
+            LOGGER.error("Failed to find by id item.", e.getMessage());
+        }
+        return newItem;
     }
 
     /**
      * Method for finding all items in database.
+     *
      * @return List of items.
      */
     public List<Item> findAll() {
-        return itemDao.findAll();
+        List<Item> items = new ArrayList<>();
+        try {
+            items = itemDao.findAll();
+        } catch (DaoException e) {
+            LOGGER.error("Failed to find all items.", e.getMessage());
+        }
+        return items;
     }
 
     /**
      * Method for finding all items with done = true parameter in database.
+     *
      * @return List of items.
      */
     public List<Item> findAllDone() {
-        return itemDao.findAllDone();
+        List<Item> items = new ArrayList<>();
+        try {
+            items = itemDao.findAllDone();
+        } catch (DaoException e) {
+            LOGGER.error("Failed to find done items.", e.getMessage());
+        }
+        return items;
     }
 }

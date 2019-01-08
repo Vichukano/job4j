@@ -12,7 +12,7 @@ import java.util.List;
 public class ItemDaoImpl implements ItemDao {
 
     @Override
-    public void add(Item item) {
+    public void add(Item item) throws DaoException {
         final Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
@@ -20,6 +20,7 @@ public class ItemDaoImpl implements ItemDao {
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
+            throw new DaoException("Failed to add item.", e);
         } finally {
             session.close();
         }
@@ -27,7 +28,7 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void delete(Item item) {
+    public void delete(Item item) throws DaoException {
         final Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
@@ -35,13 +36,14 @@ public class ItemDaoImpl implements ItemDao {
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
+            throw new DaoException("Failed to delete item.", e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public void update(Item item) {
+    public void update(Item item) throws DaoException {
         final Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         session.beginTransaction();
         try {
@@ -49,45 +51,46 @@ public class ItemDaoImpl implements ItemDao {
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
+            throw new DaoException("Failed to update item.", e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public Item findById(int id) {
+    public Item findById(int id) throws DaoException {
         final Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         try {
             Item item = session.get(Item.class, id);
             return item;
         } catch (Exception e) {
-            throw e;
+            throw new DaoException("Failed to find item by id.", e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public List<Item> findAll() {
+    public List<Item> findAll() throws DaoException {
         final Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         try {
             List<Item> items = (List<Item>) session.createQuery("from Item").list();
             return items;
         } catch (Exception e) {
-            throw e;
+            throw new DaoException("Failed to find all items.", e);
         } finally {
             session.close();
         }
     }
 
     @Override
-    public List<Item> findAllDone() {
+    public List<Item> findAllDone() throws DaoException {
         final Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         try {
             List<Item> items = (List<Item>) session.createQuery("from Item where done = true").list();
             return items;
         } catch (Exception e) {
-            throw e;
+            throw new DaoException("Failed to find done items", e);
         } finally {
             session.close();
         }
