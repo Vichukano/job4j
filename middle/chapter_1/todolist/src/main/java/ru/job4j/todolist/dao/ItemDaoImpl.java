@@ -5,6 +5,7 @@ import ru.job4j.todolist.model.Item;
 import ru.job4j.todolist.utils.HibernateSessionFactoryUtil;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Implementation of DAO-interface for CRUD-operations with item.
@@ -58,40 +59,36 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public Item findById(int id) throws DaoException {
-        final Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        try {
-            Item item = session.get(Item.class, id);
-            return item;
-        } catch (Exception e) {
-            throw new DaoException("Failed to find item by id.", e);
-        } finally {
-            session.close();
-        }
+    public Item findById(final int id) throws DaoException {
+        return this.tx(
+                session -> session.get(Item.class, id)
+        );
     }
 
     @Override
     public List<Item> findAll() throws DaoException {
-        final Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        try {
-            List<Item> items = (List<Item>) session.createQuery("from Item").list();
-            return items;
-        } catch (Exception e) {
-            throw new DaoException("Failed to find all items.", e);
-        } finally {
-            session.close();
-        }
+        return this.tx(
+                session -> session.createQuery("from Item").list()
+        );
     }
 
     @Override
     public List<Item> findAllDone() throws DaoException {
+        return this.tx(
+                session -> session.createQuery("from Item where done = true").list()
+        );
+    }
+
+    private <T> T tx(final Function<Session, T> command) throws DaoException {
         final Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        session.beginTransaction();
         try {
-            List<Item> items = (List<Item>) session.createQuery("from Item where done = true").list();
-            return items;
-        } catch (Exception e) {
-            throw new DaoException("Failed to find done items", e);
+            return command.apply(session);
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw new DaoException(e.getMessage());
         } finally {
+            session.getTransaction().commit();
             session.close();
         }
     }
