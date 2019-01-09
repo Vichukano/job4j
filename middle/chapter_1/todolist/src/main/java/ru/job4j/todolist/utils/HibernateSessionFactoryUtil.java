@@ -10,13 +10,21 @@ import ru.job4j.todolist.model.Item;
  * Singleton.
  */
 public class HibernateSessionFactoryUtil {
-    private static SessionFactory sessionFactory;
+    private static final HibernateSessionFactoryUtil INSTANCE = new HibernateSessionFactoryUtil();
+    private static final SessionFactory SESSION_FACTORY = buildSessionFactory();
 
     /**
      * Default constructor.
      */
     private HibernateSessionFactoryUtil() {
+    }
 
+    public static HibernateSessionFactoryUtil getInstance() {
+        return INSTANCE;
+    }
+
+    public SessionFactory getSessionFactoryInstance() {
+        return SESSION_FACTORY;
     }
 
     /**
@@ -26,22 +34,12 @@ public class HibernateSessionFactoryUtil {
      *
      * @return sessionFactory instance.
      */
-    public static SessionFactory getSessionFactory() {
-        if (sessionFactory == null) {
-            synchronized (SessionFactory.class) {
-                if (sessionFactory == null) {
-                    try {
-                        Configuration configuration = new Configuration().configure();
-                        configuration.addAnnotatedClass(Item.class);
-                        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-                                .applySettings(configuration.getProperties());
-                        sessionFactory = configuration.buildSessionFactory(builder.build());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
+    private static SessionFactory buildSessionFactory() {
+        Configuration configuration = new Configuration().configure();
+        configuration.addAnnotatedClass(Item.class);
+        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
+                .applySettings(configuration.getProperties());
+        SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
         return sessionFactory;
     }
 }

@@ -1,11 +1,8 @@
 package ru.job4j.todolist.service;
 
-import org.hibernate.Session;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.job4j.todolist.model.Item;
-import ru.job4j.todolist.utils.HibernateSessionFactoryUtil;
 
 import java.util.List;
 
@@ -20,17 +17,6 @@ public class ItemServiceTest {
         ItemService.getItemServiceInstance().add(new Item("test1"));
         ItemService.getItemServiceInstance().add(new Item("test2"));
         ItemService.getItemServiceInstance().add(new Item("test3"));
-    }
-
-    @AfterClass
-    public static void reset() {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        List<Item> items = (List<Item>) session.createQuery("from Item").list();
-        for (Item item : items) {
-            session.delete(item);
-        }
-        session.getTransaction().commit();
     }
 
     @Test
