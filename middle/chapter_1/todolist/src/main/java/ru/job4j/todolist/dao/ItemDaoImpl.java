@@ -18,7 +18,7 @@ public class ItemDaoImpl implements ItemDao {
             .getSessionFactoryInstance();
 
     @Override
-    public void add(Item item) throws DaoException {
+    public void add(Item item) {
         this.tz(
                 session -> session.save(item)
         );
@@ -26,62 +26,62 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public void delete(Item item) throws DaoException {
+    public void delete(Item item) {
         this.tz(
                 session -> session.delete(item)
         );
     }
 
     @Override
-    public void update(Item item) throws DaoException {
+    public void update(Item item) {
         this.tz(
                 session -> session.update(item)
         );
     }
 
     @Override
-    public Item findById(final int id) throws DaoException {
+    public Item findById(final int id) {
         return this.tx(
                 session -> session.get(Item.class, id)
         );
     }
 
     @Override
-    public List<Item> findAll() throws DaoException {
+    public List<Item> findAll() {
         return this.tx(
                 session -> session.createQuery("from Item").list()
         );
     }
 
     @Override
-    public List<Item> findAllDone() throws DaoException {
+    public List<Item> findAllDone() {
         return this.tx(
                 session -> session.createQuery("from Item where done = true").list()
         );
     }
 
-    private <T> T tx(final Function<Session, T> command) throws DaoException {
+    private <T> T tx(final Function<Session, T> command) {
         final Session session = this.sessionFactory.openSession();
         session.beginTransaction();
         try {
             return command.apply(session);
         } catch (final Exception e) {
             session.getTransaction().rollback();
-            throw new DaoException(e.getMessage());
+            throw e;
         } finally {
             session.getTransaction().commit();
             session.close();
         }
     }
 
-    private void tz(final Consumer<Session> consumer) throws DaoException {
+    private void tz(final Consumer<Session> consumer) {
         final Session session = this.sessionFactory.openSession();
         session.beginTransaction();
         try {
             consumer.accept(session);
         } catch (final Exception e) {
             session.getTransaction().rollback();
-            throw new DaoException(e.getMessage());
+            throw e;
         } finally {
             session.getTransaction().commit();
             session.close();

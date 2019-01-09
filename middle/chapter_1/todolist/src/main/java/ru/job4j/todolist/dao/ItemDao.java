@@ -9,15 +9,15 @@ import java.util.List;
  */
 public interface ItemDao {
 
-    void add(Item item) throws DaoException;
+    void add(Item item);
 
-    void delete(Item item) throws DaoException;
+    void delete(Item item);
 
-    void update(Item item) throws DaoException;
+    void update(Item item);
 
-    Item findById(int id) throws DaoException;
+    Item findById(int id);
 
-    List<Item> findAll() throws DaoException;
+    List<Item> findAll();
 
-    List<Item> findAllDone() throws DaoException;
+    List<Item> findAllDone();
 }

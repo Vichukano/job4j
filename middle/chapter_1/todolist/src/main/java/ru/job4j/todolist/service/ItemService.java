@@ -46,8 +46,8 @@ public class ItemService {
         try {
             itemDao.add(item);
             LOGGER.debug("{} added.", item);
-        } catch (DaoException e) {
-            LOGGER.error("Failed to add item.", e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("Failed to add item.", e);
         }
     }
 
@@ -60,8 +60,8 @@ public class ItemService {
         try {
             itemDao.delete(item);
             LOGGER.debug("{} deleted", item);
-        } catch (DaoException e) {
-            LOGGER.error("Failed to delete item.", e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("Failed to delete item.", e);
         }
     }
 
@@ -76,8 +76,8 @@ public class ItemService {
             tmp.setDone(item.isDone());
             itemDao.update(tmp);
             LOGGER.debug("{} updated", tmp);
-        } catch (DaoException e) {
-            LOGGER.error("Failed to update item.", e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("Failed to update item.", e);
         }
     }
 
@@ -91,8 +91,8 @@ public class ItemService {
         Item newItem = null;
         try {
             newItem = itemDao.findById(item.getId());
-        } catch (DaoException e) {
-            LOGGER.error("Failed to find by id item.", e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("Failed to find by id item.", e);
         }
         return newItem;
     }
@@ -106,8 +106,8 @@ public class ItemService {
         List<Item> items = new ArrayList<>();
         try {
             items = itemDao.findAll();
-        } catch (DaoException e) {
-            LOGGER.error("Failed to find all items.", e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("Failed to find all items.", e);
         }
         return items;
     }
@@ -121,8 +121,8 @@ public class ItemService {
         List<Item> items = new ArrayList<>();
         try {
             items = itemDao.findAllDone();
-        } catch (DaoException e) {
-            LOGGER.error("Failed to find done items.", e.getMessage());
+        } catch (Exception e) {
+            LOGGER.error("Failed to find done items.", e);
         }
         return items;
     }
