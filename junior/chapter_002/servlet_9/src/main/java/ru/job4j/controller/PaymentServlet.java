@@ -32,8 +32,6 @@ public class PaymentServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        req.setCharacterEncoding("UTF-8");
         req.getRequestDispatcher("payment.html").forward(req, resp);
     }
 

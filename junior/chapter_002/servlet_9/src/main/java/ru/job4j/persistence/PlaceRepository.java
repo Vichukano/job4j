@@ -47,7 +47,7 @@ public class PlaceRepository implements PlaceDao {
                 LOG.debug("Place {} added", model.toString());
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to add place.", e);
         }
         return result;
     }
@@ -67,7 +67,7 @@ public class PlaceRepository implements PlaceDao {
                 LOG.debug("Place with id = {} deleted", id);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error("Failed to delete place.", e);
         }
         return result;
     }
@@ -94,7 +94,7 @@ public class PlaceRepository implements PlaceDao {
                 place = tmpPlace;
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to find place by id.", e);
         }
         return place;
     }
@@ -122,7 +122,7 @@ public class PlaceRepository implements PlaceDao {
                 place = tmpPlace;
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to find place by parameter.", e);
         }
         return place;
     }
@@ -148,7 +148,7 @@ public class PlaceRepository implements PlaceDao {
                 tmp.add(place);
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to find places.", e);
         }
         return tmp;
     }
@@ -174,7 +174,7 @@ public class PlaceRepository implements PlaceDao {
                 tmp.add(place);
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to find reserved places.", e);
         }
         return tmp;
     }
@@ -202,7 +202,7 @@ public class PlaceRepository implements PlaceDao {
                 LOG.debug("{} updated", place.toString());
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to update place.", e);
         }
         return result;
     }

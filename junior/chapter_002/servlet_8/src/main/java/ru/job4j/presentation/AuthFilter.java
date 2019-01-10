@@ -16,7 +16,7 @@ public class AuthFilter implements Filter {
         HttpSession session = ((HttpServletRequest) req).getSession();
         if (request.getRequestURI().contains("/signin")
                 || request.getRequestURI().contains("/registration")
-                || request.getRequestURI().contains("/cities")) { // ФИЛЬТР НЕ ПРОПУСКАЛ AJAX
+                || request.getRequestURI().contains("/cities")) {
             chain.doFilter(req, resp);
         } else {
             if (session.getAttribute("login") == null) {

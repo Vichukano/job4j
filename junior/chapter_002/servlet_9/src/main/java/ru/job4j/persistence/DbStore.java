@@ -30,7 +30,7 @@ public class DbStore {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to load driver.", e);
         }
         SOURCE.setUrl(prop.getProperty("url"));
         SOURCE.setUsername(prop.getProperty("login"));
@@ -69,7 +69,7 @@ public class DbStore {
                 LOG.debug("Values inserted.");
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to create table places.", e);
         }
         LOG.debug("Tale places_default created.");
     }
@@ -92,7 +92,7 @@ public class DbStore {
                     + ");"
             );
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to crate table customers.", e);
         }
         LOG.debug("Tale customers created.");
     }
@@ -129,7 +129,7 @@ public class DbStore {
             is = DbStore.class.getClassLoader().getResourceAsStream(propName);
             properties.load(is);
         } catch (IOException e) {
-            LOG.error(e.getMessage());
+            LOG.error("Failed to load properties.", e);
         }
         return properties;
     }

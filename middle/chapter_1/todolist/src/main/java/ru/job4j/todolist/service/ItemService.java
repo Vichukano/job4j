@@ -2,7 +2,6 @@ package ru.job4j.todolist.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.job4j.todolist.dao.DaoException;
 import ru.job4j.todolist.dao.ItemDao;
 import ru.job4j.todolist.dao.ItemDaoImpl;
 import ru.job4j.todolist.model.Item;

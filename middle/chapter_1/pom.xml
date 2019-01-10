@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>todolist</module>
+        <module>car_storage</module>
     </modules>
     <artifactId>chapter_1</artifactId>
 

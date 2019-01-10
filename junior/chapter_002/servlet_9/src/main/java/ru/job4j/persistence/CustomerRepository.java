@@ -68,10 +68,10 @@ public class CustomerRepository implements CustomerDao {
                 }
             } catch (SQLException e) {
                 con.rollback();
-                LOG.error("Can not add customer with place.", e.getMessage());
+                LOG.error("Can not add customer with place.", e);
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e);
         }
         return result;
     }
@@ -120,10 +120,10 @@ public class CustomerRepository implements CustomerDao {
                 }
             } catch (SQLException e) {
                 con.rollback();
-                LOG.error(e.getMessage());
+                LOG.error(e);
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e);
         }
         return result;
     }
@@ -158,7 +158,7 @@ public class CustomerRepository implements CustomerDao {
                 customer = tmpCustomer;
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e);
         }
         return customer;
     }
@@ -190,7 +190,7 @@ public class CustomerRepository implements CustomerDao {
                 tmp.add(customer);
             }
         } catch (SQLException e) {
-            LOG.error(e.getMessage());
+            LOG.error(e);
         }
         return tmp;
     }

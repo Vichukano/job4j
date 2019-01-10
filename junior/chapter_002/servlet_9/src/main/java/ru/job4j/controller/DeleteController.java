@@ -31,7 +31,6 @@ public class DeleteController extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
         BufferedReader reader = req.getReader();
         StringBuilder sb = new StringBuilder();
         String data;
