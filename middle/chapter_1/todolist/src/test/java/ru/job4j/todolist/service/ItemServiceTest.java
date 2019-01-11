@@ -42,6 +42,8 @@ public class ItemServiceTest {
         assertThat(this.service.findAll().get(3).getDesc(), is("added"));
     }
 
+
+
     @Test
     public void whenFindAllDoneThenReturnListOfDoneItems() {
         List<Item> doneItems = this.service.findAllDone();
