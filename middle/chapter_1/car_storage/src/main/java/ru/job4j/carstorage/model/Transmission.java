@@ -12,7 +12,7 @@ public class Transmission {
     private int id;
     @Column(name = "transmission_name")
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transmission")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transmission")
     private List<Car> cars;
 
     public Transmission() {

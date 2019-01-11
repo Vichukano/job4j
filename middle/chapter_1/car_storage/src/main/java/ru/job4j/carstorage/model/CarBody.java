@@ -13,7 +13,7 @@ public class CarBody {
     private int id;
     @Column(name = "body_name")
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "body")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "body")
     private List<Car> cars;
 
     public CarBody() {

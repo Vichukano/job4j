@@ -11,15 +11,15 @@ public class Car {
     @Column(name = "name")
     private String name;
     //@Column(name = "body")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "body_id")
     private CarBody body;
     //@Column(name = "engine")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "engine_id")
     private Engine engine;
     //@Column(name = "transmission")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "transmission_id")
     private Transmission transmission;
 

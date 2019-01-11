@@ -13,7 +13,7 @@ public class Engine {
     private int id;
     @Column(name = "engine_name")
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "engine")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "engine")
     private List<Car> cars;
 
     public Engine() {

@@ -39,12 +39,13 @@ public class CarStorageTest {
         em = this.entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
         List<Car> cars = em.createQuery("from Car", Car.class).getResultList();
+        em.getTransaction().commit();
+        em.close();
         assertThat(cars.size(), is(1));
         assertThat(cars.get(0).getName(), is("Toyota"));
         assertThat(cars.get(0).getBody().getName(), is("black"));
         assertThat(cars.get(0).getEngine().getName(), is("1.6"));
         assertThat(cars.get(0).getTransmission().getName(), is("mechanical"));
-        em.getTransaction().commit();
-        em.close();
+
     }
 }

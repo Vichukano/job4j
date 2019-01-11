@@ -1,0 +1,11 @@
+<hibernate-mapping>
+    <class name="ru.job4j.carstorage.model.Car" table="cars">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="name" column="name"/>
+        <many-to-one name="body" class="ru.job4j.carstorage.model.CarBody" column="body_id" lazy="false"/>
+        <many-to-one name="engine" class="ru.job4j.carstorage.model.Engine" column="engine_id" lazy="false"/>
+        <many-to-one name="transmission" class="ru.job4j.carstorage.model.Transmission" column="transmission_id" lazy="false"/>
+    </class>
+</hibernate-mapping>
