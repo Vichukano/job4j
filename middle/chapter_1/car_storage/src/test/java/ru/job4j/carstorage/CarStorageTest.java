@@ -23,17 +23,12 @@ public class CarStorageTest {
     public void whenAddCarWithComponentsThenStoreIt() {
         EntityManager em = this.entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
-        CarBody body = new CarBody("black");
-        Engine engine = new Engine("1.6");
-        Transmission transmission = new Transmission("mechanical");
-        em.persist(body);
-        em.persist(engine);
-        em.persist(transmission);
-        Car toyota = new Car();
-        toyota.setName("Toyota");
-        toyota.setBody(body);
-        toyota.setEngine(engine);
-        toyota.setTransmission(transmission);
+        Car toyota = new Car(
+                "Toyota",
+                new CarBody("black"),
+                new Engine("1.6"),
+                new Transmission("mechanical")
+        );
         em.persist(toyota);
         em.getTransaction().commit();
         em.close();
