@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!--JQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!--javascript functions-->
+    <script src ="/scripts/add.js"></script>
+    <title>Add car</title>
+</head>
+<body>
+<div class="container-fluid">
+    <br>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <form id="myForm">
+            <div class="form-group" id="model-group">
+                <label for="name">Model:</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Model">
+            </div>
+            <div class="form-group" id="price-group">
+                <label for="price">Price:</label>
+                <input type="text" class="form-control" id="price" name="price" placeholder="00.00">
+            </div>
+            <div class="form-group" id="color-group">
+                <label for="price">Color:</label>
+                <input type="text" class="form-control" id="color" name="color" placeholder="Color">
+            </div>
+            <div class="form-group" id="body-group">
+                <label for="body">Car body: </label>
+                <select class="custom-select mr-sm-2" name="body" id="body">
+                    <!--Inserted dynamically-->
+                </select>
+            </div>
+            <div class="form-group" id="engine-group">
+                <label for="engine">Engine: </label>
+                <select class="custom-select mr-sm-2" name="engine" id="engine">
+                    <!--Inserted dynamically-->
+                </select>
+            </div>
+            <div class="form-group" id="transmission-group">
+                <label for="transmission">Transmission: </label>
+                <select class="custom-select mr-sm-2" name="transmission" id="transmission">
+                    <!--Inserted dynamically-->
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn btn-info" value="Add" onclick="sendCar()">
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

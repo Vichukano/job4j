@@ -1,9 +1,14 @@
 package ru.job4j.carprice.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "car_transmission")
 public class Transmission {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "transmission_id")
     private long id;
 
     private String type;
@@ -52,6 +57,6 @@ public class Transmission {
 
     @Override
     public String toString() {
-        return String.format("Transmission id = %d, type = %s", id, type );
+        return String.format("Transmission id = %d, type = %s", id, type);
     }
 }

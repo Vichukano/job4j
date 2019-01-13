@@ -7,7 +7,7 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-
+    
     <servlet>
         <servlet-name>CarController</servlet-name>
         <servlet-class>ru.job4j.carprice.controller.CarController</servlet-class>
@@ -15,7 +15,44 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>CarController</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/cars</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>OrderController</servlet-name>
+        <servlet-class>ru.job4j.carprice.controller.OrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderController</servlet-name>
+        <url-pattern>/order</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>BodyController</servlet-name>
+        <servlet-class>ru.job4j.carprice.controller.BodyController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BodyController</servlet-name>
+        <url-pattern>/body</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>EngineController</servlet-name>
+        <servlet-class>ru.job4j.carprice.controller.EngineController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EngineController</servlet-name>
+        <url-pattern>/engine</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>TransmissionController</servlet-name>
+        <servlet-class>ru.job4j.carprice.controller.TransmissionController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TransmissionController</servlet-name>
+        <url-pattern>/transmission</url-pattern>
+    </servlet-mapping>
+    
 
 </web-app>

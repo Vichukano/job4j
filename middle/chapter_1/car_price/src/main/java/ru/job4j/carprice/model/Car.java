@@ -1,19 +1,35 @@
 package ru.job4j.carprice.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "cars")
 public class Car {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "car_id")
     private long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "price")
     private Double price;
 
+    @Column(name = "color")
+    private String color;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "body_id")
     private CarBody body;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "engine_id")
     private Engine engine;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "transmission_id")
     private Transmission transmission;
 
     public Car() {
@@ -25,9 +41,10 @@ public class Car {
         this.price = price;
     }
 
-    public Car (String name, Double price, CarBody body, Engine engine, Transmission transmission) {
+    public Car(String name, Double price, String color, CarBody body, Engine engine, Transmission transmission) {
         this.name = name;
         this.price = price;
+        this.color = color;
         this.body = body;
         this.engine = engine;
         this.transmission = transmission;
@@ -81,6 +98,14 @@ public class Car {
         this.transmission = transmission;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -93,6 +118,7 @@ public class Car {
         return id == car.id
                 && Objects.equals(name, car.name)
                 && Objects.equals(price, car.price)
+                && Objects.equals(color, car.color)
                 && Objects.equals(body, car.body)
                 && Objects.equals(engine, car.engine)
                 && Objects.equals(transmission, car.transmission);
@@ -100,7 +126,8 @@ public class Car {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, price, body, engine, transmission);
+
+        return Objects.hash(id, name, price, color, body, engine, transmission);
     }
 
     @Override
@@ -110,13 +137,15 @@ public class Car {
                 + id
                 + ", name="
                 + name
-                +", price="
+                + ", price="
                 + price
                 + ", body="
                 + body
                 + ", engine="
                 + engine
                 + ", transmission="
-                + transmission ;
+                + transmission
+                + ", color="
+                + color;
     }
 }

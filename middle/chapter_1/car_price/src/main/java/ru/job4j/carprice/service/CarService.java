@@ -3,13 +3,13 @@ package ru.job4j.carprice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.Car;
-import ru.job4j.carprice.persistence.CarDao;
 import ru.job4j.carprice.persistence.CarDaoImpl;
+import ru.job4j.carprice.persistence.Dao;
 
 import java.util.List;
 
 public class CarService {
-    private final CarDao store = new CarDaoImpl();
+    private final Dao<Car> store = new CarDaoImpl();
     private static final CarService INSTANCE = new CarService();
     private final Logger logger = LogManager.getLogger(CarService.class);
 
@@ -47,7 +47,7 @@ public class CarService {
 
     public Car findCarById(Car car) {
         try {
-            return this.store.findCarById(car);
+            return this.store.findCarById(car.getId());
         } catch (Exception e) {
             logger.error("Failed to find by id.", e);
             return null;

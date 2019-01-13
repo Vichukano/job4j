@@ -1,22 +1,24 @@
 package ru.job4j.carprice.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "car_body")
 public class CarBody {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "body_id")
     private long id;
 
     private String type;
-
-    private String color;
 
     public CarBody() {
 
     }
 
-    public CarBody(String type, String color) {
+    public CarBody(String type) {
         this.type = type;
-        this.color = color;
     }
 
     public long getId() {
@@ -35,14 +37,6 @@ public class CarBody {
         this.type = type;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -53,17 +47,16 @@ public class CarBody {
         }
         CarBody carBody = (CarBody) o;
         return id == carBody.id
-                && Objects.equals(type, carBody.type)
-                && Objects.equals(color, carBody.color);
+                && Objects.equals(type, carBody.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, type, color);
+        return Objects.hash(id, type);
     }
 
     @Override
     public String toString() {
-        return String.format("CarBody id = %d, type = %s, color = %s", id, type, color);
+        return String.format("CarBody id = %d, type = %s", id, type);
     }
 }

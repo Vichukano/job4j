@@ -8,7 +8,7 @@ import javax.persistence.EntityManagerFactory;
 
 import java.util.List;
 
-public class CarDaoImpl implements CarDao {
+public class CarDaoImpl implements Dao<Car> {
     private final EntityManagerFactory factory = EntityManagerFactoryUtil.getInstance().getEntityManagerFactory();
 
     @Override
@@ -57,12 +57,12 @@ public class CarDaoImpl implements CarDao {
     }
 
     @Override
-    public Car findCarById(Car car) {
+    public Car findCarById(long id) {
         Car found = null;
         EntityManager em = this.factory.createEntityManager();
         try {
             em.getTransaction().begin();
-            found = em.find(Car.class, car.getId());
+            found = em.find(Car.class, id);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
