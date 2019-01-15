@@ -2,6 +2,10 @@ package ru.job4j.carprice.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.Car;
@@ -18,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -46,29 +51,27 @@ public class CarController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json");
-        BufferedReader reader = req.getReader();
-        StringBuilder sb = new StringBuilder();
-        String data;
-        while ((data = reader.readLine()) != null) {
-            sb.append(data);
+
+
+        ServletFileUpload fileUpload = new ServletFileUpload(new DiskFileItemFactory());
+        try {
+            List<FileItem> fileItems = fileUpload.parseRequest(req);
+            for (FileItem item : fileItems) {
+                if (item.isFormField()) {
+                    String model = item.getString();
+                    //Пробегает по всем полям формы.
+                    //Что-то нужно придумать!
+                    logger.debug(model);
+                } else {
+                    String url = "C:\\projects\\job4j\\middle\\chapter_1\\car_price\\upload\\" + item.getName();
+                    item.write(new File(url));
+                    logger.debug(url);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
         }
-        logger.debug("Incoming JSON from client: {}", sb.toString());
-        ObjectMapper mapper = new ObjectMapper();
-        //Конвертируем JSON в map, можно вызывать атрибуды по ключу и собирать объекты.
-        Map<String, String> jsonMap = mapper.readValue(sb.toString(), HashMap.class);
-        CarBody body = this.bodyService.findById(Long.parseLong(jsonMap.get("body")));
-        Engine engine = this.engineService.findById(Long.parseLong(jsonMap.get("engine")));
-        Transmission tr = this.trService.findById(Long.parseLong(jsonMap.get("transmission")));
-        Car car = new Car(
-                jsonMap.get("name"),
-                Double.parseDouble(jsonMap.get("price")),
-                jsonMap.get("color"),
-                body,
-                engine,
-                tr
-        );
-        logger.debug("Completed car: {}", car.toString());
-        this.carService.add(car);
     }
 }
+

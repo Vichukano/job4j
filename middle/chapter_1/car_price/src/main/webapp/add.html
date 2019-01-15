@@ -22,7 +22,7 @@
     <br>
     <div class="col-md-4"></div>
     <div class="col-md-4">
-        <form id="myForm">
+        <form id="myForm" method="post" action="/cars" enctype="multipart/form-data">
             <div class="form-group" id="model-group">
                 <label for="name">Model:</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Model">
@@ -32,8 +32,12 @@
                 <input type="text" class="form-control" id="price" name="price" placeholder="00.00">
             </div>
             <div class="form-group" id="color-group">
-                <label for="price">Color:</label>
+                <label for="color">Color:</label>
                 <input type="text" class="form-control" id="color" name="color" placeholder="Color">
+            </div>
+            <div class="form-group" id="mileage-group">
+                <label for="mileage">Mileage:</label>
+                <input type="text" class="form-control" id="mileage" name="mileage" placeholder="00">
             </div>
             <div class="form-group" id="body-group">
                 <label for="body">Car body: </label>
@@ -53,8 +57,16 @@
                     <!--Inserted dynamically-->
                 </select>
             </div>
+            <div class="form-group" id="desc-group">
+                <label for="desc">Description:</label>
+                <textarea class="form-control" rows="5" name ="desc" id="desc"></textarea>
+            </div>
+            <div class="form-group" id="image-group">
+                <label for="image">Choose images of your car:</label>
+                <input type="file" multiple accept="image/*,image/jpeg" class="form-control-file" name="image" id="image">
+            </div>
             <div class="form-group">
-                <input type="button" class="btn btn-info" value="Add" onclick="sendCar()">
+                <button type="submit" class="btn btn-info" value="Add">Add</button>
             </div>
         </form>
     </div>

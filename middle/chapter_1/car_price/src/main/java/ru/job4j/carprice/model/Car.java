@@ -1,6 +1,7 @@
 package ru.job4j.carprice.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +21,15 @@ public class Car {
     @Column(name = "color")
     private String color;
 
+    @Column(name = "mileage")
+    private int mileage;
+
+    @Column(name = "sold")
+    private boolean sold;
+
+    @Column(name = "desc")
+    private String description;
+
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "body_id")
     private CarBody body;
@@ -32,6 +42,10 @@ public class Car {
     @JoinColumn(name = "transmission_id")
     private Transmission transmission;
 
+    @OneToMany(fetch = FetchType.EAGER)
+
+    private List<Image> images;
+
     public Car() {
 
     }
@@ -41,13 +55,18 @@ public class Car {
         this.price = price;
     }
 
-    public Car(String name, Double price, String color, CarBody body, Engine engine, Transmission transmission) {
+    public Car(String name, Double price, String color, CarBody body,
+               Engine engine, Transmission transmission, int mileage,
+               String description, List<Image> images) {
         this.name = name;
         this.price = price;
         this.color = color;
         this.body = body;
         this.engine = engine;
         this.transmission = transmission;
+        this.mileage = mileage;
+        this.description = description;
+        this.images = images;
     }
 
     public long getId() {
@@ -106,6 +125,38 @@ public class Car {
         this.color = color;
     }
 
+    public int getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
+    }
+
+    public boolean isSold() {
+        return sold;
+    }
+
+    public void setSold(boolean sold) {
+        this.sold = sold;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -116,9 +167,12 @@ public class Car {
         }
         Car car = (Car) o;
         return id == car.id
+                && mileage == car.mileage
+                && sold == car.sold
                 && Objects.equals(name, car.name)
                 && Objects.equals(price, car.price)
                 && Objects.equals(color, car.color)
+                && Objects.equals(description, car.description)
                 && Objects.equals(body, car.body)
                 && Objects.equals(engine, car.engine)
                 && Objects.equals(transmission, car.transmission);
@@ -126,8 +180,7 @@ public class Car {
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, name, price, color, body, engine, transmission);
+        return Objects.hash(id, name, price, color, mileage, sold, description, body, engine, transmission);
     }
 
     @Override
@@ -146,6 +199,12 @@ public class Car {
                 + ", transmission="
                 + transmission
                 + ", color="
-                + color;
+                + color
+                + ", mileage="
+                + mileage
+                + ", sold="
+                + sold
+                + ", description="
+                + description;
     }
 }
