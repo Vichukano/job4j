@@ -7,15 +7,12 @@ import java.util.Objects;
 @Table(name = "images")
 public class Image {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "image_id")
     private long id;
 
     @Column(name = "url")
     private String url;
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "car_id")
-    private Car car;
 
     public Image() {
 

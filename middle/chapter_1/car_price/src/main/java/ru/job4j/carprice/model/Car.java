@@ -1,6 +1,7 @@
 package ru.job4j.carprice.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ public class Car {
     @Column(name = "sold")
     private boolean sold;
 
-    @Column(name = "desc")
+    @Column(name = "description")
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
@@ -42,9 +43,13 @@ public class Car {
     @JoinColumn(name = "transmission_id")
     private Transmission transmission;
 
-    @OneToMany(fetch = FetchType.EAGER)
-
-    private List<Image> images;
+    @OneToMany(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(name = "car_id")
+    private List<Image> images = new ArrayList<>();
 
     public Car() {
 
@@ -57,7 +62,7 @@ public class Car {
 
     public Car(String name, Double price, String color, CarBody body,
                Engine engine, Transmission transmission, int mileage,
-               String description, List<Image> images) {
+               String description) {
         this.name = name;
         this.price = price;
         this.color = color;
@@ -66,7 +71,6 @@ public class Car {
         this.transmission = transmission;
         this.mileage = mileage;
         this.description = description;
-        this.images = images;
     }
 
     public long getId() {
@@ -205,6 +209,8 @@ public class Car {
                 + ", sold="
                 + sold
                 + ", description="
-                + description;
+                + description
+                + ", images="
+                + images;
     }
 }

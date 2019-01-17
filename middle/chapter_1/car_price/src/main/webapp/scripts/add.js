@@ -58,48 +58,6 @@ function getCarTransmissions() {
     })
 }
 
-function sendCar() {
-    var model = document.getElementById("name").value;
-    var price = document.getElementById("price").value;
-    var color = document.getElementById("color").value;
-    var body = document.getElementById("body").value;
-    var engine = document.getElementById("engine").value;
-    var tr = document.getElementById("transmission").value;
-    $.ajax({
-        url: "cars",
-        type: "post",
-        data: JSON.stringify({
-            "name" : model,
-            "price" : price,
-            "color" : color,
-            "body" : body,
-            "engine" : engine,
-            "transmission" : tr
-        }),
-        complete: function () {
-            console.log("Car successfully added");
-            window.location.href = "/";
-        }
-    })
-}
-
-
-
-function send() {
-    var arr = $('#myForm').serializeArray();
-    var data = arrayToJson(arr);
-    $.ajax({
-        url: "cars",
-        type: "post",
-        data: data,
-        success: function () {
-            console.log(data);
-            alert("Car successfully added");
-            window.location.href = "";
-        }
-    })
-
-}
 
 /**
  * Function for converting array to json.

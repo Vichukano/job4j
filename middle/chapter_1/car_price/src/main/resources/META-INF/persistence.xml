@@ -11,6 +11,7 @@
         <class>ru.job4j.carprice.model.CarBody</class>
         <class>ru.job4j.carprice.model.Engine</class>
         <class>ru.job4j.carprice.model.Transmission</class>
+        <class>ru.job4j.carprice.model.Image</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />

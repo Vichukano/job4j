@@ -20,6 +20,7 @@ function addCarsToTable(data) {
     for (var i = 0; i < data.length; i++) {
         var row = document.createElement("tr");
         var query = "<input type='hidden' value=" + data[i].id + ">"
+            + "<td><img src="+ data[i].images[i].url+" width='50' height='50' alt='error'></td>"
             + "<td>" + data[i].name + "</td>"
             + "<td>" + data[i].color + "</td>"
             + "<td>" + data[i].body.type + "</td>"
