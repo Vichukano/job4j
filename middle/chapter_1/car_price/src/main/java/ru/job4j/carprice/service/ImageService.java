@@ -47,7 +47,7 @@ public class ImageService {
 
     public Image findCarById(Image image) {
         try {
-            return this.store.findCarById(image.getId());
+            return this.store.findById(image.getId());
         } catch (Exception e) {
             logger.error("Failed to find by id.", e);
             return null;

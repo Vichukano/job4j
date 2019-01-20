@@ -34,7 +34,7 @@ public class ImageDaoImpl implements Dao<Image> {
     }
 
     @Override
-    public Image findCarById(long id) {
+    public Image findById(long id) {
         return this.tx(
                 entityManager -> entityManager.find(Image.class, id)
         );
@@ -54,6 +54,11 @@ public class ImageDaoImpl implements Dao<Image> {
                         .createQuery("from Image where url=" + image.getUrl())
                         .getResultList()
         );
+    }
+
+    @Override
+    public Image findByParam(Image model) {
+        return null;
     }
 
     private <T> T tx(final Function<EntityManager, T> command) {

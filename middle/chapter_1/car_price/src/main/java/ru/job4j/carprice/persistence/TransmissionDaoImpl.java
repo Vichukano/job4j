@@ -34,7 +34,7 @@ public class TransmissionDaoImpl implements Dao<Transmission> {
     }
 
     @Override
-    public Transmission findCarById(long id) {
+    public Transmission findById(long id) {
         return this.tx(
                 entityManager -> entityManager.find(Transmission.class, id)
         );
@@ -54,6 +54,11 @@ public class TransmissionDaoImpl implements Dao<Transmission> {
                         .createQuery("from Transmission where type=" + ts.getType())
                         .getResultList()
         );
+    }
+
+    @Override
+    public Transmission findByParam(Transmission model) {
+        return null;
     }
 
     private <T> T tx(final Function<EntityManager, T> command) {

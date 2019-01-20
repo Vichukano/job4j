@@ -57,7 +57,7 @@ public class CarDaoImpl implements Dao<Car> {
     }
 
     @Override
-    public Car findCarById(long id) {
+    public Car findById(long id) {
         Car found = null;
         EntityManager em = this.factory.createEntityManager();
         try {
@@ -105,5 +105,10 @@ public class CarDaoImpl implements Dao<Car> {
             em.close();
         }
         return cars;
+    }
+
+    @Override
+    public Car findByParam(Car model) {
+        return null;
     }
 }

@@ -7,19 +7,21 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.*;
+import ru.job4j.carprice.persistence.UserDaoImpl;
 import ru.job4j.carprice.service.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class CarController extends HttpServlet {
     private final Logger logger = LogManager.getLogger(CarController.class);
@@ -27,6 +29,8 @@ public class CarController extends HttpServlet {
     private final CarBodyService bodyService = CarBodyService.getInstance();
     private final EngineService engineService = EngineService.getInstance();
     private final TransmissionService trService = TransmissionService.getInstance();
+    private final UserService userService = UserService.getInstance();
+    private final Random random = new Random();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,28 +42,28 @@ public class CarController extends HttpServlet {
         PrintWriter writer = resp.getWriter();
         writer.print(jsonCars);
         writer.flush();
+        writer.close();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        HttpSession session = req.getSession();
         Map<String, String> reqParams = new HashMap<>();
-        List<Image> images = new ArrayList<>();
+        Image image = null;
         try {
             ServletFileUpload fileUpload = new ServletFileUpload(new DiskFileItemFactory());
             List<FileItem> fileItems = fileUpload.parseRequest(req);
             for (FileItem item : fileItems) {
                 if (item.isFormField()) {
-                    //Пробегает по всем полям формы.
-                    //Что-то нужно придумать!
                     reqParams.put(item.getFieldName(), item.getString());
                 } else {
-                    //Здесь работа с приложенными изображениями.
-                    String url = "C:\\projects\\job4j\\middle\\chapter_1\\car_price\\upload\\" + item.getName();
+                    String url = getServletContext().getInitParameter("ImageSrc")
+                            + random.nextInt(1000)
+                            + item.getName();
                     item.write(new File(url));
-                    Image image = new Image();
+                    image = new Image();
                     image.setUrl(url);
-                    images.add(image);
                     logger.debug(url);
                 }
             }
@@ -67,6 +71,8 @@ public class CarController extends HttpServlet {
             CarBody body = this.bodyService.findById(Long.parseLong(reqParams.get("body")));
             Engine engine = this.engineService.findById(Long.parseLong(reqParams.get("engine")));
             Transmission tr = trService.findById(Long.parseLong(reqParams.get("transmission")));
+            long id = Long.parseLong(String.valueOf(session.getAttribute("id")));
+            User user = this.userService.findById(id);
             Car car = new Car(
                     reqParams.get("name"),
                     Double.parseDouble(reqParams.get("price")),
@@ -75,17 +81,19 @@ public class CarController extends HttpServlet {
                     engine,
                     tr,
                     Integer.parseInt(reqParams.get("mileage")),
-                    reqParams.get("desc")
+                    reqParams.get("desc"),
+                    user
             );
-            for (Image image : images) {
-                car.getImages().add(image);
+            if (image != null) {
+                car.setImage(image);
             }
             this.carService.add(car);
+            logger.debug("User with login {} add new car", session.getAttribute("login"));
             logger.debug("Car from client: {}", car);
         } catch (Exception e) {
             logger.error("Cannot upload file.", e);
         }
-        req.getRequestDispatcher("index.html").forward(req, resp);
+        resp.sendRedirect("index.html");
     }
 }
 

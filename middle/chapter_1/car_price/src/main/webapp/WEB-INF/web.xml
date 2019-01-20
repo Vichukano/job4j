@@ -8,6 +8,47 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     
+    <context-param>
+        <param-name>ImageSrc</param-name>
+        <param-value>/upload/images/</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>UpdateController</servlet-name>
+        <servlet-class>ru.job4j.carprice.controller.UpdateController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateController</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LoginController</servlet-name>
+        <servlet-class>ru.job4j.carprice.controller.LoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginController</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RegController</servlet-name>
+        <servlet-class>ru.job4j.carprice.controller.RegController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegController</servlet-name>
+        <url-pattern>/reg</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ImageController</servlet-name>
+        <servlet-class>ru.job4j.carprice.controller.ImageController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ImageController</servlet-name>
+        <url-pattern>/image/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>CarController</servlet-name>
         <servlet-class>ru.job4j.carprice.controller.CarController</servlet-class>
@@ -53,6 +94,14 @@
         <servlet-name>TransmissionController</servlet-name>
         <url-pattern>/transmission</url-pattern>
     </servlet-mapping>
-    
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>ru.job4j.carprice.controller.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
 </web-app>

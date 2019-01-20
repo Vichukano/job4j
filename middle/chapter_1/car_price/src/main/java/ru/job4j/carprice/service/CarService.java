@@ -45,9 +45,9 @@ public class CarService {
         }
     }
 
-    public Car findCarById(Car car) {
+    public Car findById(Car car) {
         try {
-            return this.store.findCarById(car.getId());
+            return this.store.findById(car.getId());
         } catch (Exception e) {
             logger.error("Failed to find by id.", e);
             return null;

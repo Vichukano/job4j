@@ -2,6 +2,7 @@ $(document).ready(function () {
     getCarBodies();
     getCarEngines();
     getCarTransmissions();
+    getCarId();
 });
 
 function getCarBodies() {
@@ -58,17 +59,8 @@ function getCarTransmissions() {
     })
 }
 
-
-/**
- * Function for converting array to json.
- * @param arr array of objects.
- * @returns json string data.
- */
-function arrayToJson(arr) {
-    var result = {};
-    for (var i = 0; i < arr.length; i++) {
-        result[arr[i]['name']] = arr[i]['value'];
-    }
-    result = JSON.stringify(result);
-    return result;
+//ИХ несколько поэтому работает неверно
+function getCarId() {
+    var carId = document.getElementById("carId");
+    carId.value = sessionStorage.getItem("carId");
 }

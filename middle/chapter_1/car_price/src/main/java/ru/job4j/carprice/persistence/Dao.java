@@ -11,9 +11,11 @@ public interface Dao<T> {
 
     void update(T model);
 
-    T findCarById(long id);
+    T findById(long id);
 
     List<T> findAll();
 
     List<T> findByName(T model);
+
+    T findByParam(T model);
 }

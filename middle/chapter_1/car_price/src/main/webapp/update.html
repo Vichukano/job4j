@@ -15,14 +15,15 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!--javascript functions-->
     <script src ="/scripts/add.js"></script>
-    <title>Add car</title>
+    <title>Update car</title>
 </head>
 <body>
 <div class="container-fluid">
     <br>
     <div class="col-md-4"></div>
     <div class="col-md-4">
-        <form id="myForm" method="post" action="/cars" enctype="multipart/form-data">
+        <form id="myForm" method="post" action="/update">
+            <input type="hidden" id="carId" name="carId" value="">
             <div class="form-group" id="model-group">
                 <label for="name">Model:</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Model">
@@ -61,12 +62,8 @@
                 <label for="desc">Description:</label>
                 <textarea class="form-control" rows="5" name ="desc" id="desc"></textarea>
             </div>
-            <div class="form-group" id="image-group">
-                <label for="image">Choose images of your car:</label>
-                <input type="file" accept="image/*" class="form-control-file" name="image" id="image">
-            </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-info" value="Add">Add</button>
+                <button type="submit" class="btn btn-info" value="Update">Update</button>
             </div>
         </form>
     </div>

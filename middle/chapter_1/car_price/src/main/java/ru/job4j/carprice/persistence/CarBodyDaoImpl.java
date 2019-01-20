@@ -34,7 +34,7 @@ public class CarBodyDaoImpl implements Dao<CarBody> {
     }
 
     @Override
-    public CarBody findCarById(long id) {
+    public CarBody findById(long id) {
         return this.tx(
                 entityManager -> entityManager.find(CarBody.class, id)
         );
@@ -56,6 +56,11 @@ public class CarBodyDaoImpl implements Dao<CarBody> {
                         .createQuery("from CarBody where type =" + body.getType())
                         .getResultList()
         );
+    }
+
+    @Override
+    public CarBody findByParam(CarBody model) {
+        return null;
     }
 
     private <T> T tx(final Function<EntityManager, T> command) {

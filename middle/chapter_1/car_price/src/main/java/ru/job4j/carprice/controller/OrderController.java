@@ -12,6 +12,6 @@ public class OrderController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html");
-        req.getRequestDispatcher("add.html").forward(req, resp);
+        resp.sendRedirect("add.html");
     }
 }

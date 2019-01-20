@@ -23,7 +23,7 @@ public class TransmissionService {
 
     public Transmission findById(long id) {
         try {
-            return this.store.findCarById(id);
+            return this.store.findById(id);
         } catch (Exception e) {
             logger.error("Failed to find transmission by id.", e);
             return null;

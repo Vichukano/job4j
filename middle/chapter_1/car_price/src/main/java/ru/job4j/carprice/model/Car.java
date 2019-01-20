@@ -1,8 +1,6 @@
 package ru.job4j.carprice.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -43,13 +41,17 @@ public class Car {
     @JoinColumn(name = "transmission_id")
     private Transmission transmission;
 
-    @OneToMany(
+    @OneToOne(
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    @JoinColumn(name = "car_id")
-    private List<Image> images = new ArrayList<>();
+    @JoinColumn(name = "image_id")
+    private Image image;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Car() {
 
@@ -62,7 +64,7 @@ public class Car {
 
     public Car(String name, Double price, String color, CarBody body,
                Engine engine, Transmission transmission, int mileage,
-               String description) {
+               String description, User user) {
         this.name = name;
         this.price = price;
         this.color = color;
@@ -71,6 +73,7 @@ public class Car {
         this.transmission = transmission;
         this.mileage = mileage;
         this.description = description;
+        this.user = user;
     }
 
     public long getId() {
@@ -153,12 +156,21 @@ public class Car {
         this.description = description;
     }
 
-    public List<Image> getImages() {
-        return images;
+    public Image getImage() {
+        return image;
     }
 
-    public void setImages(List<Image> images) {
-        this.images = images;
+    public void setImage(Image image) {
+        this.image = image;
+    }
+
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
@@ -170,6 +182,7 @@ public class Car {
             return false;
         }
         Car car = (Car) o;
+
         return id == car.id
                 && mileage == car.mileage
                 && sold == car.sold
@@ -210,7 +223,9 @@ public class Car {
                 + sold
                 + ", description="
                 + description
-                + ", images="
-                + images;
+                + ", image="
+                + image
+                + "' user="
+                + user;
     }
 }

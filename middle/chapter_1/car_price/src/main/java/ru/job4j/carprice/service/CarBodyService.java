@@ -23,7 +23,7 @@ public class CarBodyService {
 
     public CarBody findById(long id) {
         try {
-            return this.store.findCarById(id);
+            return this.store.findById(id);
         } catch (Exception e) {
             logger.error("Failed to find body by id.", e);
             return null;
