@@ -35,7 +35,7 @@ public class LoginController extends HttpServlet {
             session.setAttribute("id", user.getId());
             session.setAttribute("login", user.getLogin());
             logger.debug("Found user: {}", user.toString());
-            req.getRequestDispatcher("/cars").forward(req, resp);
+            resp.sendRedirect("index.html");
         } else {
             resp.sendRedirect("/login");
         }

@@ -27,7 +27,7 @@ public class RegController extends HttpServlet {
         String login = req.getParameter("login");
         String pass = req.getParameter("password");
         String confirm = req.getParameter("confirm");
-        if(pass.equals(confirm)) {
+        if (pass.equals(confirm)) {
             User user = new User(login, pass);
             logger.debug("New user: {}", user.toString());
             if (!this.userService.isExist(user)) {

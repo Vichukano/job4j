@@ -7,7 +7,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.*;
-import ru.job4j.carprice.persistence.UserDaoImpl;
 import ru.job4j.carprice.service.*;
 
 import javax.servlet.ServletException;
@@ -58,13 +57,19 @@ public class CarController extends HttpServlet {
                 if (item.isFormField()) {
                     reqParams.put(item.getFieldName(), item.getString());
                 } else {
-                    String url = getServletContext().getInitParameter("ImageSrc")
-                            + random.nextInt(1000)
-                            + item.getName();
-                    item.write(new File(url));
-                    image = new Image();
-                    image.setUrl(url);
-                    logger.debug(url);
+                    if (!item.getName().equals("")) {
+                        logger.debug("Name of image file: {}", item.getName());
+                        String url = getServletContext().getInitParameter("ImageSrc")
+                                + random.nextInt(1000)
+                                + item.getName();
+                        item.write(new File(url));
+                        image = new Image();
+                        image.setUrl(url);
+                        logger.debug(url);
+                    } else {
+                        image = new Image("empty");
+                        logger.debug("Image not found!");
+                    }
                 }
             }
             logger.debug(reqParams.entrySet());
@@ -80,10 +85,10 @@ public class CarController extends HttpServlet {
                     body,
                     engine,
                     tr,
-                    Integer.parseInt(reqParams.get("mileage")),
-                    reqParams.get("desc"),
-                    user
+                    Integer.parseInt(reqParams.get("mileage"))
             );
+            car.setDescription(req.getParameter("desc"));
+            car.setUser(user);
             if (image != null) {
                 car.setImage(image);
             }

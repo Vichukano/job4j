@@ -59,7 +59,7 @@ function getCarTransmissions() {
     })
 }
 
-//ИХ несколько поэтому работает неверно
+//Нет, здесь все должно работать!
 function getCarId() {
     var carId = document.getElementById("carId");
     carId.value = sessionStorage.getItem("carId");

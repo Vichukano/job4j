@@ -42,6 +42,10 @@ public class UpdateController extends HttpServlet {
         Car car = new Car();
         car.setId(id);
         Car found = this.carService.findById(car);
+        found.setSold(false);
+        if (req.getParameter("sold") != null) {
+            found.setSold(true);
+        }
         found.setName(model);
         found.setPrice(price);
         found.setColor(color);

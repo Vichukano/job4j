@@ -1,6 +1,8 @@
 package ru.job4j.carprice.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -28,6 +30,8 @@ public class Car {
 
     @Column(name = "description")
     private String description;
+
+    private Date createDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "body_id")
@@ -63,8 +67,7 @@ public class Car {
     }
 
     public Car(String name, Double price, String color, CarBody body,
-               Engine engine, Transmission transmission, int mileage,
-               String description, User user) {
+               Engine engine, Transmission transmission, int mileage) {
         this.name = name;
         this.price = price;
         this.color = color;
@@ -72,8 +75,7 @@ public class Car {
         this.engine = engine;
         this.transmission = transmission;
         this.mileage = mileage;
-        this.description = description;
-        this.user = user;
+        this.createDate = new Date(System.currentTimeMillis());
     }
 
     public long getId() {
@@ -173,6 +175,14 @@ public class Car {
         this.user = user;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -226,6 +236,8 @@ public class Car {
                 + ", image="
                 + image
                 + "' user="
-                + user;
+                + user
+                + ", crated="
+                + createDate;
     }
 }
