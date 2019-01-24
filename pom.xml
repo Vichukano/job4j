@@ -21,6 +21,30 @@
         <module>middle</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>production</id>
+            <properties>
+                <db.driver>org.postgresql.Driver</db.driver>
+                <db.url>jdbc:postgresql://localhost:5432</db.url>
+                <db.username>postgres</db.username>
+                <db.password>9115</db.password>
+            </properties>
+        </profile>
+        <profile>
+            <id>travis</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <db.driver>org.postgresql.Driver</db.driver>
+                <db.url>jdbc:postgresql://localhost:5432</db.url>
+                <db.username>postgres</db.username>
+                <db.password></db.password>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.hamcrest</groupId>

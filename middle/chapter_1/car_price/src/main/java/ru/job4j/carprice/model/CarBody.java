@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "car_body")
 public class CarBody {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "body_id")
     private long id;
 

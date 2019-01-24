@@ -34,7 +34,8 @@ public class RegController extends HttpServlet {
                 this.userService.add(user);
                 session.setAttribute("id", user.getId());
                 session.setAttribute("login", login);
-                req.getRequestDispatcher("/cars").forward(req, resp);
+                resp.sendRedirect("index.html");
+                //req.getRequestDispatcher("/cars").forward(req, resp);
             } else {
                 this.doGet(req, resp);
             }

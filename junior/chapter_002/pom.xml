@@ -42,15 +42,5 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <profiles>
-        <profile>
-            <id>production</id>
-            <properties>
-                <db.driver>org.postgresql.Driver</db.driver>
-                <db.url>jdbc:postgresql://localhost:5432</db.url>
-                <db.username>postgres</db.username>
-                <db.password>9115</db.password>
-            </properties>
-        </profile>
-    </profiles>
+
 </project>
