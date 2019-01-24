@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>chapter_002</artifactId>
     <packaging>pom</packaging>
+
     <modules>
         <module>servlet_1</module>
         <module>servlet_2</module>
@@ -41,6 +42,15 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-
+    <profiles>
+        <profile>
+            <id>production</id>
+            <properties>
+                <db.driver>org.postgresql.Driver</db.driver>
+                <db.url>jdbc:postgresql://localhost:5432</db.url>
+                <db.username>postgres</db.username>
+                <db.password>9115</db.password>
+            </properties>
+        </profile>
+    </profiles>
 </project>
