@@ -8,6 +8,9 @@ import ru.job4j.carprice.persistence.TransmissionDaoImpl;
 
 import java.util.List;
 
+/**
+ * Singleton class for service methods with Transmission objects.
+ */
 public class TransmissionService {
     private final Dao<Transmission> store = new TransmissionDaoImpl();
     private static final TransmissionService INSTANCE = new TransmissionService();

@@ -58,15 +58,6 @@
         <servlet-name>CarController</servlet-name>
         <url-pattern>/cars</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-        <servlet-name>OrderController</servlet-name>
-        <servlet-class>ru.job4j.carprice.controller.OrderController</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>OrderController</servlet-name>
-        <url-pattern>/order</url-pattern>
-    </servlet-mapping>
     
     <servlet>
         <servlet-name>BodyController</servlet-name>

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Implementation of Dao interface for Engine objects.
+ */
 public class EngineDaoImpl implements Dao<Engine> {
     private final EntityManagerFactory factory = EntityManagerFactoryUtil.getInstance().getEntityManagerFactory();
 

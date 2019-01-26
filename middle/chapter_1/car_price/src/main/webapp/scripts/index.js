@@ -1,7 +1,13 @@
+/**
+ * Function execute when page loaded.
+ */
 $(document).ready(function () {
     getCars();
 });
 
+/**
+ * Function get array of Car object form server.
+ */
 function getCars() {
     $.ajax({
         url: "cars",
@@ -14,12 +20,18 @@ function getCars() {
     })
 }
 
+/**
+ * Function for adding car object parameters to index.html page.
+ * @param data - array with car objects.
+ */
 function addCarsLikeDiv(data) {
     var container = document.getElementById("main-div");
     container.innerHTML = "";
     for (var i = 0; i < data.length; i++) {
         var row = document.createElement("div");
+        var br =document.createElement("br");
         row.classList.add("row");
+        row.style.backgroundColor = "#f2f2ff";
         var query = "<input type='hidden' id='carId' value=" + data[i].id + ">"
             + "<input type='hidden' id='userId' value=" + data[i].user.id + ">"
             + "<input type='hidden' id='userLogin' value=" + data[i].user.login + ">"
@@ -41,9 +53,15 @@ function addCarsLikeDiv(data) {
         }
         row.innerHTML = query;
         container.appendChild(row);
+        container.appendChild(br);
     }
 }
 
+/**
+ * Function for setting sold parameter.
+ * @param sold - boolean
+ * @returns {string} 'sale' if sold = true, else 'on sale'.
+ */
 function isSold(sold) {
     if (!sold) {
         return "<div class='col-md-2'><label>Status</label><br><span>on sale</span></div>"
@@ -52,16 +70,28 @@ function isSold(sold) {
     }
 }
 
+/**
+ * Function for getting car id for update.
+ * Set id to sessionStorage and redirect to update.html page.
+ * @param value car id stored in clicked field.
+ */
 function update(value) {
     var carId = value;
     sessionStorage.setItem("carId", carId);
     window.location.href = "/update.html";
 }
 
+/**
+ * Function for redirecting to add.html page.
+ */
 function send() {
-    window.location.href = "/order";
+    window.location.href = "/add.html";
 }
 
+/**
+ * Function for logout.
+ * Send request to LoginController.
+ */
 function logout() {
     window.location.href = "/login";
 }

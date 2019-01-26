@@ -1,28 +1,30 @@
+/**
+ * Function execute when page loaded.
+ */
 $(document).ready(function () {
     getCarParameters();
 
 });
 
+/**
+ * Function for getting parameters of car for update.
+ * Parameters setting to input fields in update.html page.
+ */
 function getCarParameters() {
     var id = document.getElementById("carId").value;
     console.log(id);
     $.ajax({
         url: "update",
         type: "GET",
-        data: "id="+id,
+        data: "id=" + id,
         dataType: "JSON",
         success: function (data) {
             console.log(data);
-            var model = document.getElementById("name");
-            var price = document.getElementById("price");
-            var color = document.getElementById("color");
-            var mileage = document.getElementById("mileage");
-            var desc = document.getElementById("desc");
-            model.value = data.name;
-            price.value = data.price;
-            color.value = data.color;
-            mileage.value = data.mileage;
-            desc.innerText = data.description;
+            document.getElementById("name").value = data.name;
+            document.getElementById("price").value = data.price;
+            document.getElementById("color").value = data.color;
+            document.getElementById("mileage").value = data.mileage;
+            document.getElementById("desc").innerText = data.description;
         }
     })
 }

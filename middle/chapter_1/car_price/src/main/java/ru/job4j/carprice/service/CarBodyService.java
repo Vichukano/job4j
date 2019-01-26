@@ -8,6 +8,9 @@ import ru.job4j.carprice.persistence.Dao;
 
 import java.util.List;
 
+/**
+ * Singleton class for service methods with CarBody objects.
+ */
 public class CarBodyService {
     private final Dao<CarBody> store = new CarBodyDaoImpl();
     private static final CarBodyService INSTANCE = new CarBodyService();
@@ -21,6 +24,11 @@ public class CarBodyService {
         return INSTANCE;
     }
 
+    /**
+     * Method for finding CarBody object by id.
+     * @param id - id of object in database.
+     * @return CarBody object or null if not persist.
+     */
     public CarBody findById(long id) {
         try {
             return this.store.findById(id);
@@ -30,6 +38,10 @@ public class CarBodyService {
         }
     }
 
+    /**
+     * Method for finding all CarBody objects from database.
+     * @return List of objects or null if not persist.
+     */
     public List<CarBody> findAll() {
         try {
             return this.store.findAll();

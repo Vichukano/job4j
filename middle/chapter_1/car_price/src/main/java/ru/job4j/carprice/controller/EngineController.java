@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * Servlet for getting engine objects from database.
+ */
 public class EngineController extends HttpServlet {
     private final EngineService service = EngineService.getInstance();
     private final Logger logger = LogManager.getLogger(EngineService.class);

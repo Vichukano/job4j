@@ -1,3 +1,6 @@
+/**
+ * Functions execute when page loaded.
+ */
 $(document).ready(function () {
     getCarBodies();
     getCarEngines();
@@ -5,6 +8,10 @@ $(document).ready(function () {
     getCarId();
 });
 
+/**
+ * Function for getting array with CarBody objects
+ * and setting parameters to the page.
+ */
 function getCarBodies() {
     var bodies = document.getElementById("body");
     $.ajax({
@@ -23,6 +30,10 @@ function getCarBodies() {
     })
 }
 
+/**
+ * Function for getting array with Engine objects
+ * and setting parameters to the page.
+ */
 function getCarEngines() {
     var engines = document.getElementById("engine");
     $.ajax({
@@ -41,6 +52,10 @@ function getCarEngines() {
     })
 }
 
+/**
+ * Function for getting array with Transmission objects
+ * and setting parameters to the page.
+ */
 function getCarTransmissions() {
     var tr = document.getElementById("transmission");
     $.ajax({
@@ -59,11 +74,19 @@ function getCarTransmissions() {
     })
 }
 
+/**
+ * Function for setting car id parameter to hidden
+ * input field.
+ */
 function getCarId() {
     var carId = document.getElementById("carId");
     carId.value = sessionStorage.getItem("carId");
 }
 
+/**
+ * Function for validating input forms.
+ * @returns {boolean} true or false.
+ */
 function validate() {
     var result = false;
     var model = document.getElementById("name").value;

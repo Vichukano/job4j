@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * Servlet for getting transmission object from database.
+ */
 public class TransmissionController extends HttpServlet {
     private final TransmissionService service = TransmissionService.getInstance();
     private final Logger logger = LogManager.getLogger(TransmissionService.class);

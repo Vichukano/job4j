@@ -12,11 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Servlet for login.html page.
+ */
 public class LoginController extends HttpServlet {
     private final Logger logger = LogManager.getLogger(LoginController.class);
     private final UserService userService = UserService.getInstance();
 
-
+    /**
+     * Method for redirecting to login.html page.
+     * When redirect, then close current session.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -25,6 +35,17 @@ public class LoginController extends HttpServlet {
         req.getRequestDispatcher("login.html").forward(req, resp);
     }
 
+    /**
+     * Method for login user.
+     * Create new session.
+     * Before redirect check user login and password.
+     * If checked true, then redirect to index.html page
+     * and save user id and login parameters in session.
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();

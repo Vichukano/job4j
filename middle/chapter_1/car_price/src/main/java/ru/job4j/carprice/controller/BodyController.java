@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * Servlet for getting CarBody objects from database.
+ */
 public class BodyController extends HttpServlet {
     private final CarBodyService service = CarBodyService.getInstance();
     private final Logger logger = LogManager.getLogger(BodyController.class);

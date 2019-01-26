@@ -6,6 +6,9 @@ import ru.job4j.carprice.model.Image;
 import ru.job4j.carprice.persistence.Dao;
 import ru.job4j.carprice.persistence.ImageDaoImpl;
 
+/**
+ * Singleton class for service methods with Image objects.
+ */
 import java.util.List;
 
 public class ImageService {

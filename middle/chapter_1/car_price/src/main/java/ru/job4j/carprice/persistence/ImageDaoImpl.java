@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Implementation of Dao interface for Image objects.
+ */
 public class ImageDaoImpl implements Dao<Image> {
     private final EntityManagerFactory factory = EntityManagerFactoryUtil.getInstance().getEntityManagerFactory();
 

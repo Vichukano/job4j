@@ -1,11 +1,13 @@
 package ru.job4j.carprice.controller;
 
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Filter for login.html page.
+ */
 public class AuthFilter implements Filter {
 
     @Override

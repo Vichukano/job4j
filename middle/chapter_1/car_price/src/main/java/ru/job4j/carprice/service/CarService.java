@@ -8,6 +8,9 @@ import ru.job4j.carprice.persistence.Dao;
 
 import java.util.List;
 
+/**
+ * Singleton class for service methods with Car object.
+ */
 public class CarService {
     private final Dao<Car> store = new CarDaoImpl();
     private static final CarService INSTANCE = new CarService();

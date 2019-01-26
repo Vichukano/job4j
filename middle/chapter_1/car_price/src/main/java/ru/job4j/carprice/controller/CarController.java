@@ -22,6 +22,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Servlet for getting and adding car objects to database.
+ */
 public class CarController extends HttpServlet {
     private final Logger logger = LogManager.getLogger(CarController.class);
     private final CarService carService = CarService.getInstance();
@@ -31,6 +34,15 @@ public class CarController extends HttpServlet {
     private final UserService userService = UserService.getInstance();
     private final Random random = new Random();
 
+    /**
+     * Method for getting car objects from database
+     * and sending it to client in JSON format.
+     *
+     * @param req  client request.
+     * @param resp server response - car objects in JSON format.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
@@ -44,6 +56,16 @@ public class CarController extends HttpServlet {
         writer.close();
     }
 
+    /**
+     * Method for building car object with client parameters
+     * and persist it. All parameters add to map reqParams.
+     * If image not sending, then create empty image with url "empty".
+     *
+     * @param req  client request with car parameters.
+     * @param resp servet response.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");

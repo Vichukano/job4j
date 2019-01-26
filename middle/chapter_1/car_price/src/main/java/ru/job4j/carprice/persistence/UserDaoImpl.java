@@ -8,6 +8,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import java.util.List;
 
+/**
+ * Implementation of Dao interface for User objects.
+ */
 public class UserDaoImpl implements Dao<User> {
     private final EntityManagerFactory factory = EntityManagerFactoryUtil.getInstance().getEntityManagerFactory();
 
@@ -29,12 +32,12 @@ public class UserDaoImpl implements Dao<User> {
 
     @Override
     public void delete(User model) {
-
+        //TODO
     }
 
     @Override
     public void update(User model) {
-
+        //TODO
     }
 
     @Override

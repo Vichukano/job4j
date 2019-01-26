@@ -13,10 +13,20 @@ import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * Servlet for loading image file to the index.html page.
+ */
 public class ImageController extends HttpServlet {
     private final Logger logger = LogManager.getLogger(ImageController.class);
 
-
+    /**
+     * Method for loading image to the page.
+     *
+     * @param req  client request with path to the image file.
+     * @param resp server response with image file.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("image/jpg");
@@ -25,7 +35,7 @@ public class ImageController extends HttpServlet {
         ServletOutputStream outStream;
         outStream = resp.getOutputStream();
         FileInputStream fin = new FileInputStream(getServletContext().getInitParameter("ImageSrc")
-        + path.substring("/image/".length()));
+                + path.substring("/image/".length()));
         BufferedInputStream bin = new BufferedInputStream(fin);
         BufferedOutputStream bout = new BufferedOutputStream(outStream);
         int data;

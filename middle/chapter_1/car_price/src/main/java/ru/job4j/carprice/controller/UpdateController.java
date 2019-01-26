@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Servlet for updating car.
+ */
 public class UpdateController extends HttpServlet {
     private final Logger logger = LogManager.getLogger(UpdateController.class);
     private final CarService carService = CarService.getInstance();
@@ -23,12 +26,19 @@ public class UpdateController extends HttpServlet {
     private final EngineService engineService = EngineService.getInstance();
     private final TransmissionService trService = TransmissionService.getInstance();
 
+    /**
+     * Method for getting car for update.
+     * @param req client request with car id.
+     * @param resp server response with car object in JSON format.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         String id = req.getParameter("id");
-        logger.debug("Car id from client: S{}", id);
+        logger.debug("Car id from client: {}", id);
         Car car = new Car();
         car.setId(Long.parseLong(id));
         Car found = this.carService.findById(car);
@@ -39,6 +49,13 @@ public class UpdateController extends HttpServlet {
         writer.flush();
     }
 
+    /**
+     * Method for updating car.
+     * @param req client request with car id for update.
+     * @param resp server response.
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long id = Long.parseLong(req.getParameter("carId"));
@@ -68,6 +85,6 @@ public class UpdateController extends HttpServlet {
         found.setDescription(desc);
         this.carService.update(found);
         logger.debug("Car updated: {}", found);
-        req.getRequestDispatcher("/cars").forward(req, resp);
+        resp.sendRedirect("index.html");
     }
 }

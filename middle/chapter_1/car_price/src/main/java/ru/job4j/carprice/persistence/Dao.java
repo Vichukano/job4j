@@ -1,8 +1,11 @@
 package ru.job4j.carprice.persistence;
 
-
 import java.util.List;
 
+/**
+ * Interface for CRUD methods.
+ * @param <T> - entity object.
+ */
 public interface Dao<T> {
 
     void add(T model);

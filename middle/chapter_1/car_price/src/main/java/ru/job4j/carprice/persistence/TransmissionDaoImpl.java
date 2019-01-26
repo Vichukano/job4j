@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Implementation of Dao interface for Transmission objects.
+ */
 public class TransmissionDaoImpl implements Dao<Transmission> {
     private final EntityManagerFactory factory = EntityManagerFactoryUtil.getInstance().getEntityManagerFactory();
 

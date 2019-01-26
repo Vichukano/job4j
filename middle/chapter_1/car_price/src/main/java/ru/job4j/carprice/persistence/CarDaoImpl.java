@@ -9,6 +9,9 @@ import javax.persistence.Query;
 
 import java.util.List;
 
+/**
+ * Implementation of Dao interface for Car objects.
+ */
 public class CarDaoImpl implements Dao<Car> {
     private final EntityManagerFactory factory = EntityManagerFactoryUtil.getInstance().getEntityManagerFactory();
 

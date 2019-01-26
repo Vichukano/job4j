@@ -8,6 +8,9 @@ import ru.job4j.carprice.persistence.EngineDaoImpl;
 
 import java.util.List;
 
+/**
+ * Singleton class for service methods with Engine objects.
+ */
 public class EngineService {
     private final Dao<Engine> store = new EngineDaoImpl();
     private static final EngineService INSTANCE = new EngineService();
