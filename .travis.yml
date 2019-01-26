@@ -1,7 +1,7 @@
 # используем язык java. Travis CI поддерживает другие языки тоже.
 language: java
 # используем режим обычного пользователя для сборки проекта.
-sudo: true
+sudo: false
 
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/
@@ -18,12 +18,12 @@ notifications:
 
 before_install:
   - export TZ=Europe/Moscow
+    - psql -c "CREATE DATABASE cinema;" -U postgres
 services:
   - postgresql
 addons:
       postgresql: "9.6"
 before_script:
-  - psql -c "CREATE DATABASE cinema;" -U postgres
   - psql -c "CREATE DATABASE tracker;" -U postgres
   - psql -c "CREATE DATABASE parser_testing;" -U postgres
   - psql -c "CREATE DATABASE servlet_test;" -U postgres
