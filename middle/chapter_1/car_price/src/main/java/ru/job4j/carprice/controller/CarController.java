@@ -87,7 +87,7 @@ public class CarController extends HttpServlet {
                     tr,
                     Integer.parseInt(reqParams.get("mileage"))
             );
-            car.setDescription(req.getParameter("desc"));
+            car.setDescription(reqParams.get("desc"));
             car.setUser(user);
             if (image != null) {
                 car.setImage(image);

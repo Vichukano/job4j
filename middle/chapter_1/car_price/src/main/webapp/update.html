@@ -15,6 +15,7 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!--javascript functions-->
     <script src ="/scripts/add.js"></script>
+    <script src ="/scripts/update.js"></script>
     <title>Update car</title>
 </head>
 <body>
@@ -22,23 +23,24 @@
     <br>
     <div class="col-md-4"></div>
     <div class="col-md-4">
+        <h3 class="text-center" id = "warn"></h3>
         <form id="myForm" method="post" action="/update">
             <input type="hidden" id="carId" name="carId" value="">
             <div class="form-group" id="model-group">
                 <label for="name">Model:</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Model">
+                <input type="text" class="form-control" id="name" name="name" value="" placeholder="Model">
             </div>
             <div class="form-group" id="price-group">
                 <label for="price">Price:</label>
-                <input type="text" class="form-control" id="price" name="price" placeholder="00.00">
+                <input type="text" class="form-control" id="price" name="price" value="" placeholder="00.00">
             </div>
             <div class="form-group" id="color-group">
                 <label for="color">Color:</label>
-                <input type="text" class="form-control" id="color" name="color" placeholder="Color">
+                <input type="text" class="form-control" id="color" name="color" value="" placeholder="Color">
             </div>
             <div class="form-group" id="mileage-group">
                 <label for="mileage">Mileage:</label>
-                <input type="text" class="form-control" id="mileage" name="mileage" placeholder="00">
+                <input type="text" class="form-control" id="mileage" name="mileage" value="" placeholder="00">
             </div>
             <div class="form-group" id="body-group">
                 <label for="body">Car body: </label>
@@ -66,7 +68,7 @@
                 <textarea class="form-control" rows="5" name ="desc" id="desc"></textarea>
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-info" value="Update">Update</button>
+                <button type="submit" class="btn btn-info" value="Update" onclick="return validate()">Update</button>
             </div>
         </form>
     </div>

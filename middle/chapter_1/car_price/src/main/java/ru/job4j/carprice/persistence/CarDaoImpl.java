@@ -5,6 +5,7 @@ import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 import java.util.List;
 
@@ -31,7 +32,9 @@ public class CarDaoImpl implements Dao<Car> {
         EntityManager em = this.factory.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.remove(car);
+            Query query = em.createQuery("delete from Car where id =:id");
+            query.setParameter("id", car.getId());
+            query.executeUpdate();
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -96,7 +99,9 @@ public class CarDaoImpl implements Dao<Car> {
         EntityManager em = this.factory.createEntityManager();
         try {
             em.getTransaction().begin();
-            cars = em.createQuery("from Car where name =" + car.getName()).getResultList();
+            Query query = em.createQuery("from Car where name =:name");
+            query.setParameter("name", car.getName());
+            cars = query.getResultList();
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();

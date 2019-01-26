@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS car_body (
+CREATE TABLE car_body (
   body_id BIGSERIAL PRIMARY KEY UNIQUE,
   type    VARCHAR(255)
 );
@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS car_body (
 INSERT INTO car_body (type)
 VALUES ('sedan'), ('hatchback'), ('crossover');
 
-CREATE TABLE IF NOT EXISTS car_engine (
+CREATE TABLE car_engine (
   engine_id BIGSERIAL PRIMARY KEY UNIQUE,
   type      VARCHAR(255)
 );
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS car_engine (
 INSERT INTO car_engine (type)
 VALUES ('petrol'), ('diesel'), ('hybrid');
 
-CREATE TABLE IF NOT EXISTS car_transmission (
+CREATE TABLE car_transmission (
   transmission_id BIGSERIAL PRIMARY KEY UNIQUE,
   type            VARCHAR(255)
 );

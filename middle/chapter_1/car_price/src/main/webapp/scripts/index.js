@@ -24,13 +24,13 @@ function addCarsLikeDiv(data) {
             + "<input type='hidden' id='userId' value=" + data[i].user.id + ">"
             + "<input type='hidden' id='userLogin' value=" + data[i].user.login + ">"
             + "<div class='col-md-2'><img src=" + "/image/" + data[i].image.url.replace('/upload/images/', '') + " width='150' height='150' alt='No image'></div>"
-            + "<div class='col-md-2'><label>Model</label><br><span>" + data[i].name + "</span></div>"
-            + "<div class='col-md-3'><label>Characteristic</label><br><span>Color: " + data[i].color + "</span><br>"
+            + "<div class='col-md-1'><label>Model</label><br><span>" + data[i].name + "</span></div>"
+            + "<div class='col-md-2'><label>Characteristic</label><br><span>Color: " + data[i].color + "</span><br>"
             + "<span>Body: " + data[i].body.type + "</span><br>"
             + "<span>Engine: " + data[i].engine.type + "</span><br>"
             + "<span>Transmission: " + data[i].transmission.type + "</span></div>"
-            + "<div class='col-md-1'><label>Mileage</label><br><span>" + data[i].mileage + "</span></div>"
-            + "<div class='col-md-1'><label>Price</label><br><span>" + data[i].price + "</span></div>"
+            + "<div class='col-md-2'><label>Mileage</label><br><span>" + data[i].mileage + "</span></div>"
+            + "<div class='col-md-2'><label>Price</label><br><span>" + data[i].price + "</span></div>"
             + isSold(data[i].sold)
             + "<div class='col-md-1'><label>Created</label><br><span>" + new Date(data[i].createDate).toDateString("ru") + "</span></div>"
             + "<div class='col-md-9 col-md-offset-2 text-center'><label>Description</label><br><div class='panel panel-default'><div class='panel-body text-left'><span>" + data[i].description + "</span></div></div></div>";
@@ -46,17 +46,16 @@ function addCarsLikeDiv(data) {
 
 function isSold(sold) {
     if (!sold) {
-        return "<div class='col-md-1'><label>Status</label><br><span>on sale</span></div>"
+        return "<div class='col-md-2'><label>Status</label><br><span>on sale</span></div>"
     } else {
-        return "<div class='col-md-1'><label>Status</label><br><span>sold</span></div>"
+        return "<div class='col-md-2'><label>Status</label><br><span>sold</span></div>"
     }
 }
 
-//Баг. Берет первое значение!!!
 function update(value) {
     var carId = value;
     sessionStorage.setItem("carId", carId);
-    window.location.href = "/update";
+    window.location.href = "/update.html";
 }
 
 function send() {

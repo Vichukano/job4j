@@ -1,5 +1,6 @@
 package ru.job4j.carprice.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.Car;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class UpdateController extends HttpServlet {
     private final Logger logger = LogManager.getLogger(UpdateController.class);
@@ -23,8 +25,18 @@ public class UpdateController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("update.html").forward(req, resp);
-
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+        String id = req.getParameter("id");
+        logger.debug("Car id from client: S{}", id);
+        Car car = new Car();
+        car.setId(Long.parseLong(id));
+        Car found = this.carService.findById(car);
+        String jsonCar = new ObjectMapper().writeValueAsString(found);
+        logger.debug("Found car in json: {}", jsonCar);
+        PrintWriter writer = resp.getWriter();
+        writer.print(jsonCar);
+        writer.flush();
     }
 
     @Override

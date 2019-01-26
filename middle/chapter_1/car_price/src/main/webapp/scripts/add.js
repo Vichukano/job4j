@@ -59,8 +59,29 @@ function getCarTransmissions() {
     })
 }
 
-//Нет, здесь все должно работать!
 function getCarId() {
     var carId = document.getElementById("carId");
     carId.value = sessionStorage.getItem("carId");
+}
+
+function validate() {
+    var result = false;
+    var model = document.getElementById("name").value;
+    var price = document.getElementById("price").value;
+    var color = document.getElementById("color").value;
+    var mileage = document.getElementById("mileage").value;
+    var desc = document.getElementById("desc").value;
+    var warn = document.getElementById("warn");
+    if (model !== ""
+        && price !== ""
+        && color !== ""
+        && mileage !== ""
+        && desc !== ""
+    ) {
+        result = true;
+        warn.innerText = "";
+    } else {
+        warn.innerText = "Fill all fields!"
+    }
+    return result;
 }
