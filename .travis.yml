@@ -23,10 +23,10 @@ services:
 addons:
       postgresql: "9.6"
 before_script:
+  - psql -c "CREATE DATABASE cinema;" -U postgres
   - psql -c "CREATE DATABASE tracker;" -U postgres
   - psql -c "CREATE DATABASE parser_testing;" -U postgres
   - psql -c "CREATE DATABASE servlet_test;" -U postgres
   - psql -c "CREATE DATABASE todolist_test;" -U postgres
   - psql -c "CREATE DATABASE carstorage;" -U postgres
-  - psql -c "CREATE DATABASE cinema;" -U postgres
   - psql -c "CREATE DATABASE carprice_test;" -U postgres
