@@ -18,7 +18,7 @@ notifications:
 
 before_install:
   - export TZ=Europe/Moscow
-    - psql -c "CREATE DATABASE cinema;" -U postgres
+  - psql -c "CREATE DATABASE cinema;" -U postgres
 services:
   - postgresql
 addons:
