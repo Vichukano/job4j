@@ -3,9 +3,14 @@ package ru.job4j.carprice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.Car;
+import ru.job4j.carprice.model.CarBody;
 import ru.job4j.carprice.persistence.CarDaoImpl;
 import ru.job4j.carprice.persistence.Dao;
+import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
+import javax.management.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -73,5 +78,27 @@ public class CarService {
             logger.error("Failed to find by name.", e);
             return null;
         }
+    }
+
+    public List<Car> findCarByPart(String query, String type) {
+        EntityManager em = EntityManagerFactoryUtil
+                .getInstance()
+                .getEntityManagerFactory()
+                .createEntityManager();
+        em.getTransaction().begin();
+        TypedQuery<Car> typedQuery = em.createNamedQuery(query, Car.class);
+        typedQuery.setParameter("type", type);
+        return typedQuery.getResultList();
+    }
+
+    public List<Car> findCarWithImage() {
+        EntityManager em = EntityManagerFactoryUtil
+                .getInstance()
+                .getEntityManagerFactory()
+                .createEntityManager();
+        em.getTransaction().begin();
+        TypedQuery<Car> typedQuery = em.createNamedQuery("findCarWithImage", Car.class);
+        typedQuery.setParameter("url", "empty");
+        return typedQuery.getResultList();
     }
 }

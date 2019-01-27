@@ -3,7 +3,24 @@ package ru.job4j.carprice.model;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
-
+@NamedQueries(value = {
+        @NamedQuery(
+                name = "findCarByBody",
+                query = "SELECT c FROM Car c WHERE c.body.type =:type"
+        ),
+        @NamedQuery(
+                name = "findCarByEngine",
+                query = "SELECT c FROM Car c WHERE c.engine.type = :type"
+        ),
+        @NamedQuery(
+                name = "findCarByTransmission",
+                query = "SELECT c FROM Car c WHERE c.transmission.type =:type"
+        ),
+        @NamedQuery(
+                name = "findCarWithImage",
+                query = "SELECT c FROM Car c WHERE NOT (c.image.url =:url)"
+        )
+})
 @Entity
 @Table(name = "cars")
 public class Car {
