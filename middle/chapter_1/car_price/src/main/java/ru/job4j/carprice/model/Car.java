@@ -19,6 +19,10 @@ import java.util.Objects;
         @NamedQuery(
                 name = "findCarWithImage",
                 query = "SELECT c FROM Car c WHERE NOT (c.image.url =:url)"
+        ),
+        @NamedQuery(
+                name = "findCarForLastDay",
+                query = "SELECT c FROM Car c WHERE day(c.createDate) = day(current_date)"
         )
 })
 @Entity

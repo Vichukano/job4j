@@ -11,7 +11,10 @@ import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Singleton class for service methods with Car object.
@@ -19,6 +22,7 @@ import java.util.List;
 public class CarService {
     private final Dao<Car> store = new CarDaoImpl();
     private static final CarService INSTANCE = new CarService();
+    private final Map<Action.Type, Supplier<List<Car>>> dispatch = new HashMap<>();
     private final Logger logger = LogManager.getLogger(CarService.class);
 
     private CarService() {
@@ -62,14 +66,6 @@ public class CarService {
         }
     }
 
-    public List<Car> findAll() {
-        try {
-            return this.store.findAll();
-        } catch (Exception e) {
-            logger.error("Failed to find all cars.", e);
-            return null;
-        }
-    }
 
     public List<Car> findByName(Car car) {
         try {
@@ -91,6 +87,15 @@ public class CarService {
         return typedQuery.getResultList();
     }
 
+    public List<Car> findAll() {
+        try {
+            return this.store.findAll();
+        } catch (Exception e) {
+            logger.error("Failed to find all cars.", e);
+            return null;
+        }
+    }
+
     public List<Car> findCarWithImage() {
         EntityManager em = EntityManagerFactoryUtil
                 .getInstance()
@@ -100,5 +105,42 @@ public class CarService {
         TypedQuery<Car> typedQuery = em.createNamedQuery("findCarWithImage", Car.class);
         typedQuery.setParameter("url", "empty");
         return typedQuery.getResultList();
+    }
+
+    public List<Car> findCarForLastDay() {
+        EntityManager em = EntityManagerFactoryUtil
+                .getInstance()
+                .getEntityManagerFactory()
+                .createEntityManager();
+        em.getTransaction().begin();
+        TypedQuery<Car> typedQuery = em.createNamedQuery("findCarForLastDay", Car.class);
+        return typedQuery.getResultList();
+    }
+
+    public Supplier<List<Car>> getAll() {
+        return this::findAll;
+    }
+
+    public Supplier<List<Car>> withImage() {
+        return this::findCarWithImage;
+    }
+
+    public Supplier<List<Car>> forLastDay() {
+        return this::findCarForLastDay;
+    }
+
+    public CarService init() {
+        this.load(Action.Type.ALL, getAll());
+        this.load(Action.Type.IMAGE, withImage());
+        this.load(Action.Type.LAST, forLastDay());
+        return this;
+    }
+
+    private void load(Action.Type type, Supplier<List<Car>> handle) {
+        this.dispatch.put(type, handle);
+    }
+
+    public List<Car> action(Action.Type type) {
+        return this.dispatch.get(type).get();
     }
 }

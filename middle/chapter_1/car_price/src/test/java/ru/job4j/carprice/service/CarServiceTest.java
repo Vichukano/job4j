@@ -9,6 +9,7 @@ import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,6 +32,7 @@ public class CarServiceTest {
         Image one = new Image("one");
         Image two = new Image("two");
         Image three = new Image("empty");
+        Date createDate = new Date(System.currentTimeMillis());
         Car first = new Car();
         Car second = new Car();
         Car third = new Car();
@@ -60,6 +62,9 @@ public class CarServiceTest {
         fifth.setBody(hatchback);
         fifth.setEngine(diesel);
         fifth.setTransmission(robot);
+        first.setCreateDate(createDate);
+        second.setCreateDate(createDate);
+        third.setCreateDate(createDate);
         this.service.add(first);
         this.service.add(second);
         this.service.add(third);
@@ -153,6 +158,35 @@ public class CarServiceTest {
         assertThat(cars.size(), is(2));
         assertThat(cars.get(0).getImage().getUrl(), is("one"));
         assertThat(cars.get(1).getImage().getUrl(), is("two"));
+    }
+
+    @Test
+    public void whenFindCarForLastDayThenReturnList() {
+        List<Car> cars = this.service.findCarForLastDay();
+        assertThat(cars.size(), is(3));
+    }
+
+    @Test
+    public void whenUseDispatchGetAllThenReturnListOfCars() {
+        Action.Type all = Action.Type.valueOf("all".toUpperCase());
+        List<Car> cars = this.service.init().action(all);
+        assertThat(cars.size(), is(5));
+    }
+
+    @Test
+    public void whenUseDispatchWithImageThenReturnListOfCars() {
+        Action.Type all = Action.Type.valueOf("image".toUpperCase());
+        List<Car> cars = this.service.init().action(all);
+        assertThat(cars.size(), is(2));
+        assertThat(cars.get(0).getImage().getUrl(), is("one"));
+        assertThat(cars.get(1).getImage().getUrl(), is("two"));
+    }
+
+    @Test
+    public void whenUseDispatchForLastDayThenReturnListOfCars() {
+        Action.Type all = Action.Type.valueOf("last".toUpperCase());
+        List<Car> cars = this.service.init().action(all);
+        assertThat(cars.size(), is(3));
     }
 
 }
