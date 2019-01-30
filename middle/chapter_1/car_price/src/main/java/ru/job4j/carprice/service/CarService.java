@@ -3,12 +3,10 @@ package ru.job4j.carprice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.Car;
-import ru.job4j.carprice.model.CarBody;
 import ru.job4j.carprice.persistence.CarDaoImpl;
 import ru.job4j.carprice.persistence.Dao;
 import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
-import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.HashMap;
