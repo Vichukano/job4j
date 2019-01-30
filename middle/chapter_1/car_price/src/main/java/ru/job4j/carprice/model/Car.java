@@ -23,6 +23,10 @@ import java.util.Objects;
         @NamedQuery(
                 name = "findCarForLastDay",
                 query = "SELECT c FROM Car c WHERE day(c.createDate) = day(current_date)"
+        ),
+        @NamedQuery(
+                name = "findRelevant",
+                query = "SELECT c FROM Car c WHERE c.sold = false "
         )
 })
 @Entity

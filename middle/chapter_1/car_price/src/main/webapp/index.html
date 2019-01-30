@@ -27,9 +27,33 @@
         <button type="button" id="addBtn" class="btn btn-info" onclick="send()">Add car</button>
         <button type="button" id="logoutBtn" class="btn btn-info" onclick="logout()">Logout</button>
         <button type="button" id="withImageBtn" class="btn btn-info" onclick="showWithImage()">Show cars with image</button>
-        <button type="button" id="showAll" class="btn btn-info" onclick="getCars()">Show all cars</button>
         <button type="button" id="lastday" class="btn btn-info" onclick="showLastDay()">Show for las day</button>
+        <button type="button" id="relevant" class="btn btn-info" onclick="getRelevant()">Show relevant cars</button>
+        <button type="button" id="showAll" class="btn btn-info" onclick="getCars()">Show all cars</button>
     </div>
+    <form id="selection_form">
+        <div class="form-group text-center" id="body-group">
+            <label for="body">Car body: </label>
+            <select class="custom-select mr-sm-2" name="body" id="body">
+                <!--Inserted dynamically-->
+            </select>
+            <button type="button" id="byBody" class="btn btn-info" onclick="getByBody()">Show by body</button>
+        </div>
+        <div class="form-group text-center" id="engine-group">
+            <label for="engine">Engine: </label>
+            <select class="custom-select mr-sm-2" name="engine" id="engine">
+                <!--Inserted dynamically-->
+            </select>
+            <button type="button" id="byEngine" class="btn btn-info" onclick="getByEngine()">Show by engine</button>
+        </div>
+        <div class="form-group text-center" id="transmission-group">
+            <label for="transmission">Transmission: </label>
+            <select class="custom-select mr-sm-2" name="transmission" id="transmission">
+                <!--Inserted dynamically-->
+            </select>
+            <button type="button" id="byTr" class="btn btn-info" onclick="getByTr()">Show by transmission</button>
+        </div>
+    </form>
 </div>
 <!--Main content-->
 <div class="container-fluid">

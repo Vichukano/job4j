@@ -3,6 +3,9 @@
  */
 $(document).ready(function () {
     getCars();
+    getCarBodies();
+    getCarEngines();
+    getCarTransmissions();
 });
 
 /**
@@ -39,6 +42,64 @@ function showWithImage() {
         url: "cars",
         type: "get",
         data: "action=image",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            addCarsLikeDiv(data);
+        }
+    })
+}
+
+function getByBody() {
+    var e = document.getElementById("body");
+    var type = e.options[e.selectedIndex].text;
+    $.ajax({
+        url: "cars",
+        type: "get",
+        data: "query=findCarByBody&type=" + type,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            addCarsLikeDiv(data);
+        }
+    })
+}
+
+function getByEngine() {
+    var e = document.getElementById("engine");
+    var type = e.options[e.selectedIndex].text;
+    $.ajax({
+        url: "cars",
+        type: "get",
+        data: "query=findCarByEngine&type=" + type,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            addCarsLikeDiv(data);
+        }
+    })
+}
+
+function getByTr() {
+    var e = document.getElementById("transmission");
+    var type = e.options[e.selectedIndex].text;
+    $.ajax({
+        url: "cars",
+        type: "get",
+        data: "query=findCarByTransmission&type=" + type,
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            addCarsLikeDiv(data);
+        }
+    })
+}
+
+function getRelevant() {
+    $.ajax({
+        url: "cars",
+        type: "get",
+        data: "action=relevant",
         dataType: "json",
         success: function (data) {
             console.log(data);
@@ -121,4 +182,66 @@ function send() {
  */
 function logout() {
     window.location.href = "/login";
+}
+
+function getCarBodies() {
+    var bodies = document.getElementById("body");
+    $.ajax({
+        url: "body",
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            bodies.innerHTML = "";
+            var query = "";
+            for (var i = 0; i < data.length; i++) {
+                query += "<option name='body' value=" + data[i].id + ">" + data[i].type + "</option>";
+            }
+            bodies.innerHTML = query;
+        }
+    })
+}
+
+/**
+ * Function for getting array with Engine objects
+ * and setting parameters to the page.
+ */
+function getCarEngines() {
+    var engines = document.getElementById("engine");
+    $.ajax({
+        url: "engine",
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            engines.innerHTML = "";
+            var query = "";
+            for (var i = 0; i < data.length; i++) {
+                query += "<option name='engine' value=" + data[i].id + ">" + data[i].type + "</option>";
+            }
+            engines.innerHTML = query;
+        }
+    })
+}
+
+/**
+ * Function for getting array with Transmission objects
+ * and setting parameters to the page.
+ */
+function getCarTransmissions() {
+    var tr = document.getElementById("transmission");
+    $.ajax({
+        url: "transmission",
+        type: "get",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            tr.innerHTML = "";
+            var query = "";
+            for (var i = 0; i < data.length; i++) {
+                query += "<option name='transmission' value=" + data[i].id + ">" + data[i].type + "</option>";
+            }
+            tr.innerHTML = query;
+        }
+    })
 }

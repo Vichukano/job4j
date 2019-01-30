@@ -5,6 +5,7 @@ public interface Action {
     enum Type {
         ALL,
         IMAGE,
-        LAST
+        LAST,
+        RELEVANT
     }
 }
