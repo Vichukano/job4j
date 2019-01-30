@@ -12,6 +12,33 @@ function getCars() {
     $.ajax({
         url: "cars",
         type: "get",
+        data: "action=all",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            addCarsLikeDiv(data);
+        }
+    })
+}
+
+function showLastDay() {
+    $.ajax({
+        url: "cars",
+        type: "get",
+        data: "action=last",
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            addCarsLikeDiv(data);
+        }
+    })
+}
+
+function showWithImage() {
+    $.ajax({
+        url: "cars",
+        type: "get",
+        data: "action=image",
         dataType: "json",
         success: function (data) {
             console.log(data);
