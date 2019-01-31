@@ -65,6 +65,8 @@ public class CarServiceTest {
         first.setCreateDate(createDate);
         second.setCreateDate(createDate);
         third.setCreateDate(createDate);
+        first.setSold(true);
+        second.setSold(true);
         this.service.add(first);
         this.service.add(second);
         this.service.add(third);
@@ -186,6 +188,13 @@ public class CarServiceTest {
     public void whenUseDispatchForLastDayThenReturnListOfCars() {
         Action.Type all = Action.Type.valueOf("last".toUpperCase());
         List<Car> cars = this.service.init().action(all);
+        assertThat(cars.size(), is(3));
+    }
+
+    @Test
+    public void whenUseDispatchFindRelevantThenReturnList() {
+        Action.Type relevant = Action.Type.valueOf("relevant".toUpperCase());
+        List<Car> cars = this.service.init().action(relevant);
         assertThat(cars.size(), is(3));
     }
 

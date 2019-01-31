@@ -47,9 +47,17 @@ public class CarController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
-        Action.Type action = Action.Type.valueOf(req.getParameter("action").toUpperCase());
-        logger.debug("Action is: {}", action.toString());
-        List<Car> cars = this.carService.init().action(action);
+        List<Car> cars;
+        if (req.getParameter("action") != null) {
+            Action.Type action = Action.Type.valueOf(req.getParameter("action").toUpperCase());
+            logger.debug("Action is: {}", action.toString());
+            cars = this.carService.init().action(action);
+        } else {
+            String query = req.getParameter("query");
+            String type = req.getParameter("type");
+            logger.debug("Query: {}, type: {}", query, type);
+            cars = this.carService.findCarByPart(query, type);
+        }
         String jsonCars = new ObjectMapper().writeValueAsString(cars);
         logger.debug("Cars in JSON: {}", jsonCars);
         PrintWriter writer = resp.getWriter();

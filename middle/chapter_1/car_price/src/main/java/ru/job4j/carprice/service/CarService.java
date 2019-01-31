@@ -115,6 +115,16 @@ public class CarService {
         return typedQuery.getResultList();
     }
 
+    public List<Car> findRelevantCars() {
+        EntityManager em = EntityManagerFactoryUtil
+                .getInstance()
+                .getEntityManagerFactory()
+                .createEntityManager();
+        em.getTransaction().begin();
+        TypedQuery<Car> typedQuery = em.createNamedQuery("findRelevant", Car.class);
+        return typedQuery.getResultList();
+    }
+
     public Supplier<List<Car>> getAll() {
         return this::findAll;
     }
@@ -127,10 +137,15 @@ public class CarService {
         return this::findCarForLastDay;
     }
 
+    public Supplier<List<Car>> findRelevant() {
+        return this::findRelevantCars;
+    }
+
     public CarService init() {
         this.load(Action.Type.ALL, getAll());
         this.load(Action.Type.IMAGE, withImage());
         this.load(Action.Type.LAST, forLastDay());
+        this.load(Action.Type.RELEVANT, findRelevant());
         return this;
     }
 
