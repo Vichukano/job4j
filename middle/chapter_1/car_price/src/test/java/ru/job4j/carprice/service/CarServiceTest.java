@@ -4,7 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.carprice.model.*;
-import ru.job4j.carprice.persistence.*;
+import ru.job4j.carprice.persistence.CarBodyDaoImpl;
+import ru.job4j.carprice.persistence.Dao;
+import ru.job4j.carprice.persistence.EngineDaoImpl;
+import ru.job4j.carprice.persistence.TransmissionDaoImpl;
 import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
@@ -92,7 +95,6 @@ public class CarServiceTest {
         trQuery.executeUpdate();
         imageQuery.executeUpdate();
         em.getTransaction().commit();
-
     }
 
     @Test

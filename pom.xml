@@ -26,9 +26,20 @@
             <id>production</id>
             <properties>
                 <db.driver>org.postgresql.Driver</db.driver>
-                <db.url>jdbc:postgresql://localhost:5432</db.url>
+                <db.url>jdbc:postgresql://localhost:5432/</db.url>
                 <db.username>postgres</db.username>
                 <db.password>9115</db.password>
+                <db.dir>${basedir}/src/main/resources/db/</db.dir>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <db.driver>org.h2.Driver</db.driver>
+                <db.url>jdbc:h2:mem:</db.url>
+                <db.username>SA</db.username>
+                <db.password></db.password>
+                <db.dir>${basedir}/src/test/resources/db/</db.dir>
             </properties>
         </profile>
         <profile>
@@ -38,7 +49,7 @@
             </activation>
             <properties>
                 <db.driver>org.postgresql.Driver</db.driver>
-                <db.url>jdbc:postgresql://localhost:5432</db.url>
+                <db.url>jdbc:postgresql://localhost:5432/</db.url>
                 <db.username>postgres</db.username>
                 <db.password></db.password>
             </properties>
@@ -81,6 +92,13 @@
             <groupId>net.jcip</groupId>
             <artifactId>jcip-annotations</artifactId>
             <version>1.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.197</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

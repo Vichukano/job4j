@@ -18,9 +18,9 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>3.6.2</version>
                 <configuration>
-                    <changeLogFile>${basedir}/db/master.xml</changeLogFile>
+                    <changeLogFile>${db.dir}master.xml</changeLogFile>
                     <driver>${db.driver}</driver>
-                    <url>${db.url}/carprice</url>
+                    <url>${db.url}carprice</url>
                     <username>${db.username}</username>
                     <password>${db.password}</password>
                 </configuration>
@@ -53,6 +53,13 @@
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
             <version>1.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.4.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

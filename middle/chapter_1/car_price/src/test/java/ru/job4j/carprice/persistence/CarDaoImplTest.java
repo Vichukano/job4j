@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.carprice.model.Car;
-import ru.job4j.carprice.service.Action;
 import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
@@ -17,6 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class CarDaoImplTest {
     private final Dao<Car> dao = new CarDaoImpl();
 
+
     @Before
     public void setUp() {
         Car toyota = new Car();
@@ -26,6 +26,7 @@ public class CarDaoImplTest {
         this.dao.add(toyota);
         this.dao.add(ford);
     }
+
 
     @After
     public void reset() {
@@ -38,6 +39,7 @@ public class CarDaoImplTest {
         query.executeUpdate();
         em.getTransaction().commit();
     }
+
 
     @Test
     public void whenAddCarThenStoreIt() {
