@@ -52,6 +52,7 @@
                 <db.url>jdbc:postgresql://localhost:5432/</db.url>
                 <db.username>postgres</db.username>
                 <db.password></db.password>
+                <db.dir>${basedir}/src/main/resources/db/</db.dir>
             </properties>
         </profile>
     </profiles>
