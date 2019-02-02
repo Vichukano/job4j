@@ -33,16 +33,6 @@
             </properties>
         </profile>
         <profile>
-            <id>test</id>
-            <properties>
-                <db.driver>org.h2.Driver</db.driver>
-                <db.url>jdbc:h2:mem:</db.url>
-                <db.username>SA</db.username>
-                <db.password></db.password>
-                <db.dir>${basedir}/src/test/resources/db/</db.dir>
-            </properties>
-        </profile>
-        <profile>
             <id>travis</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
