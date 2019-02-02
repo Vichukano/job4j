@@ -80,9 +80,9 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>3.6.2</version>
                 <configuration>
-                    <changeLogFile>${basedir}/db/master.xml</changeLogFile>
+                    <changeLogFile>${db.dir}master.xml</changeLogFile>
                     <driver>${db.driver}</driver>
-                    <url>${db.url}/cinema</url>
+                    <url>${db.url}cinema</url>
                     <username>${db.username}</username>
                     <password>${db.password}</password>
                 </configuration>

@@ -23,5 +23,5 @@ CREATE TABLE IF NOT EXISTS customers (
   place_id INT CONSTRAINT place_id_fk
   REFERENCES places_default (id),
   row      INT,
-  cal      INT
+  col      INT
 );
