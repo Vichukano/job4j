@@ -1,13 +1,7 @@
 package ru.job4j.carprice.service;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.carprice.model.User;
-import ru.job4j.carprice.util.EntityManagerFactoryUtil;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -15,29 +9,6 @@ import static org.junit.Assert.assertThat;
 public class UserServiceTest {
     private final UserService service = UserService.getInstance();
 
-    @Before
-    public void setUp() {
-        User first = new User();
-        first.setLogin("first");
-        first.setPassword("123");
-        User second = new User();
-        second.setLogin("second");
-        second.setPassword("123");
-        this.service.add(first);
-        this.service.add(second);
-    }
-
-    @After
-    public void reset() {
-        EntityManager em = EntityManagerFactoryUtil
-                .getInstance()
-                .getEntityManagerFactory()
-                .createEntityManager();
-        em.getTransaction().begin();
-        Query query = em.createQuery("delete from User");
-        query.executeUpdate();
-        em.getTransaction().commit();
-    }
 
     @Test
     public void whenFindByLoginThenReturnUserWithThisLogin() {
