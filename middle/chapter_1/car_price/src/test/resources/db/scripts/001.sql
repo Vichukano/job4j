@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS car_body (
   type    VARCHAR(255)
 );
 
-INSERT INTO car_body (body_id, type)
-VALUES (1, 'sedan'), (2, 'hatchback'), (3, 'crossover');
+INSERT INTO car_body (type)
+VALUES ('sedan'), ('hatchback'), ('crossover');
 
 CREATE TABLE IF NOT EXISTS car_engine (
   engine_id BIGSERIAL PRIMARY KEY UNIQUE,

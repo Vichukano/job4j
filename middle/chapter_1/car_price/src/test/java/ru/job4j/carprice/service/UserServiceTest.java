@@ -40,7 +40,6 @@ public class UserServiceTest {
 
     }
 
-
     @Test
     public void whenExistThenReturnTrue() {
         User user = new User();
