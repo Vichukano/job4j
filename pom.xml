@@ -33,16 +33,26 @@
             </properties>
         </profile>
         <profile>
+            <id>test</id>
+            <properties>
+                <db.driver>org.postgresql.Driver</db.driver>
+                <db.url>jdbc:postgresql://localhost:5432/test_</db.url>
+                <db.username>postgres</db.username>
+                <db.password>9115</db.password>
+                <db.dir>${basedir}/src/test/resources/db/</db.dir>
+            </properties>
+        </profile>
+        <profile>
             <id>travis</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <db.driver>org.postgresql.Driver</db.driver>
-                <db.url>jdbc:postgresql://localhost:5432/</db.url>
+                <db.url>jdbc:postgresql://localhost:5432/test_</db.url>
                 <db.username>postgres</db.username>
                 <db.password></db.password>
-                <db.dir>${basedir}/src/main/resources/db/</db.dir>
+                <db.dir>${basedir}/src/test/resources/db/</db.dir>
             </properties>
         </profile>
     </profiles>
