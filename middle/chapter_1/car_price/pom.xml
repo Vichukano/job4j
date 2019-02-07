@@ -30,6 +30,7 @@
                         <goals>
                             <goal>update</goal>
                         </goals>
+
                     </execution>
                 </executions>
             </plugin>
