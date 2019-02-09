@@ -3,8 +3,8 @@ package ru.job4j.carprice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.Transmission;
-import ru.job4j.carprice.persistence.Dao;
-import ru.job4j.carprice.persistence.TransmissionDaoImpl;
+import ru.job4j.carprice.persistence.TransmissionDao;
+import ru.job4j.carprice.persistence.implementation.TransmissionDaoImpl;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * Singleton class for service methods with Transmission objects.
  */
 public class TransmissionService {
-    private final Dao<Transmission> store = new TransmissionDaoImpl();
+    private final TransmissionDao store = new TransmissionDaoImpl();
     private static final TransmissionService INSTANCE = new TransmissionService();
     private final Logger logger = LogManager.getLogger(TransmissionService.class);
 

@@ -3,14 +3,14 @@ package ru.job4j.carprice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.User;
-import ru.job4j.carprice.persistence.Dao;
-import ru.job4j.carprice.persistence.UserDaoImpl;
+import ru.job4j.carprice.persistence.UserDao;
+import ru.job4j.carprice.persistence.implementation.UserDaoImpl;
 
 /**
  * Singleton class for service methods with User objects.
  */
 public class UserService {
-    private final Dao<User> store = new UserDaoImpl();
+    private final UserDao store = new UserDaoImpl();
     private static final UserService INSTANCE = new UserService();
     private final Logger logger = LogManager.getLogger(UserService.class);
 

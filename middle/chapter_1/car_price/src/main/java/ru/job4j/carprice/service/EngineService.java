@@ -3,8 +3,8 @@ package ru.job4j.carprice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.Engine;
-import ru.job4j.carprice.persistence.Dao;
-import ru.job4j.carprice.persistence.EngineDaoImpl;
+import ru.job4j.carprice.persistence.EngineDao;
+import ru.job4j.carprice.persistence.implementation.EngineDaoImpl;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * Singleton class for service methods with Engine objects.
  */
 public class EngineService {
-    private final Dao<Engine> store = new EngineDaoImpl();
+    private final EngineDao store = new EngineDaoImpl();
     private static final EngineService INSTANCE = new EngineService();
     private final Logger logger = LogManager.getLogger(EngineService.class);
 

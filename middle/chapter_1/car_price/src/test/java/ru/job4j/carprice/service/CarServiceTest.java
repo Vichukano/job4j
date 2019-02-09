@@ -4,10 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.carprice.model.*;
-import ru.job4j.carprice.persistence.CarBodyDaoImpl;
-import ru.job4j.carprice.persistence.Dao;
-import ru.job4j.carprice.persistence.EngineDaoImpl;
-import ru.job4j.carprice.persistence.TransmissionDaoImpl;
+import ru.job4j.carprice.persistence.*;
+import ru.job4j.carprice.persistence.implementation.CarBodyDaoImpl;
+import ru.job4j.carprice.persistence.implementation.EngineDaoImpl;
+import ru.job4j.carprice.persistence.implementation.TransmissionDaoImpl;
 import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
@@ -20,9 +20,9 @@ import static org.hamcrest.Matchers.is;
 
 public class CarServiceTest {
     private final CarService service = CarService.getInstance();
-    private final Dao<CarBody> dao = new CarBodyDaoImpl();
-    private final Dao<Engine> engineDao = new EngineDaoImpl();
-    private final Dao<Transmission> trDao = new TransmissionDaoImpl();
+    private final CarBodyDao dao = new CarBodyDaoImpl();
+    private final EngineDao engineDao = new EngineDaoImpl();
+    private final TransmissionDao trDao = new TransmissionDaoImpl();
 
     @Before
     public void setUp() {

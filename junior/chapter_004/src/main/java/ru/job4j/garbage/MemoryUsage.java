@@ -6,9 +6,12 @@ public class MemoryUsage {
 
     public static void main(String[] args) {
         System.out.println("Вес объекта user = " + ObjectSizeCalculator.getObjectSize(new User()));
+        info();
+        long start = System.currentTimeMillis();
         for (int i = 0; i != 12_000; i++) {
             new User("Test", i);
         }
+        System.out.println("Time is: " + (System.currentTimeMillis() - start));
     }
 
     public static void info() {
@@ -59,7 +62,6 @@ public class MemoryUsage {
         protected void finalize() throws Throwable {
             super.finalize();
             System.out.println("Finalize user object.");
-            info();
         }
     }
 }

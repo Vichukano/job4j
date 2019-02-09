@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.carprice.model.Car;
+import ru.job4j.carprice.persistence.implementation.CarDaoImpl;
 import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
@@ -14,7 +15,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CarDaoImplTest {
-    private final Dao<Car> dao = new CarDaoImpl();
+    private final CarDao dao = new CarDaoImpl();
 
 
     @Before
@@ -50,6 +51,7 @@ public class CarDaoImplTest {
         assertThat(cars.size(), is(3));
     }
 
+
     @Test
     public void whenUpdateCarThenUpdateItInStore() {
         List<Car> cars = this.dao.findAll();
@@ -61,6 +63,7 @@ public class CarDaoImplTest {
         assertThat(updated.getName(), is("UPDATED"));
     }
 
+
     @Test
     public void whenFindByNameThenReturnListOfCars() {
         Car car = new Car();
@@ -70,13 +73,12 @@ public class CarDaoImplTest {
         assertThat(cars.get(0).getName(), is("toyota"));
     }
 
+
     @Test
     public void whenDeleteCarThenDeleteItFromStore() {
         List<Car> cars = this.dao.findAll();
         long id = cars.get(0).getId();
-        Car car = new Car();
-        car.setId(id);
-        this.dao.delete(car);
+        this.dao.delete(id);
         List<Car> carList = this.dao.findAll();
         assertThat(carList.size(), is(1));
     }

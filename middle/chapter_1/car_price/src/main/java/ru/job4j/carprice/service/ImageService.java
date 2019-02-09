@@ -3,16 +3,17 @@ package ru.job4j.carprice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.Image;
-import ru.job4j.carprice.persistence.Dao;
-import ru.job4j.carprice.persistence.ImageDaoImpl;
+import ru.job4j.carprice.persistence.ImageDao;
+import ru.job4j.carprice.persistence.implementation.ImageDaoImpl;
+
+import java.util.List;
 
 /**
  * Singleton class for service methods with Image objects.
  */
-import java.util.List;
 
 public class ImageService {
-    private final Dao<Image> store = new ImageDaoImpl();
+    private final ImageDao store = new ImageDaoImpl();
     private static final ImageService INSTANCE = new ImageService();
     private final Logger logger = LogManager.getLogger(ImageService.class);
 
@@ -34,7 +35,7 @@ public class ImageService {
 
     public void delete(Image image) {
         try {
-            this.store.delete(image);
+            this.store.delete(image.getId());
         } catch (Exception e) {
             logger.error("Failed to delete image", e);
         }

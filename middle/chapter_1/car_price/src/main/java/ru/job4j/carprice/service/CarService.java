@@ -3,8 +3,8 @@ package ru.job4j.carprice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.job4j.carprice.model.Car;
-import ru.job4j.carprice.persistence.CarDaoImpl;
-import ru.job4j.carprice.persistence.Dao;
+import ru.job4j.carprice.persistence.CarDao;
+import ru.job4j.carprice.persistence.implementation.CarDaoImpl;
 import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  * Singleton class for service methods with Car object.
  */
 public class CarService {
-    private final Dao<Car> store = new CarDaoImpl();
+    private final CarDao store = new CarDaoImpl();
     private static final CarService INSTANCE = new CarService();
     private final Map<Action.Type, Supplier<List<Car>>> dispatch = new HashMap<>();
     private final Logger logger = LogManager.getLogger(CarService.class);
@@ -41,7 +41,7 @@ public class CarService {
 
     public void delete(Car car) {
         try {
-            this.store.delete(car);
+            this.store.delete(car.getId());
         } catch (Exception e) {
             logger.error("Failed to delete car", e);
         }
