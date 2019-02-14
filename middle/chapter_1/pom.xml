@@ -13,6 +13,7 @@
         <module>todolist</module>
         <module>car_storage</module>
         <module>car_price</module>
+        <module>barbell</module>
     </modules>
     <artifactId>chapter_1</artifactId>
 
