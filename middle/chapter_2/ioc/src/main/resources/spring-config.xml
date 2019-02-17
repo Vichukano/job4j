@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="gasoline" class="ru.job4j.ioc.xml.GasolineEngine"
+          init-method="init" />
+
+    <bean id="diesel" class="ru.job4j.ioc.xml.DieselEngine"/>
+
+    <bean id="gasolineCar" class="ru.job4j.ioc.xml.Car">
+        <property name="engine" ref="gasoline"/>
+    </bean>
+
+    <bean id="dieselCar" class="ru.job4j.ioc.xml.Car">
+        <property name="engine" ref="diesel"/>
+    </bean>
+</beans>
