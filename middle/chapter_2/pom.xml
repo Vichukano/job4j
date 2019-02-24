@@ -12,6 +12,8 @@
     <artifactId>chapter_2</artifactId>
     <modules>
         <module>ioc</module>
+        <module>springmvc</module>
+        <module>spring_car_price</module>
     </modules>
 
     <dependencies>

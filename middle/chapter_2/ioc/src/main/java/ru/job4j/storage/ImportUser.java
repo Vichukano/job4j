@@ -8,8 +8,7 @@ import java.util.List;
 
 @Component
 public class ImportUser {
-    @Autowired
-    @Qualifier("jdbc")
+
     private Storage storage;
 
     public ImportUser() {
@@ -32,4 +31,9 @@ public class ImportUser {
         return this.storage.findAll();
     }
 
+    @Autowired
+    @Qualifier("jdbc")
+    public void setStorage(Storage storage) {
+        this.storage = storage;
+    }
 }

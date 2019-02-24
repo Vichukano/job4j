@@ -45,6 +45,7 @@
         <profile>
             <id>travis</id>
             <activation>
+                <!--CHANGE TO TRUE-->
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>

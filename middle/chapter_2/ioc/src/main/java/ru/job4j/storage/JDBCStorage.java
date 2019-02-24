@@ -10,9 +10,9 @@ import java.util.List;
 @Component("jdbc")
 public class JDBCStorage implements Storage {
     private final Logger logger = LogManager.getLogger(JDBCStorage.class);
-    @Autowired
     private DbConfig config;
 
+    @Autowired
     public JDBCStorage(DbConfig config) {
         this.config = config;
         this.init();
