@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.job4j.carprice.model.Car;
 import ru.job4j.carprice.persistence.CarDao;
-import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.HashMap;
 import java.util.List;
@@ -23,10 +23,16 @@ public class CarService {
     private final CarDao store;
     private final Map<Action.Type, Supplier<List<Car>>> dispatch = new HashMap<>();
     private final Logger logger = LogManager.getLogger(CarService.class);
+    private EntityManagerFactory factory;
 
     @Autowired
     public CarService(CarDao store) {
         this.store = store;
+    }
+
+    @Autowired
+    public void setFactory(EntityManagerFactory factory) {
+        this.factory = factory;
     }
 
     public void add(Car car) {
@@ -73,10 +79,7 @@ public class CarService {
     }
 
     public List<Car> findCarByPart(String query, String type) {
-        EntityManager em = EntityManagerFactoryUtil
-                .getInstance()
-                .getEntityManagerFactory()
-                .createEntityManager();
+        EntityManager em = this.factory.createEntityManager();
         em.getTransaction().begin();
         TypedQuery<Car> typedQuery = em.createNamedQuery(query, Car.class);
         typedQuery.setParameter("type", type);
@@ -93,10 +96,7 @@ public class CarService {
     }
 
     public List<Car> findCarWithImage() {
-        EntityManager em = EntityManagerFactoryUtil
-                .getInstance()
-                .getEntityManagerFactory()
-                .createEntityManager();
+        EntityManager em = this.factory.createEntityManager();
         em.getTransaction().begin();
         TypedQuery<Car> typedQuery = em.createNamedQuery("findCarWithImage", Car.class);
         typedQuery.setParameter("url", "empty");
@@ -104,20 +104,14 @@ public class CarService {
     }
 
     public List<Car> findCarForLastDay() {
-        EntityManager em = EntityManagerFactoryUtil
-                .getInstance()
-                .getEntityManagerFactory()
-                .createEntityManager();
+        EntityManager em = this.factory.createEntityManager();
         em.getTransaction().begin();
         TypedQuery<Car> typedQuery = em.createNamedQuery("findCarForLastDay", Car.class);
         return typedQuery.getResultList();
     }
 
     public List<Car> findRelevantCars() {
-        EntityManager em = EntityManagerFactoryUtil
-                .getInstance()
-                .getEntityManagerFactory()
-                .createEntityManager();
+        EntityManager em = this.factory.createEntityManager();
         em.getTransaction().begin();
         TypedQuery<Car> typedQuery = em.createNamedQuery("findRelevant", Car.class);
         return typedQuery.getResultList();

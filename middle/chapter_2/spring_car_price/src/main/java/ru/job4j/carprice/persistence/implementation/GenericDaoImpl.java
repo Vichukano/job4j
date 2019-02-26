@@ -2,8 +2,8 @@ package ru.job4j.carprice.persistence.implementation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.job4j.carprice.persistence.GenericDao;
-import ru.job4j.carprice.util.EntityManagerFactoryUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -12,12 +12,17 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public abstract class GenericDaoImpl<T> implements GenericDao<T> {
-    private EntityManagerFactory factory = EntityManagerFactoryUtil.getInstance().getEntityManagerFactory();
+    private EntityManagerFactory factory;
     private final Class<T> entityClass;
     private final Logger logger = LogManager.getLogger(GenericDaoImpl.class);
 
     public GenericDaoImpl(Class<T> entityClass) {
         this.entityClass = entityClass;
+    }
+
+    @Autowired
+    public void setFactory(EntityManagerFactory factory) {
+        this.factory = factory;
     }
 
     @Override

@@ -1,34 +1,28 @@
 package ru.job4j.carprice.util;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
  * Util class for build and get EntityManagerFactory.
  */
-
+@Configuration
 public class EntityManagerFactoryUtil {
-    private static final EntityManagerFactoryUtil INSTANCE = new EntityManagerFactoryUtil();
-    private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = buildEntityManagerFactory();
-
-    private EntityManagerFactoryUtil() {
-
-    }
-
-    public static EntityManagerFactoryUtil getInstance() {
-        return INSTANCE;
-    }
-
     /**
      * Method for building EntityManagerFactory.
      * Get parameters of persistence unit from persistence.xml.
      * @return EntityManagerFactory
      */
-    private static EntityManagerFactory buildEntityManagerFactory() {
+    private EntityManagerFactory buildEntityManagerFactory() {
         return Persistence.createEntityManagerFactory("car_price");
     }
 
+    @Bean
     public EntityManagerFactory getEntityManagerFactory() {
-        return ENTITY_MANAGER_FACTORY;
+        EntityManagerFactory factory = this.buildEntityManagerFactory();
+        return factory;
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.job4j.carprice.model.*;
 import ru.job4j.carprice.service.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,7 +33,7 @@ public class AppRestController {
     private final UserService userService;
     private final Random random = new Random();
     private final Logger logger = LogManager.getLogger(AppRestController.class);
-    private final String url = "/upload/images/";
+    private final String url = "/home/viktor/upload/images/";
 
     @Autowired
     public AppRestController(CarService carService, CarBodyService carBodyService, EngineService engineService, TransmissionService transmissionService, ImageService imageService, UserService userService) {
@@ -63,10 +64,12 @@ public class AppRestController {
 
     @PostMapping(value = "/api/cars")
     public void addCar(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        logger.debug("In addCar method body");
         HttpSession session = req.getSession();
         Map<String, String> reqParams = new HashMap<>();
         Image image = null;
         try {
+            logger.debug("In addCar try block");
             ServletFileUpload fileUpload = new ServletFileUpload(new DiskFileItemFactory());
             List<FileItem> fileItems = fileUpload.parseRequest(req);
             for (FileItem item : fileItems) {
@@ -75,7 +78,8 @@ public class AppRestController {
                 } else {
                     if (!item.getName().equals("")) {
                         logger.debug("Name of image file: {}", item.getName());
-                        String url = this.url
+                        String url =
+                                this.url
                                 + random.nextInt(1000)
                                 + item.getName();
                         item.write(new File(url));
@@ -138,16 +142,19 @@ public class AppRestController {
         return transmissions;
     }
 
-    @GetMapping(value = "/api/image/*")
+    @GetMapping(value = "/api/image/**")
     public void loadImage(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("image/jpg");
         String path = req.getRequestURI();
         logger.debug(path);
-        ServletOutputStream outStream;
-        outStream = resp.getOutputStream();
+        if ((path.substring("/api/image/".length()).equals("empty"))) {
+            return;
+        }
+        ServletOutputStream outStream = resp.getOutputStream();
         FileInputStream fin = new FileInputStream(
                 this.url
-                + path.substring("/image/".length()));
+                + path.substring("/api/image/".length())
+        );
         BufferedInputStream bin = new BufferedInputStream(fin);
         BufferedOutputStream bout = new BufferedOutputStream(outStream);
         int data;
@@ -200,6 +207,54 @@ public class AppRestController {
         this.carService.update(found);
         logger.debug("Car updated: {}", found);
         resp.sendRedirect("/");
+    }
+
+    @GetMapping(value = "/api/login")
+    public void redirectToLoginPage(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        session.invalidate();
+        req.getRequestDispatcher("/login").forward(req, resp);
+    }
+
+    @PostMapping(value = "/api/login")
+    public void login(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
+        HttpSession session = req.getSession();
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        if (this.userService.isCredential(login, password)) {
+            User user = this.userService.findByLogin(login);
+            session.setAttribute("id", user.getId());
+            session.setAttribute("login", user.getLogin());
+            logger.debug("Found user: {}", user.toString());
+            resp.sendRedirect("/");
+        } else {
+            resp.sendRedirect("/login");
+        }
+    }
+
+    @PostMapping(value = "/api/reg")
+    public void regNewUser(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
+        HttpSession session = req.getSession();
+        String login = req.getParameter("login");
+        String pass = req.getParameter("password");
+        String confirm = req.getParameter("confirm");
+        if (pass.equals(confirm)) {
+            User user = new User(login, pass);
+            logger.debug("New user: {}", user.toString());
+            if (!this.userService.isExist(user)) {
+                this.userService.add(user);
+                session.setAttribute("id", user.getId());
+                session.setAttribute("login", login);
+                resp.sendRedirect("/");
+            } else {
+                resp.sendRedirect("/registration");
+            }
+        } else {
+            logger.error("Password does not match!");
+        }
     }
 
 
