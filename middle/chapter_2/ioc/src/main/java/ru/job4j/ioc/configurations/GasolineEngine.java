@@ -1,5 +1,7 @@
 package ru.job4j.ioc.configurations;
 
+import java.util.Objects;
+
 public class GasolineEngine implements Engine {
     private String name;
 
@@ -18,5 +20,27 @@ public class GasolineEngine implements Engine {
 
     private void init() {
         this.setName("GASOLINE");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        GasolineEngine engine = (GasolineEngine) o;
+        return Objects.equals(name, engine.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("GasolineEngine: name= %s", name);
     }
 }
