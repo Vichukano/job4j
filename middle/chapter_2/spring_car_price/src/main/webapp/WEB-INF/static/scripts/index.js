@@ -123,7 +123,7 @@ function addCarsLikeDiv(data) {
         var query = "<input type='hidden' id='carId' value=" + data[i].id + ">"
             + "<input type='hidden' id='userId' value=" + data[i].user.id + ">"
             + "<input type='hidden' id='userLogin' value=" + data[i].user.login + ">"
-            + "<div class='col-md-2'><img src=" + "/api/image/" + data[i].image.url.replace('/home/viktor/upload/images/', '') + " width='150' height='150' alt='No image'></div>"
+            + "<div class='col-md-2'><img src=" + "/api/image/" + data[i].image.url.replace('/home/viktor/upload/images/', '') + " width='150' height='150' alt='No image' style='margin-top: 5px'></div>"
             + "<div class='col-md-1'><label>Model</label><br><span>" + data[i].name + "</span></div>"
             + "<div class='col-md-2'><label>Characteristic</label><br><span>Color: " + data[i].color + "</span><br>"
             + "<span>Body: " + data[i].body.type + "</span><br>"

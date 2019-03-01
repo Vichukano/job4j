@@ -9,6 +9,9 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 @EnableWebMvc
 @Configuration
 @ComponentScan("ru.job4j.carprice")
@@ -36,5 +39,11 @@ public class Config implements WebMvcConfigurer {
         resolver.setPrefix("/static/html/");
         resolver.setSuffix(".html");
         return resolver;
+    }
+
+    @Bean
+    public EntityManagerFactory entityManagerFactory() {
+        return Persistence
+                .createEntityManagerFactory("car_price");
     }
 }

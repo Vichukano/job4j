@@ -25,7 +25,7 @@ public class WebbAppInit implements WebApplicationInitializer {
         dispatcher.addMapping("/");
 
         //параметры пути для изображений
-        servletContext.setInitParameter("ImageSrc", "/upload/images/");
+        servletContext.setInitParameter("ImageSrc", "/home/viktor/upload/images/");
 
         //фильтры для UTF-8 кодировки.
         FilterRegistration charEncodingFilterReg =

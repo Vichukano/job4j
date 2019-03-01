@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.job4j.carprice.model.*;
 import ru.job4j.carprice.service.*;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +34,14 @@ public class AppRestController {
     private final UserService userService;
     private final Random random = new Random();
     private final Logger logger = LogManager.getLogger(AppRestController.class);
-    private final String url = "/home/viktor/upload/images/";
 
     @Autowired
-    public AppRestController(CarService carService, CarBodyService carBodyService, EngineService engineService, TransmissionService transmissionService, ImageService imageService, UserService userService) {
+    ServletContext context;
+
+    @Autowired
+    public AppRestController(CarService carService, CarBodyService carBodyService,
+                             EngineService engineService, TransmissionService transmissionService,
+                             ImageService imageService, UserService userService) {
         this.carService = carService;
         this.carBodyService = carBodyService;
         this.engineService = engineService;
@@ -49,7 +54,11 @@ public class AppRestController {
     public List<Car> getAllCars(HttpServletRequest req) {
         List<Car> cars;
         if (req.getParameter("action") != null) {
-            Action.Type action = Action.Type.valueOf(req.getParameter("action").toUpperCase());
+            Action.Type action = Action.Type.valueOf(
+                    req
+                            .getParameter("action")
+                            .toUpperCase()
+            );
             logger.debug("Action is: {}", action.toString());
             cars = this.carService.init().action(action);
         } else {
@@ -63,7 +72,8 @@ public class AppRestController {
     }
 
     @PostMapping(value = "/api/cars")
-    public void addCar(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void addCar(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
         logger.debug("In addCar method body");
         HttpSession session = req.getSession();
         Map<String, String> reqParams = new HashMap<>();
@@ -79,9 +89,9 @@ public class AppRestController {
                     if (!item.getName().equals("")) {
                         logger.debug("Name of image file: {}", item.getName());
                         String url =
-                                this.url
-                                + random.nextInt(1000)
-                                + item.getName();
+                                this.context.getInitParameter("ImageSrc")
+                                        + random.nextInt(1000)
+                                        + item.getName();
                         item.write(new File(url));
                         image = new Image();
                         image.setUrl(url);
@@ -113,7 +123,8 @@ public class AppRestController {
                 car.setImage(image);
             }
             this.carService.add(car);
-            logger.debug("User with login {} add new car", session.getAttribute("login"));
+            logger.debug("User with login {} add new car",
+                    session.getAttribute("login"));
             logger.debug("Car from client: {}", car);
         } catch (Exception e) {
             logger.error("Cannot upload file.", e);
@@ -143,28 +154,48 @@ public class AppRestController {
     }
 
     @GetMapping(value = "/api/image/**")
-    public void loadImage(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void loadImage(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
         resp.setContentType("image/jpg");
         String path = req.getRequestURI();
         logger.debug(path);
         if ((path.substring("/api/image/".length()).equals("empty"))) {
+            logger.debug("EMPTY");
             return;
         }
-        ServletOutputStream outStream = resp.getOutputStream();
-        FileInputStream fin = new FileInputStream(
-                this.url
-                + path.substring("/api/image/".length())
-        );
-        BufferedInputStream bin = new BufferedInputStream(fin);
-        BufferedOutputStream bout = new BufferedOutputStream(outStream);
-        int data;
-        while ((data = bin.read()) != -1) {
-            bout.write(data);
+        ServletOutputStream outStream = null;
+        FileInputStream fin = null;
+        BufferedInputStream bin = null;
+        BufferedOutputStream bout = null;
+        try {
+            outStream = resp.getOutputStream();
+            fin = new FileInputStream(
+                    this.context.getInitParameter("ImageSrc")
+                            + path.substring("/api/image/".length())
+            );
+            bin = new BufferedInputStream(fin);
+            bout = new BufferedOutputStream(outStream);
+            int data;
+            while ((data = bin.read()) != -1) {
+                bout.write(data);
+            }
+        } catch (IOException e) {
+            logger.error("IO exception: {}", e.getMessage());
+            throw e;
+        } finally {
+            if (bout != null) {
+                bout.close();
+            }
+            if (bin != null) {
+                bin.close();
+            }
+            if (fin != null) {
+                fin.close();
+            }
+            if (outStream != null) {
+                outStream.close();
+            }
         }
-        bin.close();
-        fin.close();
-        bout.close();
-        outStream.close();
     }
 
     @GetMapping(value = "/api/update")
@@ -178,7 +209,8 @@ public class AppRestController {
     }
 
     @PostMapping(value = "/api/update")
-    public void updateCar(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public void updateCar(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
         long id = Long.parseLong(req.getParameter("carId"));
         logger.debug("Car id for update: {}", id);
         String model = req.getParameter("name");
@@ -256,6 +288,4 @@ public class AppRestController {
             logger.error("Password does not match!");
         }
     }
-
-
 }
