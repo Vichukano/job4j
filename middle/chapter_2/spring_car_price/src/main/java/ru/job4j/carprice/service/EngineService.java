@@ -10,7 +10,8 @@ import ru.job4j.carprice.persistence.EngineDao;
 import java.util.List;
 
 /**
- * Singleton class for service methods with Engine objects.
+ * Class for service methods with Engine objects.
+ * Singleton by default.
  */
 @Service
 public class EngineService {

@@ -8,7 +8,8 @@ import ru.job4j.carprice.model.User;
 import ru.job4j.carprice.persistence.UserDao;
 
 /**
- * Singleton class for service methods with User objects.
+ * Class for service methods with User objects.
+ * Singleton by default.
  */
 @Service
 public class UserService {

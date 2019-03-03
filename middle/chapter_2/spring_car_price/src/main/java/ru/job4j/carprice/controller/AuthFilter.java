@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Standard javaEE filter for login.html page.
+ */
 @Component
 @WebFilter("/*")
 public class AuthFilter implements Filter {

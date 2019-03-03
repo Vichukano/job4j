@@ -16,7 +16,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * Singleton class for service methods with Car object.
+ * Class for service methods with Car object.
+ * Singleton by default.
  */
 @Service
 public class CarService {

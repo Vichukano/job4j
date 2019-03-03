@@ -123,7 +123,7 @@ function addCarsLikeDiv(data) {
         var query = "<input type='hidden' id='carId' value=" + data[i].id + ">"
             + "<input type='hidden' id='userId' value=" + data[i].user.id + ">"
             + "<input type='hidden' id='userLogin' value=" + data[i].user.login + ">"
-            + "<div class='col-md-2'><img src=" + "/api/image/" + data[i].image.url.replace('/home/viktor/upload/images/', '') + " width='150' height='150' alt='No image' style='margin-top: 5px'></div>"
+            + "<div class='col-md-2' id='imgForm'><img src=" + "/api/image/" + data[i].image.url.replace('/home/viktor/upload/images/', '') + " alt='No image' width='130'></div>"
             + "<div class='col-md-1'><label>Model</label><br><span>" + data[i].name + "</span></div>"
             + "<div class='col-md-2'><label>Characteristic</label><br><span>Color: " + data[i].color + "</span><br>"
             + "<span>Body: " + data[i].body.type + "</span><br>"
@@ -137,7 +137,7 @@ function addCarsLikeDiv(data) {
         var login = sessionStorage.getItem("login");
         if (login === data[i].user.login) {
             query += "<div class='col-md-1'><br>"
-                + "<br><button type='button' class='btn btn-info' value=" + data[i].id + " name='updBtn' onclick='update(this.value)'>Update</button></div>";
+                + "<br><button type='button' class='btn btn-info' value=" + data[i].id + " name='updBtn' onclick=update(this.value)>Update</button></div>";
         }
         row.innerHTML = query;
         container.appendChild(row);

@@ -10,7 +10,8 @@ import ru.job4j.carprice.persistence.CarBodyDao;
 import java.util.List;
 
 /**
- * Singleton class for service methods with CarBody objects.
+ * Class for service methods with CarBody objects.
+ * Singleton by default.
  */
 @Service
 public class CarBodyService {

@@ -1,6 +1,5 @@
 package ru.job4j.carprice.configuration;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -12,8 +11,17 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-@Configuration
+/**
+ * Configuration class of web application deployment descriptor.
+ */
 public class WebbAppInit implements WebApplicationInitializer {
+
+    /**
+     * Method configure web application deployment descriptor.
+     *
+     * @param servletContext servlet context.
+     * @throws ServletException
+     */
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
@@ -24,10 +32,10 @@ public class WebbAppInit implements WebApplicationInitializer {
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/");
 
-        //параметры пути для изображений
+        //init params of images path.
         servletContext.setInitParameter("ImageSrc", "/home/viktor/upload/images/");
 
-        //фильтры для UTF-8 кодировки.
+        //filter for UTF-8 encoding.
         FilterRegistration charEncodingFilterReg =
                 servletContext.addFilter("CharacterEncodingFilter", CharacterEncodingFilter.class);
         charEncodingFilterReg.setInitParameter("encoding", "UTF-8");

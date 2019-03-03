@@ -8,7 +8,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import ru.job4j.carprice.dto.FormDto;
 import ru.job4j.carprice.model.*;
 import ru.job4j.carprice.service.*;
 
@@ -24,6 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * Main controller of application.
+ */
 @RestController
 public class AppRestController {
     private final CarService carService;
@@ -50,20 +55,27 @@ public class AppRestController {
         this.userService = userService;
     }
 
+    /**
+     * Method for sending list of cars entities in json
+     * format to the view.
+     *
+     * @param action value of action in String format.
+     * @param query  value of NamedQuery in String format.
+     * @param type   value of type for NamedQuery in String format.
+     * @return list of car entities in jason format.
+     */
     @GetMapping(value = "/api/cars")
-    public List<Car> getAllCars(HttpServletRequest req) {
+    public List<Car> getAllCars(@RequestParam(required = false) String action,
+                                @RequestParam(required = false) String query,
+                                @RequestParam(required = false) String type) {
         List<Car> cars;
-        if (req.getParameter("action") != null) {
-            Action.Type action = Action.Type.valueOf(
-                    req
-                            .getParameter("action")
-                            .toUpperCase()
+        if (action != null) {
+            Action.Type actionType = Action.Type.valueOf(
+                    action.toUpperCase()
             );
-            logger.debug("Action is: {}", action.toString());
-            cars = this.carService.init().action(action);
+            logger.debug("Action is: {}", actionType.toString());
+            cars = this.carService.init().action(actionType);
         } else {
-            String query = req.getParameter("query");
-            String type = req.getParameter("type");
             logger.debug("Query: {}, type: {}", query, type);
             cars = this.carService.findCarByPart(query, type);
         }
@@ -71,10 +83,16 @@ public class AppRestController {
         return cars;
     }
 
+    /**
+     * Method for adding car.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws IOException
+     */
     @PostMapping(value = "/api/cars")
     public void addCar(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-        logger.debug("In addCar method body");
         HttpSession session = req.getSession();
         Map<String, String> reqParams = new HashMap<>();
         Image image = null;
@@ -132,6 +150,11 @@ public class AppRestController {
         resp.sendRedirect("/");
     }
 
+    /**
+     * Method return CarBody entities in json format to view.
+     *
+     * @return List of CarBody entities in json format.
+     */
     @GetMapping(value = "/api/body")
     public List<CarBody> getCarBodies() {
         List<CarBody> bodies = this.carBodyService.findAll();
@@ -139,6 +162,11 @@ public class AppRestController {
         return bodies;
     }
 
+    /**
+     * Method return Engine entities in json format to view.
+     *
+     * @return List of Engine entities in json format.
+     */
     @GetMapping(value = "/api/engine")
     public List<Engine> getCarEngines() {
         List<Engine> engines = this.engineService.findAll();
@@ -146,6 +174,11 @@ public class AppRestController {
         return engines;
     }
 
+    /**
+     * Method return Transmission entities in json format to view.
+     *
+     * @return List of Transmission entities in json format.
+     */
     @GetMapping(value = "/api/transmission")
     public List<Transmission> getCarTransmissions() {
         List<Transmission> transmissions = this.transmissionService.findAll();
@@ -153,6 +186,13 @@ public class AppRestController {
         return transmissions;
     }
 
+    /**
+     * Method for loading image to view.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws IOException
+     */
     @GetMapping(value = "/api/image/**")
     public void loadImage(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -198,49 +238,66 @@ public class AppRestController {
         }
     }
 
+    /**
+     * Method get id of car for update in request param,
+     * found car with this id in database and
+     * sent it to client in json format.
+     *
+     * @param id id of car for update.
+     * @return car in json format.
+     */
     @GetMapping(value = "/api/update")
-    public Car getCarForUpdate(HttpServletRequest req) {
-        String id = req.getParameter("id");
+    public Car getCarForUpdate(@RequestParam String id) {
         logger.debug("Car id from client: {}", id);
         Car car = new Car();
         car.setId(Long.parseLong(id));
-        Car found = this.carService.findById(car);
-        return found;
+        return this.carService.findById(car);
     }
 
+    /**
+     * Method for update car params.
+     * Get request params from client and transfer it
+     * to FormDto object(POJO). After update redirect to
+     * index.html page.
+     *
+     * @throws IOException
+     */
     @PostMapping(value = "/api/update")
-    public void updateCar(HttpServletRequest req, HttpServletResponse resp)
+    public void updateCar(FormDto dto, HttpServletResponse resp)
             throws IOException {
-        long id = Long.parseLong(req.getParameter("carId"));
-        logger.debug("Car id for update: {}", id);
-        String model = req.getParameter("name");
-        Double price = Double.parseDouble(req.getParameter("price"));
-        String color = req.getParameter("color");
-        int mileage = Integer.parseInt(req.getParameter("mileage"));
-        CarBody body = this.carBodyService.findById(Long.parseLong(req.getParameter("body")));
-        Engine engine = this.engineService.findById(Long.parseLong(req.getParameter("engine")));
-        Transmission tr = transmissionService.findById(Long.parseLong(req.getParameter("transmission")));
-        String desc = req.getParameter("desc");
+        logger.debug("Car id for update: {}", dto.getCarId());
+        CarBody carBody = this.carBodyService.findById(dto.getBody());
+        Engine carEngine = this.engineService.findById(dto.getEngine());
+        Transmission tr = transmissionService.findById(dto.getTransmission());
         Car car = new Car();
-        car.setId(id);
+        car.setId(dto.getCarId());
         Car found = this.carService.findById(car);
-        found.setSold(false);
-        if (req.getParameter("sold") != null) {
-            found.setSold(true);
+        found.setSold(true);
+        if (dto.getSold().equals("on sale")) {
+            found.setSold(false);
         }
-        found.setName(model);
-        found.setPrice(price);
-        found.setColor(color);
-        found.setMileage(mileage);
-        found.setBody(body);
-        found.setEngine(engine);
+        found.setName(dto.getName());
+        found.setPrice(dto.getPrice());
+        found.setColor(dto.getColor());
+        found.setMileage(dto.getMileage());
+        found.setBody(carBody);
+        found.setEngine(carEngine);
         found.setTransmission(tr);
-        found.setDescription(desc);
+        found.setDescription(dto.getDesc());
         this.carService.update(found);
         logger.debug("Car updated: {}", found);
         resp.sendRedirect("/");
     }
 
+    /**
+     * Method invalidate current session and
+     * redirect to login.html page.
+     *
+     * @param req  HttpServletRequest
+     * @param resp HttpServletResponse
+     * @throws ServletException
+     * @throws IOException
+     */
     @GetMapping(value = "/api/login")
     public void redirectToLoginPage(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -249,12 +306,26 @@ public class AppRestController {
         req.getRequestDispatcher("/login").forward(req, resp);
     }
 
+    /**
+     * Method for log in user to application.
+     * If user login and password is credential
+     * than set login and id attributes to session.
+     * Only user who create car can update it.
+     * Else redirect to login.html page.
+     *
+     * @param req      HttpServletRequest
+     * @param resp     HttpServletResponse
+     * @param login    user login
+     * @param password user password
+     * @throws IOException
+     */
     @PostMapping(value = "/api/login")
-    public void login(HttpServletRequest req, HttpServletResponse resp)
+    public void login(HttpServletRequest req,
+                      HttpServletResponse resp,
+                      @RequestParam String login,
+                      @RequestParam String password)
             throws IOException {
         HttpSession session = req.getSession();
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
         if (this.userService.isCredential(login, password)) {
             User user = this.userService.findByLogin(login);
             session.setAttribute("id", user.getId());
@@ -266,15 +337,26 @@ public class AppRestController {
         }
     }
 
+    /**
+     * Method for registration new user in application.
+     *
+     * @param req      HttpServletRequest
+     * @param resp     HttpServletResponse
+     * @param login    user login
+     * @param password user password
+     * @param confirm  confirmed password.
+     * @throws IOException
+     */
     @PostMapping(value = "/api/reg")
-    public void regNewUser(HttpServletRequest req, HttpServletResponse resp)
+    public void regNewUser(HttpServletRequest req,
+                           HttpServletResponse resp,
+                           @RequestParam String login,
+                           @RequestParam String password,
+                           @RequestParam String confirm)
             throws IOException {
         HttpSession session = req.getSession();
-        String login = req.getParameter("login");
-        String pass = req.getParameter("password");
-        String confirm = req.getParameter("confirm");
-        if (pass.equals(confirm)) {
-            User user = new User(login, pass);
+        if (password.equals(confirm)) {
+            User user = new User(login, password);
             logger.debug("New user: {}", user.toString());
             if (!this.userService.isExist(user)) {
                 this.userService.add(user);

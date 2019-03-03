@@ -14,3 +14,20 @@
     margin-left: 8px;
     margin-top: 100px;
 }
+
+#imgForm{
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+    width: 150px;
+    height: 150px;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#imgForm img{
+    min-width: 100%;
+    min-height: 100%;
+}

@@ -10,7 +10,8 @@ import ru.job4j.carprice.persistence.ImageDao;
 import java.util.List;
 
 /**
- * Singleton class for service methods with Image objects.
+ * Class for service methods with Image objects.
+ * Singleton by default.
  */
 @Service
 public class ImageService {

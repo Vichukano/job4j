@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+/**
+ * Abstract class with default crud methods with entities.
+ *
+ * @param <T> entity object.
+ */
 public abstract class GenericDaoImpl<T> implements GenericDao<T> {
     private EntityManagerFactory factory;
     private final Class<T> entityClass;
@@ -65,6 +70,11 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
         );
     }
 
+    /**
+     * Wrapper method for void crud methods with entities.
+     *
+     * @param consumer consumer with EntityManager object.
+     */
     private void acceptConsumer(final Consumer<EntityManager> consumer) {
         final EntityManager em = this.factory.createEntityManager();
         em.getTransaction().begin();
@@ -80,6 +90,15 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
         }
     }
 
+    /**
+     * Wrapper method for crud methods with entities
+     * that return value.
+     *
+     * @param command function that apply EntityManager object
+     *                and Entity object.
+     * @param <T>     object that return method.
+     * @return object - result of method.
+     */
     private <T> T applyFunction(final Function<EntityManager, T> command) {
         final EntityManager em = this.factory.createEntityManager();
         em.getTransaction().begin();
@@ -94,9 +113,4 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
             em.close();
         }
     }
-
-    public EntityManagerFactory getFactory() {
-        return this.factory;
-    }
-
 }

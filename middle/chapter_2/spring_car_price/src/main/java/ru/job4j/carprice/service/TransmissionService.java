@@ -10,7 +10,8 @@ import ru.job4j.carprice.persistence.TransmissionDao;
 import java.util.List;
 
 /**
- * Singleton class for service methods with Transmission objects.
+ * Class for service methods with Transmission objects.
+ * Singleton by default.
  */
 @Service
 public class TransmissionService {
