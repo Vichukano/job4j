@@ -67,4 +67,5 @@ public class Config implements WebMvcConfigurer {
         return Persistence
                 .createEntityManagerFactory("car_price");
     }
+
 }

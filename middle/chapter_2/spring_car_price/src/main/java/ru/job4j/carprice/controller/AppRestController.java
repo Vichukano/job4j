@@ -299,11 +299,11 @@ public class AppRestController {
      * @throws IOException
      */
     @GetMapping(value = "/api/login")
-    public void redirectToLoginPage(HttpServletRequest req, HttpServletResponse resp)
+    public void logout(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         HttpSession session = req.getSession();
         session.invalidate();
-        req.getRequestDispatcher("/login").forward(req, resp);
+        resp.sendRedirect("/login");
     }
 
     /**

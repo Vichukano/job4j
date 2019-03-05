@@ -23,6 +23,7 @@ before_install:
   - psql -c "CREATE DATABASE carprice;" -U postgres
   - psql -c "CREATE DATABASE carprice_test;" -U postgres
   - psql -c "CREATE DATABASE test_carprice;" -U postgres
+  - psql -c "CREATE DATABASE test_carprice_spring;" -U postgres
 services:
   - postgresql
 addons:

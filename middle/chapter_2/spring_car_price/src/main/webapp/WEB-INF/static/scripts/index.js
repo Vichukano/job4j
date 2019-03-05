@@ -181,7 +181,7 @@ function send() {
  * Send request to LoginController.
  */
 function logout() {
-    window.location.href = "/login";
+    window.location.href = "api/login";
 }
 
 function getCarBodies() {

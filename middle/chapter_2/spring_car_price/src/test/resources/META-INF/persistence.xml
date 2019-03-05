@@ -4,7 +4,7 @@
              version="2.0">
 
     <persistence-unit name="car_price">
-        <description>Persistence unit for the Application</description>
+        <description>Persistence unit for tests</description>
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <class>ru.job4j.carprice.model.Car</class>
@@ -16,7 +16,7 @@
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/carprice_spring" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/test_carprice_spring" />
             <property name="javax.persistence.jdbc.user" value="postgres" />
             <property name="javax.persistence.jdbc.password" value="9115" />
             <property name="hibernate.show_sql" value="true" />
