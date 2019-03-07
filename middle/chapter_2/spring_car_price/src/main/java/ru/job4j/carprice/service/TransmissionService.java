@@ -5,8 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.job4j.carprice.model.Transmission;
-import ru.job4j.carprice.persistence.TransmissionDao;
+import ru.job4j.carprice.persistence.repository.TransmissionRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**
@@ -15,29 +16,21 @@ import java.util.List;
  */
 @Service
 public class TransmissionService {
-    private final TransmissionDao store;
+    private final TransmissionRepository repository;
     private final Logger logger = LogManager.getLogger(TransmissionService.class);
 
     @Autowired
-    public TransmissionService(TransmissionDao store) {
-        this.store = store;
+    public TransmissionService(TransmissionRepository repository) {
+        this.repository = repository;
     }
 
     public Transmission findById(long id) {
-        try {
-            return this.store.findById(id);
-        } catch (Exception e) {
-            logger.error("Failed to find transmission by id.", e);
-            return null;
-        }
+        return this.repository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
     public List<Transmission> findAll() {
-        try {
-            return this.store.findAll();
-        } catch (Exception e) {
-            logger.error("Failed to find all transmissions.", e);
-            return null;
-        }
+        return (List<Transmission>) this.repository.findAll();
     }
 }

@@ -5,7 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.job4j.carprice.model.User;
-import ru.job4j.carprice.persistence.UserDao;
+import ru.job4j.carprice.persistence.repository.UserRepository;
+
+import javax.persistence.EntityNotFoundException;
 
 /**
  * Class for service methods with User objects.
@@ -13,36 +15,27 @@ import ru.job4j.carprice.persistence.UserDao;
  */
 @Service
 public class UserService {
-    private final UserDao store;
+    private final UserRepository repository;
     private final Logger logger = LogManager.getLogger(UserService.class);
 
     @Autowired
-    public UserService(UserDao store) {
-        this.store = store;
+    public UserService(UserRepository repository) {
+        this.repository = repository;
     }
 
     public void add(User user) {
-        try {
-            this.store.add(user);
-        } catch (Exception e) {
-            logger.error("Failed to add user.", e);
-        }
+        this.repository.save(user);
     }
 
     public User findById(long id) {
-        try {
-            return this.store.findById(id);
-        } catch (Exception e) {
-            logger.error("Failed find user by id.", e);
-            return null;
-        }
+        return this.repository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
     public User findByLogin(String login) {
-        User user = new User();
-        user.setLogin(login);
         try {
-            return this.store.findByParam(user);
+            return this.repository.findByLogin(login);
         } catch (Exception e) {
             logger.debug("Failed to find user with this login.", e);
             return null;
@@ -57,9 +50,7 @@ public class UserService {
      */
     public boolean isCredential(String login, String password) {
         boolean result = false;
-        User user = new User();
-        user.setLogin(login);
-        User found = this.store.findByParam(user);
+        User found = this.repository.findByLogin(login);
         if (found != null && password.equals(found.getPassword())) {
             result = true;
             logger.debug("User exist.");
@@ -74,7 +65,7 @@ public class UserService {
      */
     public boolean isExist(User user) {
         boolean result = false;
-        User found = this.store.findByParam(user);
+        User found = this.repository.findByLogin(user.getLogin());
         if (found != null) {
             result = true;
             logger.debug("User exist.");

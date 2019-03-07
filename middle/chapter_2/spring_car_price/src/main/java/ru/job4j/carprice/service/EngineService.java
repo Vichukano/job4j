@@ -5,8 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.job4j.carprice.model.Engine;
-import ru.job4j.carprice.persistence.EngineDao;
+import ru.job4j.carprice.persistence.repository.EngineRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**
@@ -15,29 +16,21 @@ import java.util.List;
  */
 @Service
 public class EngineService {
-    private final EngineDao store;
+    private final EngineRepository repository;
     private final Logger logger = LogManager.getLogger(EngineService.class);
 
     @Autowired
-    public EngineService(EngineDao store) {
-        this.store = store;
+    public EngineService(EngineRepository repository) {
+        this.repository = repository;
     }
 
     public Engine findById(long id) {
-        try {
-            return this.store.findById(id);
-        } catch (Exception e) {
-            logger.error("Failed to find engine by id.", e);
-            return null;
-        }
+        return this.repository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
     public List<Engine> findAll() {
-        try {
-            return this.store.findAll();
-        } catch (Exception e) {
-            logger.error("Failed to find all engines.", e);
-            return null;
-        }
+        return (List<Engine>) this.repository.findAll();
     }
 }

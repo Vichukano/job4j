@@ -5,10 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.job4j.carprice.model.Car;
-import ru.job4j.carprice.persistence.CarDao;
+import ru.job4j.carprice.persistence.repository.CarRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import java.util.HashMap;
 import java.util.List;
@@ -21,14 +22,14 @@ import java.util.function.Supplier;
  */
 @Service
 public class CarService {
-    private final CarDao store;
+    private final CarRepository repository;
     private final Map<Action.Type, Supplier<List<Car>>> dispatch = new HashMap<>();
     private final Logger logger = LogManager.getLogger(CarService.class);
     private EntityManagerFactory factory;
 
     @Autowired
-    public CarService(CarDao store) {
-        this.store = store;
+    public CarService(CarRepository repository) {
+        this.repository = repository;
     }
 
     @Autowired
@@ -37,46 +38,29 @@ public class CarService {
     }
 
     public void add(Car car) {
-        try {
-            this.store.add(car);
-        } catch (Exception e) {
-            logger.error("Failed to add car.", e);
-        }
+        this.repository.save(car);
+        logger.debug("Added car: {}", car.toString());
     }
 
     public void delete(Car car) {
-        try {
-            this.store.delete(car.getId());
-        } catch (Exception e) {
-            logger.error("Failed to delete car", e);
-        }
+        this.repository.delete(car);
+        logger.debug("Car with id={} deleted.", car.getId());
     }
 
     public void update(Car car) {
-        try {
-            this.store.update(car);
-        } catch (Exception e) {
-            logger.error("Failed to update car.", e);
-        }
+        this.repository.save(car);
+        logger.debug("Car with id={} updated.", car.getId());
     }
 
     public Car findById(Car car) {
-        try {
-            return this.store.findById(car.getId());
-        } catch (Exception e) {
-            logger.error("Failed to find by id.", e);
-            return null;
-        }
+        return this.repository
+                .findById(car.getId())
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(car.getId())));
     }
 
 
     public List<Car> findByName(Car car) {
-        try {
-            return this.store.findByName(car);
-        } catch (Exception e) {
-            logger.error("Failed to find by name.", e);
-            return null;
-        }
+        return this.repository.findByName(car.getName());
     }
 
     public List<Car> findCarByPart(String query, String type) {
@@ -88,12 +72,7 @@ public class CarService {
     }
 
     public List<Car> findAll() {
-        try {
-            return this.store.findAll();
-        } catch (Exception e) {
-            logger.error("Failed to find all cars.", e);
-            return null;
-        }
+        return (List<Car>) this.repository.findAll();
     }
 
     public List<Car> findCarWithImage() {

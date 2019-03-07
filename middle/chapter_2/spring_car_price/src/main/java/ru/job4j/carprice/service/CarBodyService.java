@@ -5,8 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.job4j.carprice.model.CarBody;
-import ru.job4j.carprice.persistence.CarBodyDao;
+import ru.job4j.carprice.persistence.repository.CarBodyRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**
@@ -15,38 +16,34 @@ import java.util.List;
  */
 @Service
 public class CarBodyService {
-    private final CarBodyDao store;
+    private final CarBodyRepository repository;
     private final Logger logger = LogManager.getLogger(CarBodyService.class);
 
     @Autowired
-    public CarBodyService(CarBodyDao store) {
-        this.store = store;
+    public CarBodyService(CarBodyRepository repository) {
+        this.repository = repository;
     }
 
     /**
      * Method for finding CarBody object by id.
+     *
      * @param id - id of object in database.
-     * @return CarBody object or null if not persist.
+     * @return CarBody object.
+     * @throws EntityNotFoundException if CarBody with this
+     *                                 id not found in database.
      */
     public CarBody findById(long id) {
-        try {
-            return this.store.findById(id);
-        } catch (Exception e) {
-            logger.error("Failed to find body by id.", e);
-            return null;
-        }
+        return this.repository
+                .findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.valueOf(id)));
     }
 
     /**
      * Method for finding all CarBody objects from database.
+     *
      * @return List of objects or null if not persist.
      */
     public List<CarBody> findAll() {
-        try {
-            return this.store.findAll();
-        } catch (Exception e) {
-            logger.error("Failed to find all bodies.", e);
-            return null;
-        }
+        return (List<CarBody>) this.repository.findAll();
     }
 }
