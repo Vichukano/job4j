@@ -3,7 +3,6 @@ package ru.job4j.carprice.controller;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -11,9 +10,10 @@ import java.io.IOException;
 
 /**
  * Standard javaEE filter for login.html page.
+ * Disabled in this implementation.
  */
 @Component
-@WebFilter("/*")
+//@WebFilter("/*")
 public class AuthFilter implements Filter {
 
     @Override

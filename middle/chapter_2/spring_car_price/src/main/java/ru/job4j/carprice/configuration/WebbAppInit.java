@@ -23,9 +23,12 @@ public class WebbAppInit implements WebApplicationInitializer {
      * @throws ServletException
      */
     @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+    public void onStartup(ServletContext servletContext)
+            throws ServletException {
+        AnnotationConfigWebApplicationContext ctx
+                = new AnnotationConfigWebApplicationContext();
         ctx.register(Config.class);
+        ctx.register(WebSecurityConfig.class);
         servletContext.addListener(new ContextLoaderListener(ctx));
         ServletRegistration.Dynamic dispatcher =
                 servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));

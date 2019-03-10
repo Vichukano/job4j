@@ -3,18 +3,27 @@ package ru.job4j.carprice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.job4j.carprice.model.User;
 import ru.job4j.carprice.persistence.repository.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for service methods with User objects.
  * Singleton by default.
  */
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository repository;
     private final Logger logger = LogManager.getLogger(UserService.class);
 
@@ -44,7 +53,8 @@ public class UserService {
 
     /**
      * Method check that user with this login and password store in database.
-     * @param login - user login
+     *
+     * @param login    - user login
      * @param password - user password.
      * @return true if user store in database, else false.
      */
@@ -60,6 +70,7 @@ public class UserService {
 
     /**
      * Method for check that user store in database.
+     *
      * @param user - user object.
      * @return true if user exist, else false.
      */
@@ -71,5 +82,31 @@ public class UserService {
             logger.debug("User exist.");
         }
         return result;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String login)
+            throws UsernameNotFoundException {
+        User user = this.repository.findByLogin(login);
+        BCryptPasswordEncoder encoder = passwordEncoder();
+        if (user != null) {
+            List<GrantedAuthority> authorities =
+                    new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            logger.debug("User found, login: {}", user.getLogin());
+            return new org.springframework.security.core.userdetails.User(
+                    user.getLogin(),
+                    encoder.encode(user.getPassword()),
+                    authorities
+            );
+        }
+        throw new UsernameNotFoundException(
+                String.format("User with login: %S not found.", login)
+        );
+    }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
