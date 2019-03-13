@@ -7,7 +7,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import ru.job4j.carprice.configuration.Config;
-import ru.job4j.carprice.configuration.WebbAppInit;
 import ru.job4j.carprice.model.Car;
 import ru.job4j.carprice.model.Image;
 import ru.job4j.carprice.persistence.*;
@@ -16,7 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {Config.class, WebbAppInit.class})
+@ContextConfiguration(classes = {Config.class})
 @WebAppConfiguration
 public class CarDaoImplTest {
 

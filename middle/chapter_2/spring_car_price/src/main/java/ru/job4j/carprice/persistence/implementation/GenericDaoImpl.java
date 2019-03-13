@@ -80,12 +80,12 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
         em.getTransaction().begin();
         try {
             consumer.accept(em);
+            em.getTransaction().commit();
         } catch (final Exception e) {
             em.getTransaction().rollback();
             logger.debug("Failed to execute operation! {}", e.getMessage());
             throw e;
         } finally {
-            em.getTransaction().commit();
             em.close();
         }
     }
@@ -103,13 +103,14 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
         final EntityManager em = this.factory.createEntityManager();
         em.getTransaction().begin();
         try {
-            return command.apply(em);
+            T result = command.apply(em);
+            em.getTransaction().commit();
+            return result;
         } catch (final Exception e) {
             em.getTransaction().rollback();
             logger.debug("Failed to execute operation! {}", e.getMessage());
             throw e;
         } finally {
-            em.getTransaction().commit();
             em.close();
         }
     }

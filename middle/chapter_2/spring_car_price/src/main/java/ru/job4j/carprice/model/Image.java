@@ -18,6 +18,10 @@ public class Image {
 
     }
 
+    public Image(long id) {
+        this.id = id;
+    }
+
     public Image(String url) {
         this.url = url;
     }

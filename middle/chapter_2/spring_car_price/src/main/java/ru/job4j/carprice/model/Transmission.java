@@ -17,6 +17,10 @@ public class Transmission {
 
     }
 
+    public Transmission(long id) {
+        this.id = id;
+    }
+
     public Transmission(String type) {
         this.type = type;
     }

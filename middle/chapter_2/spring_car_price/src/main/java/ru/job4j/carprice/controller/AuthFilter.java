@@ -9,8 +9,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * Standard javaEE filter for login.html page.
- * Disabled in this implementation.
+ * Deprecated
+ * @see ru.job4j.carprice.configuration.WebSecurityConfig
  */
 @Component
 //@WebFilter("/*")

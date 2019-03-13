@@ -15,43 +15,44 @@ import ru.job4j.carprice.model.*;
 import ru.job4j.carprice.service.*;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 /**
- * Main controller of application.
+ * Controller for Car and Car parts objects.
  */
 @RestController
-public class AppRestController {
+public class CarController {
     private final CarService carService;
     private final CarBodyService carBodyService;
     private final EngineService engineService;
     private final TransmissionService transmissionService;
-    private final ImageService imageService;
     private final UserService userService;
     private final Random random = new Random();
-    private final Logger logger = LogManager.getLogger(AppRestController.class);
+    private final Logger logger = LogManager.getLogger(CarController.class);
 
     @Autowired
-    ServletContext context;
+    private ServletContext context;
 
     @Autowired
-    public AppRestController(CarService carService, CarBodyService carBodyService,
-                             EngineService engineService, TransmissionService transmissionService,
-                             ImageService imageService, UserService userService) {
+    public CarController(
+            CarService carService,
+            CarBodyService carBodyService,
+            EngineService engineService,
+            TransmissionService transmissionService,
+            UserService userService
+    ) {
         this.carService = carService;
         this.carBodyService = carBodyService;
         this.engineService = engineService;
         this.transmissionService = transmissionService;
-        this.imageService = imageService;
         this.userService = userService;
     }
 
@@ -186,57 +187,6 @@ public class AppRestController {
         return transmissions;
     }
 
-    /**
-     * Method for loading image to view.
-     *
-     * @param req  HttpServletRequest
-     * @param resp HttpServletResponse
-     * @throws IOException
-     */
-    @GetMapping(value = "/api/image/**")
-    public void loadImage(HttpServletRequest req, HttpServletResponse resp)
-            throws IOException {
-        resp.setContentType("image/jpg");
-        String path = req.getRequestURI();
-        logger.debug(path);
-        if ((path.substring("/api/image/".length()).equals("empty"))) {
-            logger.debug("EMPTY");
-            return;
-        }
-        ServletOutputStream outStream = null;
-        FileInputStream fin = null;
-        BufferedInputStream bin = null;
-        BufferedOutputStream bout = null;
-        try {
-            outStream = resp.getOutputStream();
-            fin = new FileInputStream(
-                    this.context.getInitParameter("ImageSrc")
-                            + path.substring("/api/image/".length())
-            );
-            bin = new BufferedInputStream(fin);
-            bout = new BufferedOutputStream(outStream);
-            int data;
-            while ((data = bin.read()) != -1) {
-                bout.write(data);
-            }
-        } catch (IOException e) {
-            logger.error("IO exception: {}", e.getMessage());
-            throw e;
-        } finally {
-            if (bout != null) {
-                bout.close();
-            }
-            if (bin != null) {
-                bin.close();
-            }
-            if (fin != null) {
-                fin.close();
-            }
-            if (outStream != null) {
-                outStream.close();
-            }
-        }
-    }
 
     /**
      * Method get id of car for update in request param,
@@ -287,87 +237,5 @@ public class AppRestController {
         this.carService.update(found);
         logger.debug("Car updated: {}", found);
         resp.sendRedirect("/");
-    }
-
-    /**
-     * Method invalidate current session and
-     * redirect to login.html page.
-     *
-     * @param req  HttpServletRequest
-     * @param resp HttpServletResponse
-     * @throws ServletException
-     * @throws IOException
-     */
-    @GetMapping(value = "/api/login")
-    public void logout(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        session.invalidate();
-        resp.sendRedirect("/login");
-    }
-
-    /**
-     * Method for log in user to application.
-     * If user login and password is credential
-     * than set login and id attributes to session.
-     * Only user who create car can update it.
-     * Else redirect to login.html page.
-     *
-     * @param req      HttpServletRequest
-     * @param resp     HttpServletResponse
-     * @param login    user login
-     * @param password user password
-     * @throws IOException
-     */
-    @PostMapping(value = "/api/login")
-    public void login(HttpServletRequest req,
-                      HttpServletResponse resp,
-                      @RequestParam String login,
-                      @RequestParam String password)
-            throws IOException {
-        HttpSession session = req.getSession();
-        if (this.userService.isCredential(login, password)) {
-            User user = this.userService.findByLogin(login);
-            session.setAttribute("id", user.getId());
-            session.setAttribute("login", user.getLogin());
-            logger.debug("Found user: {}", user.toString());
-            resp.sendRedirect("/");
-        } else {
-            resp.sendRedirect("/login");
-        }
-    }
-
-    /**
-     * Method for registration new user in application.
-     *
-     * @param req      HttpServletRequest
-     * @param resp     HttpServletResponse
-     * @param login    user login
-     * @param password user password
-     * @param confirm  confirmed password.
-     * @throws IOException
-     */
-    @PostMapping(value = "/api/reg")
-    public void regNewUser(HttpServletRequest req,
-                           HttpServletResponse resp,
-                           @RequestParam String login,
-                           @RequestParam String password,
-                           @RequestParam String confirm)
-            throws IOException {
-        HttpSession session = req.getSession();
-        if (password.equals(confirm)) {
-            User user = new User(login, password);
-            logger.debug("New user: {}", user.toString());
-            if (!this.userService.isExist(user)) {
-                this.userService.add(user);
-                session.setAttribute("id", user.getId());
-                session.setAttribute("login", login);
-                resp.sendRedirect("/");
-            } else {
-                resp.sendRedirect("/registration");
-            }
-        } else {
-            logger.error("Password does not match!");
-        }
     }
 }

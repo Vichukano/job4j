@@ -11,11 +11,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-/**
- * Configuration class of web application deployment descriptor.
- */
-public class WebbAppInit implements WebApplicationInitializer {
-
+public class ApplicationInitializer implements WebApplicationInitializer {
     /**
      * Method configure web application deployment descriptor.
      *

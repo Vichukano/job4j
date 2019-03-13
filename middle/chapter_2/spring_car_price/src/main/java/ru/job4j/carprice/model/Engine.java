@@ -17,6 +17,10 @@ public class Engine {
 
     }
 
+    public Engine(long id) {
+        this.id = id;
+    }
+
     public Engine(String type) {
         this.type = type;
     }

@@ -86,6 +86,10 @@ public class Car {
 
     }
 
+    public Car(long id) {
+        this.id = id;
+    }
+
     public Car(String name, Double price) {
         this.name = name;
         this.price = price;

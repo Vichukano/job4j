@@ -17,6 +17,10 @@ public class CarBody {
 
     }
 
+    public CarBody(long id) {
+        this.id = id;
+    }
+
     public CarBody(String type) {
         this.type = type;
     }
