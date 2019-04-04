@@ -6,7 +6,7 @@ color VARCHAR(255),
 mileage INTEGER,
 sold BOOLEAN,
 description VARCHAR(255),
-createDate TIMESTAMP,
+create_date TIMESTAMP,
 body_id BIGSERIAL,
 CONSTRAINT body_id_fk
 FOREIGN KEY(body_id)

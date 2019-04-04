@@ -56,6 +56,7 @@ public class Car {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "create_date")
     private Date createDate;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

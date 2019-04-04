@@ -6,7 +6,7 @@ color VARCHAR(255),
 mileage INTEGER,
 sold BOOLEAN,
 description VARCHAR(255),
-createDate TIMESTAMP,
+create_date TIMESTAMP,
 body_id BIGSERIAL,
 CONSTRAINT body_id_fk
 FOREIGN KEY(body_id)
@@ -30,6 +30,6 @@ REFERENCES users(user_id)
 );
 
 INSERT INTO cars(name, price, color, mileage, sold,
-description, createdate, body_id, engine_id, transmission_id,
+description, create_date, body_id, engine_id, transmission_id,
 image_id, user_id) VALUES ('FORD', 1050, 'RED', 2000, false, 'PERFECT CAR!',
 current_timestamp, 1, 1, 1, 1, 1);

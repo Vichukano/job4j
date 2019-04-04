@@ -3,6 +3,7 @@ package ru.job4j.carstorage.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "car_engine")
@@ -57,5 +58,23 @@ public class Engine {
                 + name
                 + '\''
                 + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Engine engine = (Engine) o;
+        return Objects.equals(name, engine.name)
+                && Objects.equals(cars, engine.cars);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, cars);
     }
 }
