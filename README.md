@@ -1,9 +1,6 @@
 [![Build Status](https://travis-ci.org/Vichukano/job4j.svg?branch=master)](https://travis-ci.org/Vichukano/job4j)
 [![codecov](https://codecov.io/gh/Vichukano/job4j/branch/master/graph/badge.svg)](https://codecov.io/gh/Vichukano/job4j)
 # Репозиторий Vichukano
-Здесь собраны задания написанные в процессе стажировки job4j.ru.
-
-- Модуль **intern** - базовый синтаксис java, ООП.
 
 - Модуль **junior** - коллекции, многопоточное программирование, SQL, JDBC, Servlet API.
 
@@ -16,3 +13,4 @@
 Запускается по таймеру разв день в 12.00. При последующем запуске добавляет в базу данных только уникальные вакансии.
 
 - git работа в ветке hotfix
+- Создания новой ветки через IDEA
