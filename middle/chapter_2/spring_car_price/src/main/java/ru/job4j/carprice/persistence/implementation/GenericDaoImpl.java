@@ -61,6 +61,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
         );
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<T> findAll() {
         return this.applyFunction(
